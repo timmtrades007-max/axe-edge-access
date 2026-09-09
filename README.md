@@ -1,6 +1,4 @@
-﻿# Axe Edge Access
-
-Public sales + partner site.
+# Axe Edge Access
 
 - Client: [/client/](./client/)
 - Partner: [/partner/](./partner/)
