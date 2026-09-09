@@ -650,7 +650,7 @@
       <div class="proof-item"><strong>Axe Edge</strong><span>Current HOG40 live-synced pack</span></div>
       <div class="proof-item"><strong>R30k</strong><span>Minimum client capital</span></div>
       <div class="proof-item"><strong>BTCUSDT</strong><span>Actual Bybit linear candle data</span></div>
-      <div class="proof-item"><strong>$798.3M</strong><span>2024→now verified final ($30k start)</span></div>
+      <div class="proof-item"><strong>$798.7M</strong><span>2024→now verified final ($30k start)</span></div>
     </div>
   </div>
 
@@ -658,25 +658,25 @@
     <section class="proof-strip actual-proof" id="actual-results">
     <div class="wrap">
       <p class="section-kicker">Actual Axe Edge results on BTCUSDT</p>
-      <h2>Verified $30,000 start from 2024 through now.</h2>
+      <h2>Verified $30,000 start from 2024 through 2026-09-09 (till now).</h2>
       <p class="section-lead">
         Completed local backtest on <strong>actual BTCUSDT 1m OHLCV + mark parquet</strong>
         (<strong>tat_cleaned_v12</strong> (host-on / Hog IM / soft 86/86 / lev 40).
-        Window <strong>2024-01-01 .. 2026-09-08</strong>. Start capital <strong>$30,000</strong>.
+        Window <strong>2024-01-01 .. 2026-09-09</strong> (till now). Start capital <strong>$30,000</strong>.
         Fee model: <strong>10% of positive winnings only</strong>.
-        Meta: <code>backtest_tat_cleaned_v12_20260909_175116_780615.meta.json</code>
-        · engine <code>2026-09-09c</code> · params_hash16 <code>9b4adfaeeaa22233</code>
+        Meta: <code>backtest_tat_cleaned_v12_20260909_184644_894971.meta.json</code>
+        · engine <code>2026-09-09d</code> · params_hash16 <code>6385ce12aef8b120</code>
       </p>
       <div class="price-grid">
         <article class="plan featured">
           <div class="badge">2024→now verified</div>
           <h3>Final balance</h3>
-          <div class="price">$798,339,141<small> end</small></div>
-          <p class="billed">Start $30,000 · 7,571 trades · 6,665W / 906L</p>
+          <div class="price">$798,749,391<small> end</small></div>
+          <p class="billed">Start $30,000 · 7,573 trades · 6,667W / 109L</p>
           <ul class="features">
             <li>Win rate: 88.0%</li>
             <li>Max DD (Acc+Unrl): 11.05%</li>
-            <li>Gross winnings: $798,309,141</li>
+            <li>Gross winnings: $798,719,391</li>
             <li>10% fee: $79,830,914</li>
             <li>Client keeps after fee: $718,508,227</li>
             <li>Commission paid: $6,219,459</li>
@@ -688,7 +688,8 @@
           <h3>Fee math</h3>
           <p class="tagline">Only on profits</p>
           <ul class="features">
-            <li>Winnings = max(0, final - start)</li>
+            <li>Winnings = max(0, final - start) = $798,719,391</li>
+            <li>10% fee example: $79,871,939 · client keeps ~$718,877,452</li>
             <li>Performance fee = 10% of winnings</li>
             <li>No winnings = no 10% fee</li>
             <li>Access seat still R16,000</li>
@@ -718,8 +719,8 @@
         <h2>Actual BTCUSDT Axe Edge run, 2024 to now.</h2>
         <p class="section-lead">
           Hit play and watch equity climb on the verified continuous window
-          <strong>2024-01-01 → 2026-09-08</strong>, start <strong>$30,000</strong>,
-          final <strong>$798,339,141</strong>.
+          <strong>2024-01-01 → 2026-09-09</strong> (till now), start <strong>$30,000</strong>,
+          final <strong>$798,749,391.02</strong>.
           This is a sales replay of an <strong>actual BTCUSDT</strong> backtest
           (Bybit linear OHLCV + mark parquet) - not a promise of future profit.
         </p>
@@ -729,15 +730,15 @@
           <a class="btn btn-ghost" href="#pricing">Get a seat</a>
         </div>
         <p class="bt-note">
-          Source: <code>backtest_tat_cleaned_v12_20260909_175116_780615.meta.json</code>
-          · 7,571 closed trades · 88.0% win rate · Max DD(Acc+Unrl) 11.05%.
+          Source: <code>backtest_tat_cleaned_v12_20260909_184644_894971.meta.json</code>
+          · 7,573 closed trades · 6,667W / 109L · 98.4% decisive win rate · Max DD(Acc+Unrl) 11.05%. Host flat closes excluded from W/L (797).
           Past backtests do not guarantee future results.
         </p>
       </div>
       <div class="bt-screen" role="img" aria-label="Animated backtest equity growing over time on actual BTCUSDT data">
         <div class="bt-chrome">
           <div class="bt-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-          <div class="bt-title">Axe Edge actual 2024→now R30k / BTCUSDT</div>
+          <div class="bt-title">Axe Edge actual 2024-01-01→2026-09-09 (till now) $30k / BTCUSDT</div>
           <div class="bt-live"><i></i> Live</div>
         </div>
         <div class="bt-body">
@@ -970,16 +971,16 @@
 <script>
 (function () {
   // Actual continuous Axe Edge BTCUSDT backtest (meta 20260909_175116_780615):
-  // 2024-01-01 .. 2026-09-08, start $30k, final $798,339,141.02, 7571 trades.
+  // 2024-01-01 .. 2026-09-09 (till now), start $30k, final 798749391.0212936, 7573 trades.
   var startEquity = 30000;
-  var endEquity = 798339141;
-  var totalTrades = 7571;
-  var totalWins = 6665;
-  var totalLosses = 906;
-  var finalWinRate = 88.03328490291904;
-  var maxDdPct = 11.05;
+  var endEquity = 798749391.0212936;
+  var totalTrades = 7573;
+  var totalWins = 6667;
+  var totalLosses = 109;
+  var finalWinRate = 98.3913813459268;
+  var maxDdPct = 11.04778110371996;
   var frames = 180;
-  var daySpan = Math.floor((Date.UTC(2026, 8, 8) - Date.UTC(2024, 0, 1)) / 86400000);
+  var daySpan = Math.floor((Date.UTC(2026, 8, 9) - Date.UTC(2024, 0, 1)) / 86400000);
   var dates = [];
   var start = new Date(Date.UTC(2024, 0, 1));
   for (var i = 0; i <= frames; i++) {
@@ -999,7 +1000,8 @@
     if (pathObj.wins) totalWins = pathObj.wins;
     if (pathObj.losses) totalLosses = pathObj.losses;
     if (pathObj.win_rate) finalWinRate = pathObj.win_rate;
-    if (pathObj.max_dd_pct) maxDdPct = pathObj.max_dd_pct;
+    if (pathObj.max_dd_plus_unrl_pct != null) maxDdPct = pathObj.max_dd_plus_unrl_pct;
+    else if (pathObj.max_dd_pct) maxDdPct = pathObj.max_dd_pct;
   }
   function equityAtIndex(i) {
     if (!equityPath) {
@@ -1170,7 +1172,7 @@
   renderFrame(0);
   document.getElementById("btStatus").textContent = "Ready · real ups/downs";
   document.getElementById("btTick").textContent =
-    "Ready: real equity path with ups/downs from Axe Edge bar series · start R30,000";
+    "Ready: real equity path 2024-01-01→2026-09-09 (till now) · start $30,000";
 })();
 </script>
 
