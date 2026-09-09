@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Axe Edge Access Campaign</title>
+  <meta name="description" content="Axe Edge Access campaign - client sales site and partner pitch." />
+  <meta property="og:title" content="Axe Edge Access Campaign" />
+  <meta property="og:description" content="Client sales page + Karabo partner pitch for Axe Edge Access." />
+  <meta property="og:type" content="website" />
+  <style>
+    :root { --bg:#0a1210; --ink:#edf6f1; --muted:#9bb5a8; --accent:#3dff9a; --line:rgba(180,220,200,.14); }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family: system-ui, sans-serif; background:var(--bg); color:var(--ink); min-height:100vh; display:grid; place-items:center; padding:2rem; }
+    .card { max-width:520px; width:100%; border:1px solid var(--line); border-radius:1.2rem; padding:2rem; background:rgba(255,255,255,.02); }
+    h1 { font-size:1.8rem; margin-bottom:.5rem; }
+    p { color:var(--muted); margin-bottom:1.5rem; line-height:1.5; }
+    .links { display:grid; gap:.75rem; }
+    a { display:block; text-decoration:none; padding:.9rem 1rem; border-radius:999px; font-weight:700; text-align:center; }
+    .primary { background:var(--accent); color:#04140c; }
+    .ghost { border:1px solid var(--line); color:var(--ink); }
+    .fine { font-size:.82rem; margin-top:1.25rem; color:#7f978b; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Axe Edge Access</h1>
+    <p>Choose which page to open. Share the client link with buyers; share the partner link with Karabo.</p>
+    <div class="links">
+      <a class="primary" href="client/index.html">Client sales site</a>
+      <a class="ghost" href="partner/index.html">Partner pitch (Karabo)</a>
+    </div>
+    <p class="fine">Deploy this folder to Netlify (drag dist/ onto app.netlify.com/drop) or send the zip file.</p>
+  </div>
+</body>
+</html>

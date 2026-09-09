@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Axe Edge x Karabo - Partner Opportunity</title>
+    <meta property="og:title" content="Axe Edge x Karabo - Partner Opportunity" />
+  <meta property="og:description" content="50/50 partnership pitch: sell Axe Edge Access seats into a 1000-trader network." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Axe Edge x Karabo - Partner Opportunity" />
+  <meta name="twitter:description" content="50/50 partnership pitch: sell Axe Edge Access seats into a 1000-trader network." />
+  <meta name="description" content="50/50 partnership pitch: sell Axe Edge Access seats into a 1000-trader network." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --ink: #1a1f1c;
+      --muted: #5d675f;
+      --line: rgba(26, 31, 28, 0.12);
+      --accent: #0f6b4c;
+      --accent2: #c45c26;
+      --panel: #fffdf8;
+      --dark: #13201a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Sora", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1080px, calc(100% - 2.4rem)); margin: 0 auto; }
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      align-items: end;
+      padding: 1.4rem 0 4rem;
+      overflow: hidden;
+      isolation: isolate;
+      color: #f7f3ea;
+      background: var(--dark);
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(ellipse 70% 55% at 20% 30%, rgba(196, 92, 38, 0.35), transparent 55%),
+        radial-gradient(ellipse 55% 45% at 85% 70%, rgba(15, 107, 76, 0.45), transparent 50%),
+        linear-gradient(145deg, #0d1612 0%, #1a2a22 55%, #101a15 100%);
+    }
+    .grain {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.08;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      animation: grainShift 8s steps(6) infinite;
+    }
+    @keyframes grainShift {
+      0%, 100% { transform: translate(0,0); }
+      50% { transform: translate(-2%, 1%); }
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: clamp(3.5rem, 12vh, 7rem);
+    }
+    .brand {
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+    .brand em { font-style: normal; color: #f0a070; }
+    .pill {
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 0.55rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    h1 {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: clamp(2.7rem, 7vw, 4.8rem);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      max-width: 12ch;
+      margin-bottom: 1.2rem;
+      animation: rise 0.85s ease both;
+    }
+    .lede {
+      max-width: 34rem;
+      color: rgba(247,243,234,0.78);
+      font-size: 1.08rem;
+      margin-bottom: 1.8rem;
+      animation: rise 0.85s ease 0.1s both;
+    }
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      animation: rise 0.85s ease 0.18s both;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.9rem 1.25rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      border: 1px solid transparent;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: #f0a070; color: #1a120c; }
+    .btn-ghost { border-color: rgba(255,255,255,0.25); color: #f7f3ea; }
+    .meta {
+      margin-top: 1.5rem;
+      font-size: 0.88rem;
+      color: rgba(247,243,234,0.65);
+      animation: rise 0.85s ease 0.25s both;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    section { padding: 4.75rem 0; }
+    .kicker {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.7rem;
+    }
+    h2 {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.9rem;
+      max-width: 18ch;
+    }
+    .lead { color: var(--muted); max-width: 40rem; margin-bottom: 2rem; }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 1.2rem;
+      padding: 1.4rem 1.35rem;
+    }
+    .panel h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.55rem;
+    }
+    .panel p, .panel li { color: var(--muted); font-size: 0.95rem; }
+    .panel ul { margin-left: 1.1rem; display: grid; gap: 0.4rem; }
+
+    .fifty {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1rem;
+      align-items: stretch;
+      margin-top: 1.5rem;
+    }
+    .fifty .panel { text-align: center; padding: 1.8rem 1.2rem; }
+    .fifty .big {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 3.4rem;
+      line-height: 1;
+      color: var(--accent);
+      margin: 0.4rem 0 0.5rem;
+    }
+    .vs {
+      align-self: center;
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--ink);
+      color: #f7f3ea;
+      font-weight: 700;
+      font-size: 0.75rem;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 1.1rem;
+      background: var(--panel);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      min-width: 640px;
+    }
+    th, td {
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+    }
+    th {
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: rgba(19,32,26,0.04);
+    }
+    tr:last-child td { border-bottom: none; }
+    td.num { font-variant-numeric: tabular-nums; font-weight: 600; }
+    tr.hl td { background: rgba(15,107,76,0.08); }
+
+    .cost-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .cost-grid .panel strong {
+      display: block;
+      font-size: 1.35rem;
+      margin: 0.35rem 0;
+      letter-spacing: -0.02em;
+    }
+
+    .play {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.9rem;
+    }
+    .play .panel { min-height: 100%; }
+    .stepn {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      font-weight: 700;
+      margin-bottom: 0.45rem;
+    }
+
+    .dark-band {
+      background: var(--dark);
+      color: #f7f3ea;
+      padding: 4.5rem 0;
+    }
+    .dark-band .kicker { color: #f0a070; }
+    .dark-band .lead { color: rgba(247,243,234,0.72); }
+    .checklist {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem 1.5rem;
+      list-style: none;
+    }
+    .checklist li {
+      padding-left: 1.3rem;
+      position: relative;
+      color: rgba(247,243,234,0.85);
+    }
+    .checklist li::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 0.45rem;
+      width: 0.55rem; height: 0.55rem;
+      border-radius: 2px;
+      background: #f0a070;
+    }
+
+    .final {
+      text-align: center;
+      padding: 4.5rem 0 3.5rem;
+    }
+    .final h2 { max-width: none; margin-inline: auto; }
+    .final .lead { margin-inline: auto; }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 1.8rem 0 2.5rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    @media (max-width: 900px) {
+      .split, .fifty, .cost-grid, .play, .checklist { grid-template-columns: 1fr; }
+      .fifty { grid-template-columns: 1fr; }
+      .vs { margin: 0 auto; }
+      h2 { max-width: none; }
+    }
+  
+    .share-bar {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      align-items: stretch;
+    }
+    .share-bar button {
+      border: 1px solid rgba(180, 220, 200, 0.25);
+      background: rgba(10, 18, 16, 0.92);
+      color: #edf6f1;
+      padding: 0.65rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+    .share-bar button:hover { border-color: #3dff9a; }
+    .share-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 1rem;
+      transform: translateX(-50%) translateY(12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+      background: #13201a;
+      color: #edf6f1;
+      border: 1px solid rgba(61,255,154,0.35);
+      padding: 0.55rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      z-index: 60;
+    }
+    .share-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="grain" aria-hidden="true"></div>
+    <div class="wrap">
+      <nav>
+        <div class="brand">Axe Edge <em>x Karabo</em></div>
+        <a class="pill" href="#math">See the math</a>
+      </nav>
+      <h1>A clean 50/50 seat business on Axe Edge.</h1>
+      <p class="lede">
+        You bring distribution - ~1000 traders who already trust you.
+        We bring the product - Axe Edge, ops, updates, and delivery.
+        Together we sell paid access seats plus a 10% winnings fee and split commercial revenue evenly.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#deal">View the deal</a>
+        <a class="btn btn-ghost" href="../client/index.html">Open client sales site</a>
+      </div>
+      <p class="meta">Private partner brief - not a public offer. Numbers are planning assumptions you can tighten together.</p>
+    </div>
+  </header>
+
+  <section id="deal">
+    <div class="wrap">
+      <p class="kicker">The model</p>
+      <h2>Access fee + 10% of winnings.</h2>
+      <p class="lead">
+        Best-performing bot / software businesses (Trade Ideas, LuxAlgo-style suites, private SaaS desks)
+        sell recurring seats. Clients fund their own accounts, pay for access, and pay 10% only on positive winnings. You and the operator then split the commercial revenue 50/50.
+      </p>
+      <div class="fifty">
+        <div class="panel">
+          <div class="kicker" style="margin:0">You (Karabo)</div>
+          <div class="big">50%</div>
+          <p>Distribution, warm intros, community trust, conversion into paid seats.</p>
+        </div>
+        <div class="vs">50/50</div>
+        <div class="panel">
+          <div class="kicker" style="margin:0">Operator</div>
+          <div class="big">50%</div>
+          <p>Axe Edge product, infrastructure, onboarding delivery, updates, risk ops.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="kicker">Who does what</p>
+      <h2>Roles that do not collide.</h2>
+      <div class="split">
+        <article class="panel">
+          <h3>Karabo owns the channel</h3>
+          <ul>
+            <li>Introduce Axe Edge Access to the trader network</li>
+            <li>Host AMAs / WhatsApp / Telegram push</li>
+            <li>Qualify serious buyers (not tire-kickers)</li>
+            <li>Collect feedback from the community</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>Operator owns the product</h3>
+          <ul>
+            <li>Deliver Axe Edge access + onboarding</li>
+            <li>Keep the system updated</li>
+            <li>Billing, seat caps, support SLAs</li>
+            <li>Legal / risk disclosures on the sales page</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="actual-proof">
+    <div class="wrap">
+      <p class="kicker">Actual proof points</p>
+      <h2>Use the same selling numbers the operator sees.</h2>
+      <p class="lead">
+        Verified continuous Axe Edge on <strong>actual BTCUSDT</strong> data
+        (<strong>2024-01-01 → 2026-09-08</strong>, start <strong>$30,000</strong>):
+        <strong>final $798.3M / 7,571 trades / 88.0% win rate / Max DD 11.05%</strong>.
+        Meta <code>backtest_tat_cleaned_v12_20260909_175116_780615.meta.json</code>.
+        This sells better than hype because it is a real continuous window with drawdown shown.
+      </p>
+      <div class="split">
+        <article class="panel">
+          <h3>Current Axe Edge pack we are selling</h3>
+          <ul>
+            <li>tat_cleaned_v12</li>
+            <li>BTCUSDT linear (actual Bybit OHLCV + mark)</li>
+            <li>leverage 40 / trend-block leverage 40</li>
+            <li>soft 86/86</li>
+            <li>host on / Hog IM</li>
+            <li>7,571 closed · 6,665W / 906L</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>Client fee stack</h3>
+          <ul>
+            <li>Minimum capital: R30,000</li>
+            <li>Access seat: R16,000</li>
+            <li>Performance fee: 10% of positive winnings</li>
+            <li>No winnings = no performance fee</li>
+            <li>On this window after 10%: ~$718.5M kept</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="math">
+    <div class="wrap">
+      <p class="kicker">Revenue math</p>
+      <h2>Target book: 1,000 seats at 16,000 each.</h2>
+      <p class="lead">
+        Planning case: <strong>1,000 paying clients</strong> x
+        <strong>R16,000</strong> per access seat (one billing cycle - annual or one-time access).
+        Split is still <strong>50/50 of net</strong> after payment fees.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Line</th>
+              <th>Amount (ZAR)</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Gross (1,000 x R16,000)</td>
+              <td class="num">R16,000,000</td>
+              <td>Full seat book</td>
+            </tr>
+            <tr>
+              <td>Payment fees (~3%)</td>
+              <td class="num">-R480,000</td>
+              <td>Stripe / PayFast / card</td>
+            </tr>
+            <tr class="hl">
+              <td>Net access revenue</td>
+              <td class="num">R15,520,000</td>
+              <td>Before shared opex</td>
+            </tr>
+            <tr class="hl">
+              <td>Karabo 50%</td>
+              <td class="num">R7,760,000</td>
+              <td>Distribution side</td>
+            </tr>
+            <tr class="hl">
+              <td>Operator 50%</td>
+              <td class="num">R7,760,000</td>
+              <td>Product / ops side</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="split" style="margin-top:1.5rem">
+        <article class="panel">
+          <h3>If R16,000 is annual</h3>
+          <p>Same numbers once per year on renewals. Year-2 at 70% retention still ~R11.2M gross (~R5.4M each after fees).</p>
+        </article>
+        <article class="panel">
+          <h3>If R16,000 is monthly</h3>
+          <p>Then this is R16M gross per month - R7.76M each/mo (~R93M each/yr after fees). Only use if buyers accept desk-level monthly fees.</p>
+        </article>
+      </div>
+      <p class="lead" style="margin-top:1.25rem;margin-bottom:0">
+        Ramp: 100 seats = R1.6M gross (~R776k each) | 250 = R4M (~R1.94M each) | 500 = R8M (~R3.88M each) | 1,000 = R16M (~R7.76M each).
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="kicker">Costs</p>
+      <h2>Keep the burn small.</h2>
+      <p class="lead">Split agreed opex 50/50 before profit split - or operator absorbs infra and partners absorb promo. Pick one rule and stick to it.</p>
+      <div class="cost-grid">
+        <article class="panel">
+          <h3>Infra / tooling</h3>
+          <strong>$150-$400/mo</strong>
+          <p>Hosting, monitoring, seat tooling, payment processor fees already modeled at ~3%.</p>
+        </article>
+        <article class="panel">
+          <h3>Support buffer</h3>
+          <strong>$0-$800/mo</strong>
+          <p>Early: you both handle WhatsApp. Later: part-time VA once seats pass ~60.</p>
+        </article>
+        <article class="panel">
+          <h3>Promo creatives</h3>
+          <strong>$100-$500</strong>
+          <p>One-time launch kit: short video, PDF one-pager, WhatsApp scripts. Optional.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="kicker">Pricing we recommend</p>
+      <h2>Inside what the market already pays.</h2>
+      <div class="split">
+        <article class="panel">
+          <h3>Client menu (on sales site)</h3>
+          <ul>
+            <li><strong>Founding</strong> $129/mo or $1,190/yr</li>
+            <li><strong>Pro</strong> $179/mo or $1,690/yr</li>
+            <li><strong>Desk</strong> $299/mo or $2,890/yr</li>
+          </ul>
+          <p style="margin-top:0.8rem">Comparable band for bot / desk / indicator suites: roughly $99-$299 monthly.</p>
+        </article>
+        <article class="panel">
+          <h3>Ideas borrowed from winners</h3>
+          <ul>
+            <li><strong>Seat scarcity</strong> - capped founding cohort (AppSumo / private clubs)</li>
+            <li><strong>Price lock</strong> - reward early buyers (SaaS founding member)</li>
+            <li><strong>Access guarantee</strong> - refund if onboarding fails (software, not profit)</li>
+            <li><strong>Channel partner</strong> - you sell trust; product sells continuity</li>
+            <li><strong>No PnL cut</strong> - cleaner sales + fewer disputes</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="kicker">30-day launch</p>
+      <h2>Go-to-market together.</h2>
+      <div class="play">
+        <article class="panel">
+          <div class="stepn">Week 1</div>
+          <h3>Align</h3>
+          <p>Lock pricing, seat cap (120), billing method, support hours, and the 50/50 written terms.</p>
+        </article>
+        <article class="panel">
+          <div class="stepn">Week 2</div>
+          <h3>Soft launch</h3>
+          <p>Karabo shares the client site with 50 warm traders. Target first 15 founding seats.</p>
+        </article>
+        <article class="panel">
+          <div class="stepn">Week 3</div>
+          <h3>Proof loop</h3>
+          <p>Collect onboarding wins, FAQs, testimonials (with risk wording). Tighten the page.</p>
+        </article>
+        <article class="panel">
+          <div class="stepn">Week 4</div>
+          <h3>Network push</h3>
+          <p>Full blast to the ~1000. AMA session. Close founding cohort or raise to Pro pricing.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="dark-band">
+    <div class="wrap">
+      <p class="kicker">Partner checklist</p>
+      <h2 style="color:#f7f3ea;max-width:16ch">What we need from each other to say yes.</h2>
+      <p class="lead">Keep it simple. No bloated JV deck - just these commitments.</p>
+      <ul class="checklist">
+        <li>Written 50/50 on access + performance-fee revenue</li>
+        <li>Shared Stripe / PayFast / bank tracker</li>
+        <li>Karabo exclusive intro rights into this network (optional)</li>
+        <li>Operator delivers seats within 24-48h</li>
+        <li>No profit promises in marketing copy, even with strong backtests</li>
+        <li>Monthly payout report both sides can audit</li>
+        <li>Seat cap respected for support quality</li>
+        <li>Either side can pause new sales with 7 days notice</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="final" id="next">
+    <div class="wrap">
+      <p class="kicker">Next step</p>
+      <h2>If this looks right, we ship seats.</h2>
+      <p class="lead">Open the client site, send it to 10 trusted traders as a soft test, then we wire real payments.</p>
+      <div class="cta-row" style="justify-content:center">
+        <a class="btn btn-primary" href="../client/index.html" style="background:var(--accent);color:#f7f3ea">Open client sales site</a>
+        <a class="btn btn-ghost" href="#math" style="border-color:var(--line);color:var(--ink)">Re-check the math</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      Axe Edge x Karabo partner brief. Planning document for discussion only. Not investment advice.
+      Trading involves substantial risk of loss.
+    </div>
+  </footer>
+
+  <div class="share-bar" aria-label="Share this page">
+    <button type="button" id="shareCopyLink">Copy link</button>
+    <button type="button" id="shareWhatsApp">Share on WhatsApp</button>
+  </div>
+  <div class="share-toast" id="shareToast" aria-live="polite"></div>
+  <script src="share-site.js"></script>
+
+</body>
+</html>

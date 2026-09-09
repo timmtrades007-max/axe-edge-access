@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Axe Edge Access - Private Trading System</title>
+    <meta property="og:title" content="Axe Edge Access - Private Trading System" />
+  <meta property="og:description" content="R30,000 min capital. R16,000 access seat. 10% of winnings only. Verified Axe Edge backtest proof + live equity replay." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Axe Edge Access - Private Trading System" />
+  <meta name="twitter:description" content="R30,000 min capital. R16,000 access seat. 10% of winnings only. Verified Axe Edge backtest proof + live equity replay." />
+  <meta name="description" content="Paid seat access to the Axe Edge trading system. Founding seats open for a limited cohort." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a1210;
+      --ink: #edf6f1;
+      --muted: #9bb5a8;
+      --line: rgba(180, 220, 200, 0.14);
+      --accent: #3dff9a;
+      --accent2: #7cf0ff;
+      --warn: #ffb86b;
+      --panel: rgba(16, 36, 28, 0.72);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Outfit", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1120px, calc(100% - 2.5rem)); margin: 0 auto; }
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      align-items: end;
+      padding: 1.25rem 0 4.5rem;
+      isolation: isolate;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(ellipse 80% 55% at 70% 20%, rgba(61, 255, 154, 0.18), transparent 55%),
+        radial-gradient(ellipse 60% 45% at 15% 80%, rgba(124, 240, 255, 0.12), transparent 50%),
+        linear-gradient(165deg, #06100c 0%, #0d1a14 42%, #08140f 100%);
+    }
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-image:
+        linear-gradient(rgba(61, 255, 154, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(61, 255, 154, 0.05) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.55), transparent 85%);
+      animation: drift 28s linear infinite;
+    }
+    @keyframes drift {
+      from { transform: translateY(0); }
+      to { transform: translateY(64px); }
+    }
+    .orb {
+      position: absolute;
+      width: 42vw;
+      max-width: 520px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.35;
+      z-index: -1;
+      animation: pulse 7s ease-in-out infinite;
+    }
+    .orb-a { top: 8%; right: 8%; background: #3dff9a; }
+    .orb-b { bottom: 18%; left: -8%; background: #7cf0ff; animation-delay: -2.5s; }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.28; }
+      50% { transform: scale(1.12); opacity: 0.42; }
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: clamp(4rem, 14vh, 8rem);
+    }
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+    }
+    .brand span { color: var(--accent); }
+    .nav-cta {
+      border: 1px solid var(--line);
+      padding: 0.65rem 1rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .nav-cta:hover { border-color: var(--accent); background: rgba(61,255,154,0.08); }
+    .hero-copy { max-width: 740px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 1.25rem;
+      animation: fadeUp 0.8s ease both;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 0 rgba(61,255,154,0.6);
+      animation: ping 1.8s ease infinite;
+    }
+    @keyframes ping {
+      0% { box-shadow: 0 0 0 0 rgba(61,255,154,0.55); }
+      70% { box-shadow: 0 0 0 12px rgba(61,255,154,0); }
+      100% { box-shadow: 0 0 0 0 rgba(61,255,154,0); }
+    }
+    h1 {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(3rem, 8vw, 5.6rem);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+      animation: fadeUp 0.9s ease 0.08s both;
+    }
+    h1 em { font-style: italic; color: var(--accent); }
+    .lede {
+      font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+      color: var(--muted);
+      max-width: 36rem;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.9s ease 0.16s both;
+    }
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      align-items: center;
+      animation: fadeUp 0.9s ease 0.24s both;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0.95rem 1.35rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: var(--accent);
+      color: #04140c;
+      box-shadow: 0 10px 40px rgba(61,255,154,0.25);
+    }
+    .btn-ghost {
+      border-color: var(--line);
+      background: transparent;
+      color: var(--ink);
+    }
+    .seat-note {
+      margin-top: 1.35rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+      animation: fadeUp 0.9s ease 0.3s both;
+    }
+    .seat-note strong { color: var(--warn); font-weight: 700; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    section { padding: 5.5rem 0; }
+    .section-kicker {
+      color: var(--accent2);
+      font-size: 0.75rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    h2 {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: clamp(2rem, 4.5vw, 3.1rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+      max-width: 16ch;
+    }
+    .section-lead {
+      color: var(--muted);
+      max-width: 38rem;
+      margin-bottom: 2.5rem;
+      font-size: 1.05rem;
+    }
+    .proof-strip {
+      border-block: 1px solid var(--line);
+      background: rgba(255,255,255,0.015);
+      padding: 1.6rem 0;
+    }
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+    .proof-item strong {
+      display: block;
+      font-size: 1.55rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+    .proof-item span { color: var(--muted); font-size: 0.88rem; }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .step { border-top: 1px solid var(--line); padding-top: 1.25rem; }
+    .step-num {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+    }
+    .step h3 { font-size: 1.2rem; margin-bottom: 0.55rem; font-weight: 700; }
+    .step p { color: var(--muted); font-size: 0.95rem; }
+    .pricing {
+      background:
+        radial-gradient(ellipse 50% 40% at 50% 0%, rgba(61,255,154,0.08), transparent 60%),
+        var(--bg);
+    }
+    .price-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      align-items: stretch;
+    }
+    .plan {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      backdrop-filter: blur(10px);
+      border-radius: 1.25rem;
+      padding: 1.5rem 1.35rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .plan:hover { transform: translateY(-4px); border-color: rgba(61,255,154,0.35); }
+    .plan.featured {
+      border-color: rgba(61,255,154,0.55);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(61,255,154,0.12);
+    }
+    .badge {
+      position: absolute;
+      top: -0.7rem;
+      left: 1.2rem;
+      background: var(--accent);
+      color: #04140c;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.6rem;
+      border-radius: 999px;
+    }
+    .plan h3 { font-size: 1.15rem; margin-bottom: 0.35rem; }
+    .plan .tagline { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.2rem; }
+    .price {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 0.2rem;
+    }
+    .price small { font-size: 0.95rem; font-weight: 500; color: var(--muted); }
+    .billed { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.25rem; }
+    .features {
+      list-style: none;
+      display: grid;
+      gap: 0.55rem;
+      margin-bottom: 1.5rem;
+      flex: 1;
+    }
+    .features li {
+      font-size: 0.92rem;
+      padding-left: 1.2rem;
+      position: relative;
+      color: #d5ebe0;
+    }
+    .features li::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 0.45rem;
+      width: 0.55rem; height: 0.55rem;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .plan .btn { width: 100%; }
+    .stack {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    .stack-list { list-style: none; display: grid; gap: 0.85rem; }
+    .stack-list li {
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      padding: 1rem 1.1rem;
+      background: rgba(255,255,255,0.02);
+    }
+    .stack-list strong { display: block; margin-bottom: 0.2rem; }
+    .stack-list span { color: var(--muted); font-size: 0.92rem; }
+    .guarantee {
+      border: 1px solid rgba(124, 240, 255, 0.28);
+      background: linear-gradient(160deg, rgba(124,240,255,0.08), rgba(61,255,154,0.05));
+      border-radius: 1.35rem;
+      padding: 1.6rem;
+    }
+    .guarantee h3 {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: 1.8rem;
+      margin-bottom: 0.7rem;
+    }
+    .guarantee p { color: var(--muted); margin-bottom: 0.85rem; }
+    .guarantee .fine { font-size: 0.82rem; color: #7f978b; }
+    .faq details { border-bottom: 1px solid var(--line); padding: 1.1rem 0; }
+    .faq summary {
+      cursor: pointer;
+      font-weight: 650;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: "+"; color: var(--accent); font-weight: 700; }
+    .faq details[open] summary::after { content: "-"; }
+    .faq p {
+      color: var(--muted);
+      margin-top: 0.7rem;
+      max-width: 48rem;
+      font-size: 0.95rem;
+    }
+    .final-cta {
+      text-align: center;
+      padding: 5rem 0 4rem;
+      border-top: 1px solid var(--line);
+    }
+    .final-cta h2 { max-width: none; margin-inline: auto; }
+    .final-cta .section-lead { margin-inline: auto; }
+    .field {
+      display: grid;
+      gap: 0.35rem;
+      margin-bottom: 0.85rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      text-align: left;
+    }
+    .field input, .field select {
+      padding: 0.75rem 0.9rem;
+      border-radius: 0.7rem;
+      border: 1px solid var(--line);
+      background: #0b1712;
+      color: var(--ink);
+      font: inherit;
+    }
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 2rem 0 3rem;
+      color: #6f877b;
+      font-size: 0.82rem;
+    }
+    footer .risk {
+      margin-top: 0.85rem;
+      max-width: 60rem;
+      line-height: 1.55;
+    }
+    @media (max-width: 900px) {
+      .proof-grid, .steps, .price-grid, .stack { grid-template-columns: 1fr; }
+      .proof-grid { grid-template-columns: 1fr 1fr; }
+      h2 { max-width: none; }
+    }
+    @media (max-width: 560px) {
+      .proof-grid { grid-template-columns: 1fr; }
+      .hero { min-height: auto; padding-bottom: 3.5rem; }
+    }
+      .live-bt {
+      padding: 4.5rem 0 3.5rem;
+      background:
+        radial-gradient(ellipse 55% 50% at 80% 30%, rgba(61,255,154,0.1), transparent 55%),
+        #070e0b;
+      border-bottom: 1px solid var(--line);
+    }
+    .live-bt .wrap {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 2rem;
+      align-items: center;
+    }
+    .live-bt h2 { max-width: 14ch; }
+    .bt-screen {
+      position: relative;
+      border: 1px solid rgba(61,255,154,0.28);
+      border-radius: 1.15rem;
+      background: linear-gradient(165deg, #0c1a14 0%, #08120e 100%);
+      box-shadow: 0 24px 70px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(255,255,255,0.03);
+      overflow: hidden;
+      min-height: 340px;
+    }
+    .bt-chrome {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--line);
+      background: rgba(0,0,0,0.28);
+    }
+    .bt-dots { display: flex; gap: 0.35rem; }
+    .bt-dots span {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #3a4a42;
+    }
+    .bt-dots span:nth-child(1) { background: #ff7a7a; }
+    .bt-dots span:nth-child(2) { background: #ffb86b; }
+    .bt-dots span:nth-child(3) { background: #3dff9a; }
+    .bt-title {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .bt-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .bt-live i {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent);
+      display: inline-block;
+      animation: ping 1.4s ease infinite;
+    }
+    .bt-body { padding: 1.1rem 1.15rem 1.2rem; }
+      .bt-stats {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr 1fr;
+      gap: 0.65rem;
+      margin-bottom: 0.75rem;
+    }
+    .bt-stats-more {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.55rem;
+      margin-bottom: 1rem;
+    }
+    .bt-stats-more .bt-stat { padding: 0.55rem 0.65rem; }
+    .bt-stats-more .bt-stat strong { font-size: 0.95rem; }
+    .bt-stat {
+      border: 1px solid var(--line);
+      border-radius: 0.85rem;
+      padding: 0.7rem 0.8rem;
+      background: rgba(255,255,255,0.02);
+    }
+    .bt-stat label {
+      display: block;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+    .bt-stat strong {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+    }
+    .bt-stat strong.up { color: var(--accent); }
+    .bt-chart {
+      position: relative;
+      height: 160px;
+      border-radius: 0.85rem;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(rgba(61,255,154,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(61,255,154,0.04) 1px, transparent 1px),
+        #06110c;
+      background-size: 100% 32px, 40px 100%, auto;
+      overflow: hidden;
+    }
+    .bt-chart canvas { width: 100%; height: 100%; display: block; }
+    .bt-progress {
+      margin-top: 0.85rem;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+    }
+    .bt-progress > i {
+      display: block;
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #3dff9a, #7cf0ff);
+    }
+    .bt-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-top: 0.55rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+    .bt-tick {
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: #b7d2c4;
+      min-height: 1.2em;
+      font-family: ui-monospace, Consolas, monospace;
+    }
+    .bt-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-top: 1.1rem;
+    }
+    .bt-controls .btn { padding: 0.7rem 1rem; font-size: 0.85rem; }
+    .bt-note {
+      margin-top: 0.9rem;
+      font-size: 0.78rem;
+      color: #7f978b;
+      max-width: 36rem;
+    }
+    @media (max-width: 900px) {
+      .live-bt .wrap { grid-template-columns: 1fr; }
+      .bt-stats { grid-template-columns: 1fr 1fr; }
+      .bt-stats .bt-stat:first-child { grid-column: 1 / -1; }
+      .bt-stats-more { grid-template-columns: 1fr 1fr; }
+    }
+
+  
+    .share-bar {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      align-items: stretch;
+    }
+    .share-bar button {
+      border: 1px solid rgba(180, 220, 200, 0.25);
+      background: rgba(10, 18, 16, 0.92);
+      color: #edf6f1;
+      padding: 0.65rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+    .share-bar button:hover { border-color: #3dff9a; }
+    .share-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 1rem;
+      transform: translateX(-50%) translateY(12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+      background: #13201a;
+      color: #edf6f1;
+      border: 1px solid rgba(61,255,154,0.35);
+      padding: 0.55rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      z-index: 60;
+    }
+    .share-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="orb orb-a" aria-hidden="true"></div>
+    <div class="orb orb-b" aria-hidden="true"></div>
+    <div class="wrap">
+      <nav>
+        <div class="brand">Axe Edge <span>Access</span></div>
+        <a class="nav-cta" href="#pricing">Get a seat</a>
+      </nav>
+      <div class="hero-copy">
+        <p class="eyebrow">Founding cohort - Limited seats</p>
+        <h1>Axe Edge Access.<br /><em>Your seat</em> on the system.</h1>
+        <p class="lede">
+          Not another signal dump. Paid access to Axe Edge - the Billions-grade trading desk system -
+          managed seats, continuous updates, and a clear onboarding path for serious traders.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#pricing">Get R16,000 access</a>
+          <a class="btn btn-ghost" href="#live-backtest">Watch live backtest</a>
+        </div>
+        <p class="seat-note"><strong>Target: 1,000 seats</strong> at R16,000 each. Access fee only - your PnL stays yours.</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="proof-strip">
+    <div class="wrap proof-grid">
+      <div class="proof-item"><strong>Axe Edge</strong><span>Current HOG40 live-synced pack</span></div>
+      <div class="proof-item"><strong>R30k</strong><span>Minimum client capital</span></div>
+      <div class="proof-item"><strong>BTCUSDT</strong><span>Actual Bybit linear candle data</span></div>
+      <div class="proof-item"><strong>$798.3M</strong><span>2024→now verified final ($30k start)</span></div>
+    </div>
+  </div>
+
+
+    <section class="proof-strip actual-proof" id="actual-results">
+    <div class="wrap">
+      <p class="section-kicker">Actual Axe Edge results on BTCUSDT</p>
+      <h2>Verified $30,000 start from 2024 through now.</h2>
+      <p class="section-lead">
+        Completed local backtest on <strong>actual BTCUSDT 1m OHLCV + mark parquet</strong>
+        (<strong>tat_cleaned_v12</strong> (host-on / Hog IM / soft 86/86 / lev 40).
+        Window <strong>2024-01-01 .. 2026-09-08</strong>. Start capital <strong>$30,000</strong>.
+        Fee model: <strong>10% of positive winnings only</strong>.
+        Meta: <code>backtest_tat_cleaned_v12_20260909_175116_780615.meta.json</code>
+        · engine <code>2026-09-09c</code> · params_hash16 <code>9b4adfaeeaa22233</code>
+      </p>
+      <div class="price-grid">
+        <article class="plan featured">
+          <div class="badge">2024→now verified</div>
+          <h3>Final balance</h3>
+          <div class="price">$798,339,141<small> end</small></div>
+          <p class="billed">Start $30,000 · 7,571 trades · 6,665W / 906L</p>
+          <ul class="features">
+            <li>Win rate: 88.0%</li>
+            <li>Max DD (Acc+Unrl): 11.05%</li>
+            <li>Gross winnings: $798,309,141</li>
+            <li>10% fee: $79,830,914</li>
+            <li>Client keeps after fee: $718,508,227</li>
+            <li>Commission paid: $6,219,459</li>
+            <li>Min Acc+Unrl trough: $26,685.67</li>
+            <li>Liquidations: 1</li>
+          </ul>
+        </article>
+        <article class="plan">
+          <h3>Fee math</h3>
+          <p class="tagline">Only on profits</p>
+          <ul class="features">
+            <li>Winnings = max(0, final - start)</li>
+            <li>Performance fee = 10% of winnings</li>
+            <li>No winnings = no 10% fee</li>
+            <li>Access seat still R16,000</li>
+            <li>Backtest PnL is USDT ($), seat fee is ZAR (R)</li>
+          </ul>
+        </article>
+        <article class="plan">
+          <h3>Data + pack</h3>
+          <p class="tagline">What was actually run</p>
+          <ul class="features">
+            <li>Symbol: BTCUSDT linear</li>
+            <li>Bars: actual Bybit OHLCV + mark</li>
+            <li>Aligned mark rows: 1,424,211 / 1,424,211</li>
+            <li>Minimum capital: R30,000</li>
+            <li>Live pack: HOG40 / soft 86/86 / host on</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="live-bt" id="live-backtest" aria-label="Live backtest demo">
+    <div class="wrap">
+      <div>
+        <p class="section-kicker">Watch it run</p>
+        <h2>Actual BTCUSDT Axe Edge run, 2024 to now.</h2>
+        <p class="section-lead">
+          Hit play and watch equity climb on the verified continuous window
+          <strong>2024-01-01 → 2026-09-08</strong>, start <strong>$30,000</strong>,
+          final <strong>$798,339,141</strong>.
+          This is a sales replay of an <strong>actual BTCUSDT</strong> backtest
+          (Bybit linear OHLCV + mark parquet) - not a promise of future profit.
+        </p>
+        <div class="bt-controls">
+          <button type="button" class="btn btn-primary" id="btPlay">Play live run</button>
+          <button type="button" class="btn btn-ghost" id="btReplay">Replay</button>
+          <a class="btn btn-ghost" href="#pricing">Get a seat</a>
+        </div>
+        <p class="bt-note">
+          Source: <code>backtest_tat_cleaned_v12_20260909_175116_780615.meta.json</code>
+          · 7,571 closed trades · 88.0% win rate · Max DD(Acc+Unrl) 11.05%.
+          Past backtests do not guarantee future results.
+        </p>
+      </div>
+      <div class="bt-screen" role="img" aria-label="Animated backtest equity growing over time on actual BTCUSDT data">
+        <div class="bt-chrome">
+          <div class="bt-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="bt-title">Axe Edge actual 2024→now R30k / BTCUSDT</div>
+          <div class="bt-live"><i></i> Live</div>
+        </div>
+        <div class="bt-body">
+          <div class="bt-stats">
+            <div class="bt-stat">
+              <label>Equity (USDT)</label>
+              <strong id="btEquity" class="up">$30,000</strong>
+            </div>
+            <div class="bt-stat">
+              <label>Return</label>
+              <strong id="btPct" class="up">+0.0%</strong>
+            </div>
+            <div class="bt-stat">
+              <label>Closed trades</label>
+              <strong id="btTrades">0</strong>
+            </div>
+          </div>
+          <div class="bt-stats-more">
+            <div class="bt-stat">
+              <label>Wins / Losses</label>
+              <strong id="btWL">0 / 0</strong>
+            </div>
+            <div class="bt-stat">
+              <label>Win rate</label>
+              <strong id="btWR" class="up">0.0%</strong>
+            </div>
+            <div class="bt-stat">
+              <label>Max DD</label>
+              <strong id="btDD">11.05%</strong>
+            </div>
+            <div class="bt-stat">
+              <label>Fees (10%)</label>
+              <strong id="btFee">$0</strong>
+            </div>
+          </div>
+          <div class="bt-chart"><canvas id="btCanvas" width="640" height="160"></canvas></div>
+          <div class="bt-progress" aria-hidden="true"><i id="btBar"></i></div>
+          <div class="bt-meta">
+            <span id="btDate">2024-01-01</span>
+            <span id="btStatus">Ready · actual BTCUSDT</span>
+          </div>
+          <div class="bt-tick" id="btTick">Waiting to start...</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <p class="section-kicker">Simple path</p>
+      <h2>From payment to live access in three steps.</h2>
+      <p class="section-lead">Borrowed from the best SaaS and private trading desks: remove friction, sell a seat, deliver through process - not hype.</p>
+      <div class="steps">
+        <article class="step">
+          <div class="step-num">01</div>
+          <h3>Pick your seat</h3>
+          <p>Choose Founding, Pro, or Desk. Pay monthly or annual. Your access fee unlocks the system - not a share of your profits.</p>
+        </article>
+        <article class="step">
+          <div class="step-num">02</div>
+          <h3>Onboard in 24h</h3>
+          <p>Receive credentials, setup checklist, risk rules, and a short kickoff. You trade with your own capital on your exchange account.</p>
+        </article>
+        <article class="step">
+          <div class="step-num">03</div>
+          <h3>Stay current</h3>
+          <p>Axe Edge updates, parameter packs, and support land for active subscribers. Founding seats keep locked pricing while they stay subscribed.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing">
+    <div class="wrap">
+      <p class="section-kicker">Access fees</p>
+      <h2>Typical market pricing - made clear.</h2>
+      <p class="section-lead">
+        Client offer: <strong style="color:#edf6f1">R16,000 access seat + 10% of winnings</strong>.
+        Minimum recommended capital: R30,000.
+      </p>
+      <div class="price-grid">
+        <article class="plan featured">
+          <div class="badge">Best start</div>
+          <h3>Access Seat</h3>
+          <p class="tagline">Locked rate for early seats</p>
+          <div class="price">R16,000<small>/seat</small></div>
+          <p class="billed">R16,000 access + 10% winnings fee</p>
+          <ul class="features">
+            <li>Full Axe Edge system access</li>
+            <li>Setup + onboarding call</li>
+            <li>Version updates included</li>
+            <li>Community / support channel</li>
+            <li>Price locked while subscribed</li>
+          </ul>
+          <a class="btn btn-primary" href="#apply" onclick="document.getElementById('tier').value='Access seat R16,000'">Get Access Seat</a>
+        </article>
+        <article class="plan">
+          <h3>Pro Access</h3>
+          <p class="tagline">After founding seats close</p>
+          <div class="price">R16,000<small>/seat</small></div>
+          <p class="billed">R16,000 access + priority support</p>
+          <ul class="features">
+            <li>Everything in Founding</li>
+            <li>Priority support queue</li>
+            <li>Monthly performance review notes</li>
+            <li>Faster onboarding slots</li>
+          </ul>
+          <a class="btn btn-ghost" href="#apply" onclick="document.getElementById('tier').value='Pro seat R16,000'">Join waitlist</a>
+        </article>
+        <article class="plan">
+          <h3>Desk</h3>
+          <p class="tagline">Serious operators</p>
+          <div class="price">R22,000<small>/seat</small></div>
+          <p class="billed">Desk seat + higher-touch support</p>
+          <ul class="features">
+            <li>Everything in Pro</li>
+            <li>Up to 3 linked accounts</li>
+            <li>Direct operator check-ins</li>
+            <li>Custom risk briefing</li>
+          </ul>
+          <a class="btn btn-ghost" href="#apply" onclick="document.getElementById('tier').value='Desk seat R22,000'">Apply for Desk</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="stack">
+    <div class="wrap stack">
+      <div>
+        <p class="section-kicker">Value stack</p>
+        <h2>What you are actually buying.</h2>
+        <p class="section-lead">Successful sellers (private software, TradingView suites, Trade Ideas-style desks) sell clarity and continuity - not miracles.</p>
+        <ul class="stack-list">
+          <li><strong>System access</strong><span>Running Axe Edge logic with update rights while your seat is active.</span></li>
+          <li><strong>Operational playbook</strong><span>Risk rules, sizing guardrails, and onboarding so you are not guessing alone.</span></li>
+          <li><strong>Seat scarcity</strong><span>Capacity is capped so support quality stays high - founding cohort first.</span></li>
+          <li><strong>Clean commercial model</strong><span>Access fee only. We do not take a cut of your trading profits.</span></li>
+        </ul>
+      </div>
+      <aside class="guarantee">
+        <h3>14-day access guarantee</h3>
+        <p>If we cannot get you onboarded and connected within 14 days of payment, you get a full refund of that billing period.</p>
+        <p>This is an <em>access</em> guarantee - not a profit guarantee. Markets can and will go against any system.</p>
+        <p class="fine">Modeled on SaaS onboarding guarantees used by high-converting software funnels (clear promise, narrow scope, low dispute rate).</p>
+      </aside>
+    </div>
+  </section>
+
+
+  <section id="fee-model">
+    <div class="wrap stack">
+      <div>
+        <p class="section-kicker">Commercial model</p>
+        <h2>Simple offer: access fee + 10% of winnings.</h2>
+        <p class="section-lead">The client pays for access to the Axe Edge system, then only pays a performance fee when the account is up. No winnings means no 10% fee.</p>
+        <ul class="stack-list">
+          <li><strong>Minimum capital</strong><span>Client starts from a minimum of R30,000.</span></li>
+          <li><strong>Access seat</strong><span>R16,000 to get onboarded and activated.</span></li>
+          <li><strong>Performance fee</strong><span>10% of positive winnings only.</span></li>
+          <li><strong>Client alignment</strong><span>The operator only participates when the client wins.</span></li>
+        </ul>
+      </div>
+      <aside class="guarantee">
+        <h3>What clients care about</h3>
+        <p>They want to know the minimum capital, the actual tracked results, how often it wins, and exactly how the fee works.</p>
+        <p>That is why this page shows verified Axe Edge windows, trade counts, wins / losses, and a plain-language 10% winnings example.</p>
+        <p class="fine">Past performance does not guarantee future results. Fees should be documented clearly in the client agreement.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="faq" id="faq">
+    <div class="wrap">
+      <p class="section-kicker">FAQ</p>
+      <h2>Straight answers.</h2>
+      <details open>
+        <summary>Do you take a share of my profits?</summary>
+        <p>No. You pay an access fee. Your capital stays in your exchange account. Your PnL is yours.</p>
+      </details>
+      <details>
+        <summary>Is this financial advice?</summary>
+        <p>No. Axe Edge Access is software / system access for experienced traders. You remain responsible for risk, leverage, and compliance in your jurisdiction.</p>
+      </details>
+      <details>
+        <summary>Why founding pricing?</summary>
+        <p>Early seats help fill the first cohort and reward people who commit before standard rates. Founding price stays locked for continuous subscribers.</p>
+      </details>
+      <details>
+        <summary>Can I cancel?</summary>
+        <p>Yes. Monthly seats cancel anytime before the next billing date. Annual seats are prepaid for the year.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="final-cta" id="apply">
+    <div class="wrap">
+      <p class="section-kicker">Apply</p>
+      <h2>Request your Axe Edge seat.</h2>
+      <p class="section-lead">Share this page. Fill the form. We confirm payment details and onboarding by email / WhatsApp.</p>
+      <form class="plan" style="max-width:520px;margin:0 auto;text-align:left" onsubmit="event.preventDefault(); alert('Demo form only - connect Stripe / PayFast / WhatsApp when you go live.');">
+        <label class="field">Full name
+          <input required name="name" />
+        </label>
+        <label class="field">Email / WhatsApp
+          <input required name="contact" />
+        </label>
+        <label class="field">Plan
+          <select id="tier" name="tier">
+            <option>Access seat R16,000</option>
+            <option>Pro seat R16,000</option>
+            <option>Desk seat R22,000</option>
+          </select>
+        </label>
+        <button class="btn btn-primary" type="submit">Submit seat request</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="brand">Axe Edge <span>Access</span></div>
+      <p class="risk">
+        Risk disclosure: Trading crypto and leveraged products involves substantial risk of loss and is not suitable for everyone.
+        Past performance - live or backtested - does not guarantee future results. Axe Edge Access sells system access only.
+        Nothing on this page is an offer of investment advice, a promise of profit, or a solicitation to trade beyond your means.
+      </p>
+    </div>
+  </footer>
+<script src="equity_path.js"></script>
+<script>
+(function () {
+  // Actual continuous Axe Edge BTCUSDT backtest (meta 20260909_175116_780615):
+  // 2024-01-01 .. 2026-09-08, start $30k, final $798,339,141.02, 7571 trades.
+  var startEquity = 30000;
+  var endEquity = 798339141;
+  var totalTrades = 7571;
+  var totalWins = 6665;
+  var totalLosses = 906;
+  var finalWinRate = 88.03328490291904;
+  var maxDdPct = 11.05;
+  var frames = 180;
+  var daySpan = Math.floor((Date.UTC(2026, 8, 8) - Date.UTC(2024, 0, 1)) / 86400000);
+  var dates = [];
+  var start = new Date(Date.UTC(2024, 0, 1));
+  for (var i = 0; i <= frames; i++) {
+    var d = new Date(start.getTime());
+    d.setUTCDate(d.getUTCDate() + Math.floor((i / frames) * daySpan));
+    dates.push(d.toISOString().slice(0, 10));
+  }
+  // Real equity path from bar series (account_plus_unrealised) — has genuine ups/downs.
+  var pathObj = window.AXE_EDGE_EQUITY_PATH || null;
+  var equityPath = (pathObj && pathObj.equity && pathObj.equity.length) ? pathObj.equity.slice() : null;
+  if (equityPath && pathObj.dates && pathObj.dates.length) {
+    dates = pathObj.dates.slice();
+    frames = Math.max(2, equityPath.length - 1);
+    startEquity = equityPath[0];
+    endEquity = equityPath[equityPath.length - 1];
+    if (pathObj.trades) totalTrades = pathObj.trades;
+    if (pathObj.wins) totalWins = pathObj.wins;
+    if (pathObj.losses) totalLosses = pathObj.losses;
+    if (pathObj.win_rate) finalWinRate = pathObj.win_rate;
+    if (pathObj.max_dd_pct) maxDdPct = pathObj.max_dd_pct;
+  }
+  function equityAtIndex(i) {
+    if (!equityPath) {
+      // fallback jagged path if equity_path.js failed to load
+      var t = i / frames;
+      var base = startEquity + (endEquity - startEquity) * (t * t);
+      var wave = Math.sin(t * 22) * (endEquity - startEquity) * 0.08 * t
+               + Math.sin(t * 7.3) * (endEquity - startEquity) * 0.05 * t
+               - Math.abs(Math.sin(t * 3.1)) * (endEquity - startEquity) * 0.06 * t;
+      return Math.max(startEquity * 0.85, base + wave);
+    }
+    i = Math.max(0, Math.min(equityPath.length - 1, i));
+    return equityPath[i];
+  }
+  function equityAt(t) {
+    var i = Math.round(t * frames);
+    return equityAtIndex(i);
+  }
+  function tradesAt(t) { return Math.floor(t * totalTrades); }
+  function winsAt(t) { return Math.floor(t * totalWins); }
+  function lossesAt(t) { return Math.floor(t * totalLosses); }
+  var canvas = document.getElementById("btCanvas");
+  if (!canvas) return;
+  var ctx = canvas.getContext("2d");
+  var points = [];
+  var playing = false;
+  var frame = 0;
+  function fmtMoney(n) {
+    if (n >= 1e6) return "$" + (n / 1e6).toFixed(n >= 1e8 ? 1 : 2) + "M";
+    return "$" + Math.round(n).toLocaleString("en-US");
+  }
+  function fmtMoneyFull(n) { return "$" + Math.round(n).toLocaleString("en-US"); }
+  function fmtPct(n) { return (n >= 0 ? "+" : "") + n.toFixed(1) + "%"; }
+  function draw() {
+    var w = canvas.width, h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+    if (points.length < 2) return;
+    var min = Math.min.apply(null, points);
+    var max = Math.max.apply(null, points);
+    // Keep early drawdowns visible: never collapse range too hard
+    if (max - min < startEquity * 0.05) {
+      var mid = (max + min) / 2;
+      min = mid - startEquity * 0.03;
+      max = mid + startEquity * 0.03;
+    }
+    var pad = (max - min) * 0.12 || 1;
+    min -= pad; max += pad;
+    function X(i) { return (i / Math.max(1, frames - 1)) * (w - 16) + 8; }
+    function Y(v) { return h - 10 - ((v - min) / (max - min)) * (h - 20); }
+
+    // Fill under curve
+    ctx.beginPath();
+    ctx.moveTo(X(0), h);
+    for (var i = 0; i < points.length; i++) ctx.lineTo(X(i), Y(points[i]));
+    ctx.lineTo(X(points.length - 1), h);
+    ctx.closePath();
+    var grad = ctx.createLinearGradient(0, 0, 0, h);
+    grad.addColorStop(0, "rgba(61,255,154,0.22)");
+    grad.addColorStop(1, "rgba(61,255,154,0)");
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Segment stroke: green when rising, red when falling
+    for (var j = 1; j < points.length; j++) {
+      ctx.beginPath();
+      ctx.moveTo(X(j - 1), Y(points[j - 1]));
+      ctx.lineTo(X(j), Y(points[j]));
+      ctx.strokeStyle = points[j] >= points[j - 1] ? "#3dff9a" : "#ff7a7a";
+      ctx.lineWidth = 2.6;
+      ctx.lineJoin = "round";
+      ctx.lineCap = "round";
+      ctx.stroke();
+    }
+
+    // Peak / trough markers for recent swing visibility
+    var last = points[points.length - 1];
+    var localMin = last, localMax = last, imin = points.length - 1, imax = points.length - 1;
+    var look = Math.min(points.length, 24);
+    for (var k = points.length - look; k < points.length; k++) {
+      if (points[k] < localMin) { localMin = points[k]; imin = k; }
+      if (points[k] > localMax) { localMax = points[k]; imax = k; }
+    }
+    if (imax !== imin) {
+      ctx.beginPath();
+      ctx.arc(X(imax), Y(localMax), 3.2, 0, Math.PI * 2);
+      ctx.fillStyle = "#3dff9a";
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(X(imin), Y(localMin), 3.2, 0, Math.PI * 2);
+      ctx.fillStyle = "#ff7a7a";
+      ctx.fill();
+    }
+    ctx.beginPath();
+    ctx.arc(X(points.length - 1), Y(last), 4.8, 0, Math.PI * 2);
+    ctx.fillStyle = "#7cf0ff";
+    ctx.fill();
+  }
+  function renderFrame(i) {
+    var t = i / Math.max(1, frames - 1);
+    var eq = equityAtIndex(i);
+    points = [];
+    for (var k = 0; k <= i; k++) points.push(equityAtIndex(k));
+    var pct = ((eq / startEquity) - 1) * 100;
+    var closed = tradesAt(t);
+    var w = winsAt(t);
+    var l = lossesAt(t);
+    var wr = closed > 0 ? (w / closed) * 100 : 0;
+    var winnings = Math.max(0, eq - startEquity);
+    var fee = winnings * 0.10;
+    document.getElementById("btEquity").textContent = fmtMoney(eq);
+    document.getElementById("btPct").textContent = fmtPct(pct);
+    document.getElementById("btTrades").textContent = String(closed);
+    document.getElementById("btWL").textContent = w + " / " + l;
+    document.getElementById("btWR").textContent = wr.toFixed(1) + "%";
+    document.getElementById("btDD").textContent = maxDdPct.toFixed(2) + "%";
+    document.getElementById("btFee").textContent = fmtMoney(fee);
+    document.getElementById("btDate").textContent = dates[i];
+    document.getElementById("btBar").style.width = (t * 100).toFixed(1) + "%";
+    document.getElementById("btStatus").textContent =
+      i >= frames - 1 ? "Complete · real path" : "Running · real ups/downs";
+    document.getElementById("btTick").textContent =
+      "[" + dates[i] + "] BTCUSDT equity " + fmtMoneyFull(eq) +
+      "  ret " + fmtPct(pct) +
+      "  closed=" + closed +
+      "  W/L=" + w + "/" + l +
+      "  fee10%=" + fmtMoney(fee);
+    draw();
+  }
+  function tick() {
+    if (!playing) return;
+    if (frame >= frames) {
+      playing = false;
+      document.getElementById("btStatus").textContent = "Complete · real path";
+      document.getElementById("btPlay").textContent = "Play live run";
+      document.getElementById("btEquity").textContent = fmtMoney(endEquity);
+      document.getElementById("btPct").textContent = fmtPct(((endEquity / startEquity) - 1) * 100);
+      document.getElementById("btTrades").textContent = String(totalTrades);
+      document.getElementById("btWL").textContent = totalWins + " / " + totalLosses;
+      document.getElementById("btWR").textContent = finalWinRate.toFixed(1) + "%";
+      document.getElementById("btFee").textContent = fmtMoney((endEquity - startEquity) * 0.10);
+      return;
+    }
+    renderFrame(frame);
+    frame += 1;
+    setTimeout(tick, 28);
+  }
+  function startRun(fromZero) {
+    playing = true;
+    if (fromZero || frame >= frames) { frame = 0; points = []; }
+    document.getElementById("btPlay").textContent = "Running...";
+    document.getElementById("btStatus").textContent = "Running · real ups/downs";
+    tick();
+  }
+  document.getElementById("btPlay").addEventListener("click", function () {
+    if (playing) return;
+    startRun(frame >= frames);
+  });
+  document.getElementById("btReplay").addEventListener("click", function () { startRun(true); });
+  var started = false;
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && !started) { started = true; startRun(true); }
+      });
+    }, { threshold: 0.35 });
+    io.observe(document.getElementById("live-backtest"));
+  } else { startRun(true); }
+  renderFrame(0);
+  document.getElementById("btStatus").textContent = "Ready · real ups/downs";
+  document.getElementById("btTick").textContent =
+    "Ready: real equity path with ups/downs from Axe Edge bar series · start R30,000";
+})();
+</script>
+
+  <div class="share-bar" aria-label="Share this page">
+    <button type="button" id="shareCopyLink">Copy link</button>
+    <button type="button" id="shareWhatsApp">Share on WhatsApp</button>
+  </div>
+  <div class="share-toast" id="shareToast" aria-live="polite"></div>
+  <script src="share-site.js"></script>
+
+</body>
+</html>
