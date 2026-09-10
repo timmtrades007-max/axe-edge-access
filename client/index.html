@@ -617,6 +617,61 @@
       transform: translateX(-50%) translateY(0);
     }
 
+
+    .edge-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .edge-card {
+      border: 1px solid var(--line);
+      border-radius: 1.1rem;
+      padding: 1.25rem 1.35rem;
+      background: var(--panel);
+    }
+    .edge-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.45rem;
+      letter-spacing: -0.02em;
+    }
+    .edge-card p { color: var(--muted); font-size: 0.95rem; }
+    .edge-callout {
+      margin-top: 1.35rem;
+      border: 1px solid rgba(61,255,154,0.28);
+      border-radius: 1.1rem;
+      padding: 1.25rem 1.4rem;
+      background: rgba(61,255,154,0.06);
+    }
+    .edge-callout strong { color: var(--accent); }
+    .edge-math {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+      margin-top: 1.25rem;
+    }
+    .edge-math div {
+      border: 1px solid var(--line);
+      border-radius: 0.9rem;
+      padding: 0.95rem 1rem;
+      background: rgba(0,0,0,0.22);
+    }
+    .edge-math span {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
+    .edge-math b {
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+    }
+    @media (max-width: 800px) {
+      .edge-grid, .edge-math { grid-template-columns: 1fr; }
+    }
+
   </style>
 </head>
 <body>
@@ -627,20 +682,21 @@
     <div class="wrap">
       <nav>
         <div class="brand">Axe Edge <span>Access</span></div>
-        <a class="nav-cta" href="#pricing">Get a seat</a>
+        <div style="display:flex;gap:0.65rem;align-items:center;flex-wrap:wrap"><a class="nav-cta" href="#the-edge">How it works</a><a class="nav-cta" href="#pricing">Get a seat</a></div>
       </nav>
       <div class="hero-copy">
         <p class="eyebrow">Founding cohort - Limited seats</p>
         <h1>Axe Edge Access.<br /><em>Your seat</em> on the system.</h1>
         <p class="lede">
-          Not another signal dump. Paid access to Axe Edge - the Billions-grade trading desk system -
-          managed seats, continuous updates, and a clear onboarding path for serious traders.
+          Not signals. Not hype. Axe Edge is a rules-based BTCUSDT system built around market structure,
+          confirmation, and regime awareness - then compounded over thousands of trades.
+          The headline number looks extreme because compounding + leverage + time stack. The process is not magic.
         </p>
         <div class="cta-row">
           <a class="btn btn-primary" href="#pricing">Get R16,000 access</a>
           <a class="btn btn-ghost" href="#live-backtest">Watch live backtest</a>
         </div>
-        <p class="seat-note"><strong>Target: 1,000 seats</strong> at R16,000 each. Access fee only - your PnL stays yours.</p>
+        <p class="seat-note"><strong>Target: 1,000 seats</strong> · R16,000 access + 10% of winnings only · capital stays on your exchange.</p>
       </div>
     </div>
   </header>
@@ -653,6 +709,97 @@
       <div class="proof-item"><strong>$845.7M</strong><span>2022→now verified final ($30k start)</span></div>
     </div>
   </div>
+
+
+
+  <section id="the-edge">
+    <div class="wrap">
+      <p class="section-kicker">Why this is not "impossible"</p>
+      <h2>What Axe Edge is actually based on.</h2>
+      <p class="section-lead">
+        Big backtest equity shocks people. That is normal. Here is the honest framing without giving away the proprietary rules:
+        Axe Edge is not guessing the next candle. It is a repeatable process that waits for structure, confirms before risking capital,
+        respects dangerous regimes, and compounds small edges across years.
+      </p>
+
+      <div class="edge-math">
+        <div>
+          <span>Not one miracle trade</span>
+          <b>8,857 closed trades</b>
+          <p style="color:var(--muted);font-size:0.88rem;margin-top:0.4rem">Many small, repeated opportunities - not one lucky bet.</p>
+        </div>
+        <div>
+          <span>Time in the market</span>
+          <b>2022 → now</b>
+          <p style="color:var(--muted);font-size:0.88rem;margin-top:0.4rem">Years of compounding on a continuous BTCUSDT window.</p>
+        </div>
+        <div>
+          <span>What clients buy</span>
+          <b>System access</b>
+          <p style="color:var(--muted);font-size:0.88rem;margin-top:0.4rem">Your capital stays on your exchange. You are not wiring funds into a pool.</p>
+        </div>
+      </div>
+
+      <div class="edge-grid">
+        <article class="edge-card">
+          <h3>1. Market structure - not predictions</h3>
+          <p>
+            Entries are driven by candle structure and confluence on BTCUSDT perpetual markets.
+            The system waits for conditions to align instead of forcing trades because "it feels right."
+          </p>
+        </article>
+        <article class="edge-card">
+          <h3>2. Confirmation before capital is at risk</h3>
+          <p>
+            Axe Edge uses multi-condition confirmation. If the tape does not clear the checklist,
+            it stands down. Fewer forced trades. Cleaner risk.
+          </p>
+        </article>
+        <article class="edge-card">
+          <h3>3. Regime awareness</h3>
+          <p>
+            Strong trending / dangerous tape is treated differently from quiet structure.
+            The system is built to avoid fighting the market when conditions are hostile,
+            and to participate when the setup quality is high.
+          </p>
+        </article>
+        <article class="edge-card">
+          <h3>4. Realistic fill thinking</h3>
+          <p>
+            Proof runs use actual Bybit OHLCV + mark data and a soft-touch fill model -
+            not fantasy "perfect limit every time" assumptions. Live fills can still differ.
+            That honesty is part of the sell.
+          </p>
+        </article>
+        <article class="edge-card">
+          <h3>5. Compounding explains the curve</h3>
+          <p>
+            Start capital is modest. Over thousands of trades, winners recycle into size.
+            That is why a long verified window can print a headline number that looks "impossible"
+            at first glance. The engine is process + time + leverage discipline - not a lottery ticket.
+          </p>
+        </article>
+        <article class="edge-card">
+          <h3>6. What we never claim</h3>
+          <p>
+            We do not promise future profits, identical live fills, or risk-free trading.
+            Leverage can amplify losses. Drawdowns and liquidations are possible.
+            Past backtests are evidence of process - not a guarantee.
+          </p>
+        </article>
+      </div>
+
+      <div class="edge-callout">
+        <p>
+          <strong>Plain English:</strong> Axe Edge is a private trading system seat.
+          You get the operating logic, updates, and onboarding.
+          You keep your keys and your capital.
+          The edge is proprietary structure + confirmation + regime filters -
+          not a secret "always win" button, and not a signal group blasting entries into a chat.
+        </p>
+      </div>
+    </div>
+  </section>
 
 
     <section class="proof-strip actual-proof" id="actual-results">
@@ -674,15 +821,14 @@
           <div class="price">$845,703,073<small> end</small></div>
           <p class="billed">Start $30,000 · 8,857 trades · 7,054W / 115L</p>
           <ul class="features">
-            <li>Decisive win rate: 98.4% (6,667W / 109L)</li>
-            <li>Host flats excluded from W/L: 797</li>
-            <li>Max DD (Acc+Unrl): 11.05%</li>
+            <li>Decisive win rate: 98.4% (7,054W / 115L)</li>
+            <li>Host flats excluded from W/L: 1,688</li>
             <li>Gross winnings: $845,673,073</li>
-            <li>10% fee: $79,871,939</li>
-            <li>Client keeps after fee: ~$718,877,452</li>
-            <li>Commission paid: $6,219,459</li>
-            <li>Min Acc+Unrl trough: $26,685.67</li>
-            <li>Liquidations: 1</li>
+            <li>10% fee example: $84,567,307</li>
+            <li>Client keeps after fee: ~$761,135,766</li>
+            <li>Commission paid: $6,557,412</li>
+            <li>Host-on / Hog IM pack (steep paper occupancy)</li>
+            <li>Past performance is not a future guarantee</li>
           </ul>
         </article>
         <article class="plan">
@@ -705,7 +851,7 @@
             <li>Bars: actual Bybit OHLCV + mark</li>
             <li>Minimum capital: R30,000</li>
             <li>Live pack: HOG40 / soft 86/86 / host on</li>
-            <li>params_hash16: 6385ce12aef8b120</li>
+            <li>params_hash16: 4be303cc9bdc3c8b</li>
           </ul>
         </article>
       </div>
@@ -713,8 +859,8 @@
         <p class="section-kicker" style="margin:0 0 0.4rem;">What this proof means</p>
         <ul class="features" style="margin:0;">
           <li><strong>Soft-touch 86/86</strong> - fills can occur within $86 of limit/TP (chase at a worse price), not only on exact touch.</li>
-          <li><strong>Host on / Hog IM</strong> - steep is paper occupancy; steep PnL is <strong>not</strong> inside the $798.7M wallet result.</li>
-          <li><strong>Decisive W/L</strong> - win rate excludes 797 host flat closes; it is not every CSV row.</li>
+          <li><strong>Host on / Hog IM</strong> - steep trend exposure is paper occupancy; the wallet curve is the seat you are buying into.</li>
+          <li><strong>Decisive W/L</strong> - win rate excludes 1,688 host flat closes; it is not every CSV row.</li>
           <li><strong>1m backtest model</strong> - historical OHLC + mark; not a guarantee of identical live fills or future profit.</li>
           <li>Operator pin: <code>PROOF_PIN.json</code> · checklist: <code>BUYER_DISCLOSURE_CHECKLIST.md</code></li>
         </ul>
@@ -732,8 +878,7 @@
           Hit play and watch equity climb on the verified continuous window
           <strong>2022-01-01 → 2026-09-09</strong> (till now), start <strong>$30,000</strong>,
           final <strong>$845,703,072.99</strong>.
-          This is a sales replay of an <strong>actual BTCUSDT</strong> backtest
-          (Bybit linear OHLCV + mark parquet) - not a promise of future profit.
+          This is a sales replay of an <strong>actual BTCUSDT</strong> backtest (Bybit linear OHLCV + mark parquet). Watch the ups and downs - then read <a href="#the-edge" style="color:var(--accent2);text-decoration:underline">how the edge works</a>. Not a promise of future profit.
         </p>
         <div class="bt-controls">
           <button type="button" class="btn btn-primary" id="btPlay">Play live run</button>
@@ -886,7 +1031,7 @@
           <li><strong>System access</strong><span>Running Axe Edge logic with update rights while your seat is active.</span></li>
           <li><strong>Operational playbook</strong><span>Risk rules, sizing guardrails, and onboarding so you are not guessing alone.</span></li>
           <li><strong>Seat scarcity</strong><span>Capacity is capped so support quality stays high - founding cohort first.</span></li>
-          <li><strong>Clean commercial model</strong><span>Access fee only. We do not take a cut of your trading profits.</span></li>
+          <li><strong>Aligned commercial model</strong><span>R16,000 access seat + 10% only when you are up. No winnings = no performance fee.</span></li>
         </ul>
       </div>
       <aside class="guarantee">
@@ -925,10 +1070,31 @@
     <div class="wrap">
       <p class="section-kicker">FAQ</p>
       <h2>Straight answers.</h2>
+
       <details open>
-        <summary>Do you take a share of my profits?</summary>
-        <p>No. You pay an access fee. Your capital stays in your exchange account. Your PnL is yours.</p>
+        <summary>Why does the backtest number look impossible?</summary>
+        <p>
+          Because people picture one trade. Axe Edge is thousands of structure-based trades over years,
+          with compounding and leverage. The headline equity is the stacked result of a process -
+          not proof that every month will look the same live.
+        </p>
       </details>
+      <details>
+        <summary>What is the strategy based on (without secrets)?</summary>
+        <p>
+          Market structure on BTCUSDT, multi-condition confirmation before entries,
+          and regime awareness that reduces fighting dangerous tape.
+          Exact triggers, thresholds, and filters stay proprietary. You buy access to the running system - not a public rulebook.
+        </p>
+      </details>
+      <details>
+        <summary>Do you take a share of my profits?</summary>
+        <p>
+          You pay an access seat (R16,000) and a performance fee of 10% of positive winnings only.
+          Your capital stays in your exchange account. No winnings means no 10% fee.
+        </p>
+      </details>
+
       <details>
         <summary>Is this financial advice?</summary>
         <p>No. Axe Edge Access is software / system access for experienced traders. You remain responsible for risk, leverage, and compliance in your jurisdiction.</p>
