@@ -237,7 +237,7 @@
     .proof-item span { color: var(--muted); font-size: 0.88rem; }
     .steps {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 1.25rem;
     }
     .step { border-top: 1px solid var(--line); padding-top: 1.25rem; }
@@ -696,7 +696,11 @@
           <a class="btn btn-primary" href="#pricing">Get R16,000 access</a>
           <a class="btn btn-ghost" href="#live-backtest">Watch live backtest</a>
         </div>
-        <p class="seat-note"><strong>Target: 1,000 seats</strong> · R16,000 access + 10% of winnings only · capital stays on your exchange.</p>
+        <p class="seat-note"><strong>Target: 1,000 seats</strong>  -  R16,000 access + 10% of winnings only  -  capital stays on your exchange.</p>
+        <p class="seat-note" style="margin-top:0.55rem">Required: open / bind Bybit with our referral before onboarding -
+          <a href="https://www.bybit.com/invite?ref=QJ5NOR&amp;medium=referral&amp;utm_campaign=evergreen&amp;share_to=link" target="_blank" rel="noopener noreferrer" style="color:var(--accent2);text-decoration:underline">bybit.com/invite?ref=QJ5NOR</a>
+          (code <strong>QJ5NOR</strong>).
+        </p>
       </div>
     </div>
   </header>
@@ -813,14 +817,14 @@
         <strong>Liquidity / capacity cap: max 2 BTC</strong> per position (old unconstrained-style proofs hit 1,500 BTC and overstated millions).
         Fee model: <strong>10% of positive winnings only</strong>.
         Meta: <code>backtest_tat_cleaned_v12_20260910_105232_469431.meta.json</code>
-        · engine <code>2026-09-09e</code> · params_hash16 <code>5c1c28ce63a9fa2a</code>
+         -  engine <code>2026-09-09e</code>  -  params_hash16 <code>5c1c28ce63a9fa2a</code>
       </p>
       <div class="price-grid">
         <article class="plan featured">
-          <div class="badge">2022→now · capacity-capped</div>
+          <div class="badge">2022→now  -  capacity-capped</div>
           <h3>Final balance (ZAR)</h3>
           <div class="price">R13,902,679<small> end</small></div>
-          <p class="billed">Start R30,000 · 8,881 trades · 7,033W / 160L · ~$866,211 USDT</p>
+          <p class="billed">Start R30,000  -  8,881 trades  -  7,033W / 160L  -  ~$866,211 USDT</p>
           <ul class="features">
             <li>Decisive win rate: 97.8% (7,033W / 160L)</li>
             <li>Host flats excluded from W/L: 1,688</li>
@@ -837,7 +841,7 @@
           <p class="tagline">Only on profits</p>
           <ul class="features">
             <li>Winnings = max(0, final - start) = R13,872,679</li>
-            <li>10% fee example: R1,387,268 · client keeps ~R12,515,411</li>
+            <li>10% fee example: R1,387,268  -  client keeps ~R12,515,411</li>
             <li>Performance fee = 10% of winnings</li>
             <li>No winnings = no 10% fee</li>
             <li>Access seat still R16,000</li>
@@ -878,14 +882,14 @@
         </div>
         <p class="bt-note">
           Source: <code>backtest_tat_cleaned_v12_20260910_105232_469431.meta.json</code>
-          · 8,881 closed trades · 7,033W / 160L · 97.8% decisive win rate · max size 2 BTC · host flats excluded (1,688).
+           -  8,881 closed trades  -  7,033W / 160L  -  97.8% decisive win rate  -  max size 2 BTC  -  host flats excluded (1,688).
           Shown in ZAR at R16.05/USD. Past backtests do not guarantee future results.
         </p>
       </div>
       <div class="bt-screen" role="img" aria-label="Animated backtest equity growing over time on actual BTCUSDT data">
         <div class="bt-chrome">
           <div class="bt-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-          <div class="bt-title">Axe Edge 2022-01-01→2026-09-10 · R30k start · max 2 BTC</div>
+          <div class="bt-title">Axe Edge 2022-01-01→2026-09-10  -  R30k start  -  max 2 BTC</div>
           <div class="bt-live"><i></i> Live</div>
         </div>
         <div class="bt-body">
@@ -925,7 +929,7 @@
           <div class="bt-progress" aria-hidden="true"><i id="btBar"></i></div>
           <div class="bt-meta">
             <span id="btDate">2022-01-01</span>
-            <span id="btStatus">Ready · actual BTCUSDT</span>
+            <span id="btStatus">Ready  -  actual BTCUSDT</span>
           </div>
           <div class="bt-tick" id="btTick">Waiting to start...</div>
         </div>
@@ -936,23 +940,32 @@
   <section id="how">
     <div class="wrap">
       <p class="section-kicker">Simple path</p>
-      <h2>From payment to live access in three steps.</h2>
-      <p class="section-lead">Borrowed from the best SaaS and private trading desks: remove friction, sell a seat, deliver through process - not hype.</p>
+      <h2>From payment to live access in four steps.</h2>
+      <p class="section-lead">Borrowed from the best SaaS and private trading desks: remove friction, sell a seat, deliver through process - not hype. Every seat must open Bybit under our referral.</p>
       <div class="steps">
         <article class="step">
           <div class="step-num">01</div>
           <h3>Pick your seat</h3>
-          <p>Choose Founding, Pro, or Desk. Pay monthly or annual. Your access fee unlocks the system - not a share of your profits.</p>
+          <p>Choose Access, Pro, or Desk. Pay the access fee. That unlocks the system - not a share of your profits until you are winning.</p>
         </article>
         <article class="step">
           <div class="step-num">02</div>
-          <h3>Onboard in 24h</h3>
-          <p>Receive credentials, setup checklist, risk rules, and a short kickoff. You trade with your own capital on your exchange account.</p>
+          <h3>Open Bybit with our referral (required)</h3>
+          <p>
+            Everyone joining must use our Bybit invite before onboarding.
+            Code <strong>QJ5NOR</strong>.
+            <a class="btn btn-primary" style="margin-top:0.85rem;display:inline-flex" href="https://www.bybit.com/invite?ref=QJ5NOR&amp;medium=referral&amp;utm_campaign=evergreen&amp;share_to=link" target="_blank" rel="noopener noreferrer">Open Bybit with referral</a>
+          </p>
         </article>
         <article class="step">
           <div class="step-num">03</div>
+          <h3>Onboard in 24h</h3>
+          <p>Receive credentials, setup checklist, risk rules, and a short kickoff. Your capital stays on your exchange. Copy / follow instructions are given after referral is confirmed.</p>
+        </article>
+        <article class="step">
+          <div class="step-num">04</div>
           <h3>Stay current</h3>
-          <p>Axe Edge updates, parameter packs, and support land for active subscribers. Founding seats keep locked pricing while they stay subscribed.</p>
+          <p>Axe Edge updates, parameter packs, and support land for active subscribers. Access seats keep locked pricing while they stay subscribed.</p>
         </article>
       </div>
     </div>
@@ -1105,7 +1118,14 @@
     <div class="wrap">
       <p class="section-kicker">Apply</p>
       <h2>Request your Axe Edge seat.</h2>
-      <p class="section-lead">Share this page. Fill the form. We confirm payment details and onboarding by email / WhatsApp.</p>
+      <p class="section-lead">
+        First open Bybit with our referral
+        (<a href="https://www.bybit.com/invite?ref=QJ5NOR&amp;medium=referral&amp;utm_campaign=evergreen&amp;share_to=link" target="_blank" rel="noopener noreferrer" style="color:var(--accent2);text-decoration:underline">QJ5NOR</a>,
+        then submit. We confirm payment and onboarding by email / WhatsApp.
+      </p>
+      <p style="text-align:center;margin:0 0 1.25rem">
+        <a class="btn btn-primary" href="https://www.bybit.com/invite?ref=QJ5NOR&amp;medium=referral&amp;utm_campaign=evergreen&amp;share_to=link" target="_blank" rel="noopener noreferrer">1) Open Bybit referral (required)</a>
+      </p>
       <form class="plan" style="max-width:520px;margin:0 auto;text-align:left" onsubmit="event.preventDefault(); alert('Demo form only - connect Stripe / PayFast / WhatsApp when you go live.');">
         <label class="field">Full name
           <input required name="name" />
@@ -1120,7 +1140,11 @@
             <option>Desk seat R22,000</option>
           </select>
         </label>
-        <button class="btn btn-primary" type="submit">Submit seat request</button>
+        <label class="field" style="display:flex;gap:0.65rem;align-items:flex-start;text-align:left">
+          <input required type="checkbox" name="bybit_referral" style="margin-top:0.35rem;width:auto" />
+          <span>I opened / will open Bybit with referral code <strong>QJ5NOR</strong> (required for every seat).</span>
+        </label>
+        <button class="btn btn-primary" type="submit">2) Submit seat request</button>
       </form>
     </div>
   </section>
@@ -1156,7 +1180,7 @@
     d.setUTCDate(d.getUTCDate() + Math.floor((i / frames) * daySpan));
     dates.push(d.toISOString().slice(0, 10));
   }
-  // Real equity path from bar series (account_plus_unrealised) — has genuine ups/downs.
+  // Real equity path from bar series (account_plus_unrealised) - has genuine ups/downs.
   var pathObj = window.AXE_EDGE_EQUITY_PATH || null;
   var equityPath = (pathObj && pathObj.equity && pathObj.equity.length) ? pathObj.equity.slice() : null;
   if (equityPath && pathObj.dates && pathObj.dates.length) {
@@ -1296,7 +1320,7 @@
     document.getElementById("btDate").textContent = dates[i];
     document.getElementById("btBar").style.width = (t * 100).toFixed(1) + "%";
     document.getElementById("btStatus").textContent =
-      i >= frames - 1 ? "Complete · real path" : "Running · real ups/downs";
+      i >= frames - 1 ? "Complete  -  real path" : "Running  -  real ups/downs";
     document.getElementById("btTick").textContent =
       "[" + dates[i] + "] BTCUSDT equity " + fmtMoneyFull(eq) +
       "  ret " + fmtPct(pct) +
@@ -1309,7 +1333,7 @@
     if (!playing) return;
     if (frame >= frames) {
       playing = false;
-      document.getElementById("btStatus").textContent = "Complete · real path";
+      document.getElementById("btStatus").textContent = "Complete  -  real path";
       document.getElementById("btPlay").textContent = "Play live run";
       document.getElementById("btEquity").textContent = fmtMoney(endEquity);
       document.getElementById("btPct").textContent = fmtPct(((endEquity / startEquity) - 1) * 100);
@@ -1327,7 +1351,7 @@
     playing = true;
     if (fromZero || frame >= frames) { frame = 0; points = []; }
     document.getElementById("btPlay").textContent = "Running...";
-    document.getElementById("btStatus").textContent = "Running · real ups/downs";
+    document.getElementById("btStatus").textContent = "Running  -  real ups/downs";
     tick();
   }
   document.getElementById("btPlay").addEventListener("click", function () {
@@ -1345,9 +1369,9 @@
     io.observe(document.getElementById("live-backtest"));
   } else { startRun(true); }
   renderFrame(0);
-  document.getElementById("btStatus").textContent = "Ready · real ups/downs";
+  document.getElementById("btStatus").textContent = "Ready  -  real ups/downs";
   document.getElementById("btTick").textContent =
-    "Ready: R30k ZAR capacity-capped path 2022-01-01→2026-09-10 · max 2 BTC";
+    "Ready: R30k ZAR capacity-capped path 2022-01-01→2026-09-10  -  max 2 BTC";
 })();
 </script>
 
