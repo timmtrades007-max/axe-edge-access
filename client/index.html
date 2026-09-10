@@ -706,7 +706,7 @@
       <div class="proof-item"><strong>Axe Edge</strong><span>Current HOG40 live-synced pack</span></div>
       <div class="proof-item"><strong>R30k</strong><span>Minimum client capital</span></div>
       <div class="proof-item"><strong>BTCUSDT</strong><span>Actual Bybit linear candle data</span></div>
-      <div class="proof-item"><strong>$845.7M</strong><span>2022→now verified final ($30k start)</span></div>
+      <div class="proof-item"><strong>R13.9M</strong><span>2022→now capacity-capped final (R30k start)</span></div>
     </div>
   </div>
 
@@ -725,7 +725,7 @@
       <div class="edge-math">
         <div>
           <span>Not one miracle trade</span>
-          <b>8,857 closed trades</b>
+          <b>8,881 closed trades</b>
           <p style="color:var(--muted);font-size:0.88rem;margin-top:0.4rem">Many small, repeated opportunities - not one lucky bet.</p>
         </div>
         <div>
@@ -775,7 +775,7 @@
           <h3>5. Compounding explains the curve</h3>
           <p>
             Start capital is modest. Over thousands of trades, winners recycle into size.
-            That is why a long verified window can print a headline number that looks "impossible"
+            Even with a hard size ceiling, a long verified window can still compound meaningfully - without inventing untradeable millions
             at first glance. The engine is process + time + leverage discipline - not a lottery ticket.
           </p>
         </article>
@@ -805,29 +805,30 @@
     <section class="proof-strip actual-proof" id="actual-results">
     <div class="wrap">
       <p class="section-kicker">Actual Axe Edge results on BTCUSDT</p>
-      <h2>Verified $30,000 start from 2022 through 2026-09-09 (till now).</h2>
+      <h2>Verified R30,000 start from 2022 through 2026-09-10 (capacity-capped).</h2>
       <p class="section-lead">
-        Completed local backtest on <strong>actual BTCUSDT 1m OHLCV + mark parquet</strong>
-        (<strong>tat_cleaned_v12</strong> (host-on / Hog IM / soft 86/86 / lev 40).
-        Window <strong>2022-01-01 .. 2026-09-09</strong> (till now). Start capital <strong>$30,000</strong>.
+        Completed local backtest on <strong>actual BTCUSDT 1m OHLCV + mark parquet</strong> <strong>tat_cleaned_v12</strong> (host-on / Hog IM / soft 86/86 / lev 40).
+        Client start: <strong>R30,000</strong> (= <strong>$1,869 USDT</strong> at R16.05/USD).
+        Window <strong>2022-01-01 .. 2026-09-10</strong>.
+        <strong>Liquidity / capacity cap: max 2 BTC</strong> per position (old unconstrained-style proofs hit 1,500 BTC and overstated millions).
         Fee model: <strong>10% of positive winnings only</strong>.
-        Meta: <code>backtest_tat_cleaned_v12_20260909_200417_046558.meta.json</code>
-        · engine <code>2026-09-09e</code> · params_hash16 <code>4be303cc9bdc3c8b</code>
+        Meta: <code>backtest_tat_cleaned_v12_20260910_105232_469431.meta.json</code>
+        · engine <code>2026-09-09e</code> · params_hash16 <code>5c1c28ce63a9fa2a</code>
       </p>
       <div class="price-grid">
         <article class="plan featured">
-          <div class="badge">2022→now verified</div>
-          <h3>Final balance</h3>
-          <div class="price">$845,703,073<small> end</small></div>
-          <p class="billed">Start $30,000 · 8,857 trades · 7,054W / 115L</p>
+          <div class="badge">2022→now · capacity-capped</div>
+          <h3>Final balance (ZAR)</h3>
+          <div class="price">R13,902,679<small> end</small></div>
+          <p class="billed">Start R30,000 · 8,881 trades · 7,033W / 160L · ~$866,211 USDT</p>
           <ul class="features">
-            <li>Decisive win rate: 98.4% (7,054W / 115L)</li>
+            <li>Decisive win rate: 97.8% (7,033W / 160L)</li>
             <li>Host flats excluded from W/L: 1,688</li>
-            <li>Gross winnings: $845,673,073</li>
-            <li>10% fee example: $84,567,307</li>
-            <li>Client keeps after fee: ~$761,135,766</li>
-            <li>Commission paid: $6,557,412</li>
-            <li>Host-on / Hog IM pack (steep paper occupancy)</li>
+            <li>Max position size: 2 BTC (liquidity/capacity ceiling)</li>
+            <li>Gross winnings: R13,872,679</li>
+            <li>10% fee example: R1,387,268</li>
+            <li>Client keeps after fee: ~R12,515,411</li>
+            <li>Exchange denomination: USDT (shown in ZAR at R16.05)</li>
             <li>Past performance is not a future guarantee</li>
           </ul>
         </article>
@@ -835,12 +836,12 @@
           <h3>Fee math</h3>
           <p class="tagline">Only on profits</p>
           <ul class="features">
-            <li>Winnings = max(0, final - start) = $845,673,073</li>
-            <li>10% fee example: $84,567,307 · client keeps ~$761,135,766</li>
+            <li>Winnings = max(0, final - start) = R13,872,679</li>
+            <li>10% fee example: R1,387,268 · client keeps ~R12,515,411</li>
             <li>Performance fee = 10% of winnings</li>
             <li>No winnings = no 10% fee</li>
             <li>Access seat still R16,000</li>
-            <li>Backtest PnL is USDT ($), seat fee is ZAR (R)</li>
+            <li>Seat fee and min capital are ZAR (R)</li>
           </ul>
         </article>
         <article class="plan">
@@ -849,9 +850,10 @@
           <ul class="features">
             <li>Symbol: BTCUSDT linear</li>
             <li>Bars: actual Bybit OHLCV + mark</li>
-            <li>Minimum capital: R30,000</li>
+            <li>Minimum capital: R30,000 (~$1,869 USDT)</li>
+            <li>Capacity cap: 2 BTC max position</li>
             <li>Live pack: HOG40 / soft 86/86 / host on</li>
-            <li>params_hash16: 4be303cc9bdc3c8b</li>
+            <li>params_hash16: 5c1c28ce63a9fa2a</li>
           </ul>
         </article>
       </div>
@@ -861,6 +863,7 @@
           <li><strong>Soft-touch 86/86</strong> - fills can occur within $86 of limit/TP (chase at a worse price), not only on exact touch.</li>
           <li><strong>Host on / Hog IM</strong> - steep trend exposure is paper occupancy; the wallet curve is the seat you are buying into.</li>
           <li><strong>Decisive W/L</strong> - win rate excludes 1,688 host flat closes; it is not every CSV row.</li>
+          <li><strong>Capacity / liquidity</strong> - this proof caps position size at <strong>2 BTC</strong>. Uncapped size can invent fantasy millions the book cannot actually trade.</li>
           <li><strong>1m backtest model</strong> - historical OHLC + mark; not a guarantee of identical live fills or future profit.</li>
           <li>Operator pin: <code>PROOF_PIN.json</code> · checklist: <code>BUYER_DISCLOSURE_CHECKLIST.md</code></li>
         </ul>
@@ -873,11 +876,10 @@
     <div class="wrap">
       <div>
         <p class="section-kicker">Watch it run</p>
-        <h2>Actual BTCUSDT Axe Edge run, 2022 to now.</h2>
+        <h2>Actual BTCUSDT Axe Edge run, 2022 to now (R30k, capacity-capped).</h2>
         <p class="section-lead">
           Hit play and watch equity climb on the verified continuous window
-          <strong>2022-01-01 → 2026-09-09</strong> (till now), start <strong>$30,000</strong>,
-          final <strong>$845,703,072.99</strong>.
+          <strong>2022-01-01 → 2026-09-10</strong> (till now), start <strong>R30,000</strong>, final <strong>R13,902,679.31</strong> (~$866,211 USDT, max 2 BTC size).
           This is a sales replay of an <strong>actual BTCUSDT</strong> backtest (Bybit linear OHLCV + mark parquet). Watch the ups and downs - then read <a href="#the-edge" style="color:var(--accent2);text-decoration:underline">how the edge works</a>. Not a promise of future profit.
         </p>
         <div class="bt-controls">
@@ -886,22 +888,22 @@
           <a class="btn btn-ghost" href="#pricing">Get a seat</a>
         </div>
         <p class="bt-note">
-          Source: <code>backtest_tat_cleaned_v12_20260909_200417_046558.meta.json</code>
-          · 8,857 closed trades · 7,054W / 115L · 98.4% decisive win rate · Max DD(Acc+Unrl) 0.00%. Host flat closes excluded from W/L (1688).
-          Past backtests do not guarantee future results.
+          Source: <code>backtest_tat_cleaned_v12_20260910_105232_469431.meta.json</code>
+          · 8,881 closed trades · 7,033W / 160L · 97.8% decisive win rate · max size 2 BTC · host flats excluded (1,688).
+          Shown in ZAR at R16.05/USD. Past backtests do not guarantee future results.
         </p>
       </div>
       <div class="bt-screen" role="img" aria-label="Animated backtest equity growing over time on actual BTCUSDT data">
         <div class="bt-chrome">
           <div class="bt-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-          <div class="bt-title">Axe Edge actual 2022-01-01→2026-09-09 (2022 till now) $30k / BTCUSDT</div>
+          <div class="bt-title">Axe Edge 2022-01-01→2026-09-10 · R30k start · max 2 BTC</div>
           <div class="bt-live"><i></i> Live</div>
         </div>
         <div class="bt-body">
           <div class="bt-stats">
             <div class="bt-stat">
-              <label>Equity (USDT)</label>
-              <strong id="btEquity" class="up">$30,000</strong>
+              <label>Equity (ZAR)</label>
+              <strong id="btEquity" class="up">R30,000</strong>
             </div>
             <div class="bt-stat">
               <label>Return</label>
@@ -1207,10 +1209,17 @@
   var playing = false;
   var frame = 0;
   function fmtMoney(n) {
+    if ((pathObj && pathObj.currency) === 'ZAR') {
+      if (Math.abs(n) >= 1e6) return 'R' + (n/1e6).toFixed(1) + 'M';
+      return 'R' + Math.round(n).toLocaleString('en-US');
+    }
     if (n >= 1e6) return "$" + (n / 1e6).toFixed(n >= 1e8 ? 1 : 2) + "M";
     return "$" + Math.round(n).toLocaleString("en-US");
   }
-  function fmtMoneyFull(n) { return "$" + Math.round(n).toLocaleString("en-US"); }
+  function fmtMoneyFull(n) {
+    if ((pathObj && pathObj.currency) === 'ZAR') {
+      return 'R' + Math.round(n).toLocaleString('en-US');
+    } return "$" + Math.round(n).toLocaleString("en-US"); }
   function fmtPct(n) { return (n >= 0 ? "+" : "") + n.toFixed(1) + "%"; }
   function draw() {
     var w = canvas.width, h = canvas.height;
@@ -1349,7 +1358,7 @@
   renderFrame(0);
   document.getElementById("btStatus").textContent = "Ready · real ups/downs";
   document.getElementById("btTick").textContent =
-    "Ready: real equity path 2022-01-01→2026-09-09 (2022 till now) · start $30,000";
+    "Ready: R30k ZAR capacity-capped path 2022-01-01→2026-09-10 · max 2 BTC";
 })();
 </script>
 
