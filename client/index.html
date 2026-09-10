@@ -250,6 +250,45 @@
     }
     .step h3 { font-size: 1.2rem; margin-bottom: 0.55rem; font-weight: 700; }
     .step p { color: var(--muted); font-size: 0.95rem; }
+
+    .req-box {
+      margin-top: 2rem;
+      border: 1px solid rgba(232,201,160,0.35);
+      background: linear-gradient(180deg, rgba(232,201,160,0.08), rgba(11,13,16,0.2));
+      border-radius: 1.25rem;
+      padding: 1.35rem 1.4rem 1.25rem;
+    }
+    .req-box h3 { font-size: 1.15rem; margin-bottom: 0.55rem; }
+    .req-box > p { color: var(--muted); font-size: 0.92rem; margin-bottom: 1rem; }
+    .req-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .req-grid article {
+      border-top: 1px solid var(--line);
+      padding-top: 0.85rem;
+    }
+    .req-grid h4 {
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 0.55rem;
+    }
+    .req-grid ol, .req-grid ul {
+      margin: 0;
+      padding-left: 1.15rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+      display: grid;
+      gap: 0.4rem;
+    }
+    .req-note {
+      margin-top: 1rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
     .pricing {
       background:
         radial-gradient(ellipse 50% 40% at 50% 0%, rgba(61,255,154,0.08), transparent 60%),
@@ -403,7 +442,7 @@
       line-height: 1.55;
     }
     @media (max-width: 900px) {
-      .proof-grid, .steps, .price-grid, .stack { grid-template-columns: 1fr; }
+      .proof-grid, .steps, .price-grid, .stack, .req-grid { grid-template-columns: 1fr; }
       .proof-grid { grid-template-columns: 1fr 1fr; }
       h2 { max-width: none; }
     }
@@ -952,8 +991,8 @@
           <div class="step-num">02</div>
           <h3>Open Bybit with our referral (required)</h3>
           <p>
-            Everyone joining must use our Bybit invite before onboarding.
-            Code <strong>QJ5NOR</strong>.
+            Everyone joining must use code <strong>QJ5NOR</strong>, then hit KYC + deposit + trade tasks so referral rewards can unlock.
+            See <a href="#referral-rewards" style="color:var(--accent2);text-decoration:underline">prerequisites</a>.
             <a class="btn btn-primary" style="margin-top:0.85rem;display:inline-flex" href="https://www.bybit.com/invite?ref=QJ5NOR&amp;medium=referral&amp;utm_campaign=evergreen&amp;share_to=link" target="_blank" rel="noopener noreferrer">Open Bybit with referral</a>
           </p>
         </article>
@@ -967,6 +1006,49 @@
           <h3>Stay current</h3>
           <p>Axe Edge updates, parameter packs, and support land for active subscribers. Access seats keep locked pricing while they stay subscribed.</p>
         </article>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="referral-rewards">
+    <div class="wrap">
+      <p class="section-kicker">Bybit referral</p>
+      <h2>Prerequisites to unlock referral rewards.</h2>
+      <p class="section-lead">
+        Seat access and Copy Trading follow are separate from Bybit referral rewards.
+        Rewards pay to our <strong>main</strong> referral account (code <strong>QJ5NOR</strong>) when you qualify under Bybit rules.
+      </p>
+      <div class="req-box">
+        <h3>Required before onboarding is complete</h3>
+        <p>Use only this invite. Existing Bybit accounts that never used <strong>QJ5NOR</strong> usually do not count for referral.</p>
+        <div class="req-grid">
+          <article>
+            <h4>You (new client)</h4>
+            <ol>
+              <li>Sign up with our link / code <strong>QJ5NOR</strong> (or bind it at registration).</li>
+              <li>Complete identity verification (KYC) on Bybit.</li>
+              <li>Deposit at least <strong>100 USDT</strong> (or equivalent) within <strong>7 days</strong> of signup. Eligible: crypto deposit, fiat, P2P, one-click buy. Internal transfers usually do not count.</li>
+              <li>Trade at least <strong>500 USDT</strong> Spot or Derivatives volume within <strong>30 days</strong> of signup. API volume counts. Grid bots / MT5 / zero-fee pairs usually do not.</li>
+              <li>Then follow our Copy Master when we send onboarding (copy follow is not the same as referral).</li>
+            </ol>
+          </article>
+          <article>
+            <h4>What that unlocks</h4>
+            <ul>
+              <li>Qualified-referee bonuses (Bybit task rewards for you and us, when tasks clear).</li>
+              <li>Ongoing referral commission on your Bybit trading fees (paid to our main account per Bybit tiers).</li>
+              <li>Axe Edge seat + Copy Master follow still need the access fee and our setup checklist.</li>
+              <li>Minimum seat capital remains <strong>R30,000</strong> recommended - larger than the 100 USDT referral deposit task.</li>
+            </ul>
+          </article>
+        </div>
+        <p class="req-note">
+          Bybit referral terms can change. Official FAQ:
+          <a href="https://www.bybit.com/en/help-center/article/Bybit-Referral-Program-General-FAQ" target="_blank" rel="noopener noreferrer" style="color:var(--accent2);text-decoration:underline">Referral Program General FAQ</a>.
+          Invite:
+          <a href="https://www.bybit.com/invite?ref=QJ5NOR&amp;medium=referral&amp;utm_campaign=evergreen&amp;share_to=link" target="_blank" rel="noopener noreferrer" style="color:var(--accent2);text-decoration:underline">bybit.com/invite?ref=QJ5NOR</a>.
+        </p>
       </div>
     </div>
   </section>
@@ -1142,7 +1224,7 @@
         </label>
         <label class="field" style="display:flex;gap:0.65rem;align-items:flex-start;text-align:left">
           <input required type="checkbox" name="bybit_referral" style="margin-top:0.35rem;width:auto" />
-          <span>I opened / will open Bybit with referral code <strong>QJ5NOR</strong> (required for every seat).</span>
+          <span>I will sign up with <strong>QJ5NOR</strong>, complete KYC, deposit 100+ USDT within 7 days, and trade 500+ USDT within 30 days (Bybit referral prerequisites).</span>
         </label>
         <button class="btn btn-primary" type="submit">2) Submit seat request</button>
       </form>
