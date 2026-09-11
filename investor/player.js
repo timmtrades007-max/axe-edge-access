@@ -71,7 +71,15 @@
       cumW[f] = w; cumL[f] = lss; cumC[f] = cc;
     }
 
-    var playing = false, idx = 0, timer = null;
+    var playing = false, idx = 0, timer = null, scrubbing = false;
+    var scrub = $("btScrub");
+    if (scrub) {
+      scrub.min = "0";
+      scrub.max = String(Math.max(0, N - 1));
+      scrub.value = "0";
+    }
+    if ($("scrubStart")) $("scrubStart").textContent = (d[0] || "").slice(0, 10);
+    if ($("scrubEnd")) $("scrubEnd").textContent = (d[N - 1] || "").slice(0, 10);
     var TICK_FAST = 42;
     var TICK_TRADE = 260;
     var TICK_TRADE_EDGE = 520;
@@ -510,6 +518,8 @@
       if ($("btDate")) $("btDate").textContent = (d[i] || "").slice(0, 10);
       if ($("btcNow")) $("btcNow").textContent = fmtPx(c[i]);
       if ($("btStatus")) $("btStatus").textContent = i >= N - 1 ? "Complete" : (playing ? paceLabel(i) : "Paused");
+      if (scrub && !scrubbing) scrub.value = String(i);
+      if ($("scrubNow")) $("scrubNow").textContent = (d[i] || "").slice(0, 10);
       var box = $("activeBox");
       if (box) {
         if (act) {
@@ -569,9 +579,32 @@
       schedule();
     }
 
+
+    function seekTo(v, keepPlaying) {
+      var n = Math.max(0, Math.min(N - 1, Math.round(Number(v) || 0)));
+      idx = n;
+      render(idx);
+      if (keepPlaying && playing) schedule();
+    }
+    if (scrub) {
+      scrub.addEventListener("pointerdown", function () { scrubbing = true; });
+      scrub.addEventListener("pointerup", function () { scrubbing = false; });
+      scrub.addEventListener("input", function () {
+        scrubbing = true;
+        var was = playing;
+        if (was) { playing = false; stop(); }
+        seekTo(scrub.value, false);
+        if ($("btStatus")) $("btStatus").textContent = was ? "Scrubbing" : "Paused";
+      });
+      scrub.addEventListener("change", function () {
+        scrubbing = false;
+        seekTo(scrub.value, false);
+      });
+    }
+
     if ($("btPlay")) $("btPlay").onclick = play;
     if ($("btPause")) $("btPause").onclick = function () { playing = false; stop(); render(idx); };
-    if ($("btReset")) $("btReset").onclick = function () { playing = false; stop(); idx = 0; render(0); };
+    if ($("btReset")) $("btReset").onclick = function () { playing = false; stop(); scrubbing = false; idx = 0; render(0); };
     if ($("heroPlay")) $("heroPlay").onclick = function () {
       var path = $("path");
       if (path && path.scrollIntoView) path.scrollIntoView({ behavior: "smooth" });

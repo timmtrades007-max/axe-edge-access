@@ -126,6 +126,38 @@
     .metric span { color: var(--muted); font-size: 0.52rem; letter-spacing: 0.06em; text-transform: uppercase; font-family: "JetBrains Mono", monospace; }
     .metric.hot b { color: var(--accent); }
     .controls { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; }
+
+    .scrub {
+      margin: 0.55rem 0 0.15rem;
+      display: grid;
+      gap: 0.28rem;
+    }
+    .scrub-row {
+      display: flex; align-items: center; gap: 0.55rem;
+    }
+    .scrub input[type="range"] {
+      -webkit-appearance: none; appearance: none;
+      flex: 1; height: 6px; border-radius: 999px;
+      background: linear-gradient(90deg, rgba(94,234,212,0.55), rgba(125,211,252,0.35));
+      outline: none; cursor: pointer;
+    }
+    .scrub input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: #5eead4; border: 2px solid #04201a;
+      box-shadow: 0 0 0 3px rgba(94,234,212,0.25);
+      cursor: grab;
+    }
+    .scrub input[type="range"]::-moz-range-thumb {
+      width: 16px; height: 16px; border-radius: 50%;
+      background: #5eead4; border: 2px solid #04201a;
+      cursor: grab;
+    }
+    .scrub-meta {
+      display: flex; justify-content: space-between; gap: 0.5rem;
+      font-family: "JetBrains Mono", monospace; font-size: 0.58rem; color: var(--muted);
+    }
+    .scrub-meta b { color: var(--ink); font-weight: 500; }
     .speed { font-family: "JetBrains Mono", monospace; font-size: 0.58rem; color: var(--muted); }
     .below { padding: 1.5rem 0 2rem; }
     .kicker { font-family: "JetBrains Mono", monospace; color: var(--accent); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.4rem; }
@@ -297,6 +329,17 @@
         <div id="tapeList"></div>
       </div>
 
+
+      <div class="scrub" id="scrubWrap">
+        <div class="scrub-row">
+          <input type="range" id="btScrub" min="0" max="1000" value="0" step="1" aria-label="Timeline" />
+        </div>
+        <div class="scrub-meta">
+          <span>Start <b id="scrubStart">2022-01-01</b></span>
+          <span>Now <b id="scrubNow">2022-01-01</b></span>
+          <span>End <b id="scrubEnd">-</b></span>
+        </div>
+      </div>
       <div class="controls">
         <button class="btn btn-fill" type="button" id="btPlay">Play</button>
         <button class="btn btn-ghost" type="button" id="btPause">Pause</button>
@@ -462,8 +505,8 @@
     </div>
   </footer>
 
-<script src="equity_path.js?v=1789127341"></script>
-<script src="player.js?v=1789127341"></script>
+<script src="equity_path.js?v=1789127549"></script>
+<script src="player.js?v=1789127549"></script>
 
 
   <div class="share-bar" aria-label="Share this page">
