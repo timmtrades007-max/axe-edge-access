@@ -22,9 +22,9 @@
     }
     var o = P.o, h = P.h, l = P.l, c = P.c, d = P.d, eq = P.eq;
     var N = P.n || o.length;
-    var WIN_FAST = 18;
-    var WIN_TRADE = 11;
-    var WIN_EVENT = 14;
+    var WIN_FAST = 96;
+    var WIN_TRADE = 64;
+    var WIN_EVENT = 72;
     var trades = P.trades || [];
     var events = P.events || [];
     var startEq = P.start || 30000;
@@ -140,7 +140,7 @@
     function paceLabel(i) {
       var m = focusMode(i);
       if (m === "event") return "Event focus";
-      if (m === "trade") return "Trade zoom";
+      if (m === "trade") return "Trade focus";
       return "Fast-forward";
     }
 
@@ -164,19 +164,8 @@
       var justClosed = (closesAt[endIdx] && closesAt[endIdx].length) ? closesAt[endIdx][closesAt[endIdx].length - 1] : null;
       var focusTr = act || justClosed || null;
 
-      // Trade zoom: keep candle count low so bodies stay large
+      // Wide sliding window so the full path stays readable
       var start = Math.max(0, endIdx - win + 1);
-      if (focusTr && mode === "trade") {
-        var entry = focusTr[0];
-        var exitI = focusTr[1];
-        if (endIdx <= entry + win - 3) {
-          start = Math.max(0, entry - 2);
-        } else if (endIdx >= exitI && (exitI - entry + 3) <= win) {
-          start = Math.max(0, entry - 2);
-        } else {
-          start = Math.max(0, endIdx - win + 1);
-        }
-      }
       var n = endIdx - start + 1;
       if (n < 1) return;
 
@@ -188,18 +177,12 @@
       if (focusTr) {
         minP = Math.min(minP, focusTr[3], focusTr[5], focusTr[6]);
         maxP = Math.max(maxP, focusTr[3], focusTr[5], focusTr[6]);
-        // tight zoom on the trade bracket so candles look tall
-        var mid = (focusTr[5] + focusTr[6]) / 2;
-        var half = Math.max(Math.abs(focusTr[5] - focusTr[6]) * 0.55, (maxP - minP) * 0.35, 80);
-        minP = Math.min(minP, mid - half);
-        maxP = Math.max(maxP, mid + half);
-      } else {
-        for (var s = start; s <= endIdx; s++) {
-          if (sma[s] < minP) minP = sma[s];
-          if (sma[s] > maxP) maxP = sma[s];
-        }
       }
-      var pad = (maxP - minP) * (mode === "trade" ? 0.06 : 0.1) || 1;
+      for (var s = start; s <= endIdx; s++) {
+        if (sma[s] < minP) minP = sma[s];
+        if (sma[s] > maxP) maxP = sma[s];
+      }
+      var pad = (maxP - minP) * 0.12 || 1;
       minP -= pad; maxP += pad;
 
       var left = 10, right = 72, top = 28, bottom = 28;
@@ -219,7 +202,7 @@
       btcCtx.fillRect(left, top - 22, mode === "trade" ? 118 : 110, 18);
       btcCtx.fillStyle = mode === "trade" ? "#5eead4" : (mode === "event" ? "#ffd54f" : "#8a9aab");
       btcCtx.font = "bold 11px monospace";
-      btcCtx.fillText(mode === "trade" ? "TRADE ZOOM" : (mode === "event" ? "EVENT ZOOM" : "OVERVIEW"), left + 6, top - 9);
+      btcCtx.fillText(mode === "trade" ? "TRADE VIEW" : (mode === "event" ? "EVENT VIEW" : "OVERVIEW"), left + 6, top - 9);
 
       if (ev) {
         btcCtx.fillStyle = "#ffd54f";
@@ -241,8 +224,8 @@
       }
 
       var gap = plotW / n;
-      var cw = Math.max(mode === "trade" ? 14 : 7, gap * (mode === "trade" ? 0.82 : 0.72));
-      var wick = Math.max(mode === "trade" ? 2.2 : 1.6, cw * 0.16);
+      var cw = Math.max(3.5, gap * 0.7);
+      var wick = Math.max(1.2, Math.min(2.5, cw * 0.2));
 
       for (var k = 0; k < n; k++) {
         var ii = start + k;
