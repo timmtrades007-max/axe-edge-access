@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Axe Edge | Capital Brief</title>
-  <meta name="description" content="Verified BTC path: $30k to $845.7M on 1h candles with TP/SL hits." />
+  <meta name="description" content="Axe Edge capital brief: rules-based BTCUSDT execution with verified historical path." />
   <meta property="og:title" content="Axe Edge | Capital Brief" />
-  <meta property="og:description" content="Normal 1h BTC candles, TP/SL hits, equity from $30k to $845.7M." />
+  <meta property="og:description" content="Rules-based BTCUSDT process: limit entries, hard TP/SL, compounding size. Capital brief." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -45,10 +45,27 @@
     .nav-meta { font-family: "JetBrains Mono", monospace; font-size: 0.62rem; color: var(--muted); }
     .hero { padding: 0.55rem 0 0.7rem; }
     .eyebrow { font-family: "JetBrains Mono", monospace; color: var(--accent); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.3rem; }
-    h1 { font-family: "Syne", sans-serif; font-weight: 800; font-size: clamp(1.5rem, 5.2vw, 2.5rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+    h1 { font-family: "Syne", sans-serif; font-weight: 700; font-size: clamp(1.45rem, 4.6vw, 2.25rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
     h1 em { font-style: normal; color: var(--accent); }
     .lede { color: var(--muted); font-weight: 300; font-size: 0.9rem; max-width: 34rem; margin-bottom: 0.55rem; }
-    .hooks { display: none; }
+    .hooks { display: grid; gap: 0.35rem; margin: 0.55rem 0 0.7rem; list-style: none; }
+    .hooks li { font-size: 0.86rem; padding-left: 0.9rem; position: relative; color: var(--ink); }
+    .hooks li::before { content: ""; position: absolute; left: 0; top: 0.5em; width: 0.38rem; height: 0.38rem; background: var(--accent); }
+    .hooks strong { color: var(--accent2); font-weight: 600; }
+    .method {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.55rem;
+      margin: 0.85rem 0 0.2rem;
+    }
+    .method article {
+      border: 1px solid var(--line); background: rgba(14,22,30,0.55);
+      padding: 0.75rem 0.8rem;
+    }
+    .method h3 { font-family: "Syne", sans-serif; font-size: 0.92rem; margin-bottom: 0.3rem; }
+    .method p { color: var(--muted); font-size: 0.8rem; font-weight: 300; line-height: 1.4; }
+    .hero-note {
+      display: block; margin-top: 0.55rem; color: var(--muted);
+      font-size: 0.66rem; font-family: "JetBrains Mono", monospace;
+    }
     .actions { display: flex; gap: 0.45rem; }
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
@@ -59,7 +76,6 @@
     }
     .btn-fill { background: var(--accent); color: #04201a; }
     .btn-ghost { border-color: var(--line); }
-    .hero-note { display: none; }
     #path.stage {
       border-top: 1px solid var(--line);
       background: linear-gradient(180deg, rgba(94,234,212,0.035), transparent 40%);
@@ -127,15 +143,14 @@
       #path.stage { min-height: calc(100svh - 7rem); min-height: calc(100dvh - 7rem); padding: 0.3rem 0 0.45rem; }
       .btc-shell { height: clamp(190px, 40svh, 280px); }
       .eq-shell { height: clamp(64px, 11svh, 96px); }
-      .below { display: none; }
+      .method { grid-template-columns: 1fr; gap: 0.4rem; }
+      .method article { padding: 0.65rem 0.7rem; }
       .speed { display: none; }
+      .mega { font-size: 0.95rem; }
     }
     @media (min-width: 701px) {
-      .hooks { display: grid; gap: 0.3rem; margin-bottom: 0.55rem; list-style: none; }
-      .hooks li { font-size: 0.88rem; padding-left: 0.9rem; position: relative; }
-      .hooks li::before { content: ""; position: absolute; left: 0; top: 0.5em; width: 0.38rem; height: 0.38rem; background: var(--accent); }
-      .hooks strong { color: var(--accent2); }
-      .hero-note { display: block; margin-top: 0.5rem; color: var(--muted); font-size: 0.68rem; font-family: "JetBrains Mono", monospace; }
+      .hooks li { font-size: 0.9rem; }
+      .method { margin-top: 1rem; }
     }
     @media (max-width: 420px) { .live-grid { grid-template-columns: repeat(2, 1fr); } }
   
@@ -194,25 +209,31 @@
 
   <header class="hero">
     <div class="wrap">
-      <p class="eyebrow">Private capital brief · 2022 to 2026</p>
-      <h1>Turned $30k into<br /><em>$845.7 million</em></h1>
-      <p class="lede">Normal 1-hour BTC candles - green up, red down - with take-profit / stop hits and major market events marked.</p>
+      <p class="eyebrow">Private capital brief · BTCUSDT</p>
+      <h1>Rules-based Bitcoin<br /><em>execution</em></h1>
+      <p class="lede">
+        Axe Edge runs a defined BTCUSDT process: limit entries, fixed take-profit and stop levels,
+        and position size that scales with account equity. The replay below is the verified historical path -
+        candles, fills, and equity - not a marketing curve.
+      </p>
       <ul class="hooks">
-        <li><strong>$30,000 → $845.7M</strong> same rules, full cycle.</li>
-        <li><strong>1h chart</strong> with TP / SL levels on real fills.</li>
-        <li><strong>98.4% decisive WR</strong> · max DD 20.2%.</li>
+        <li><strong>Limit entries only.</strong> Price comes to the order. No market-chase fills.</li>
+        <li><strong>Hard TP and SL on every trade.</strong> Exits are planned structure, not discretionary.</li>
+        <li><strong>Size follows equity.</strong> As the account compounds, ticket size steps up with it.</li>
+        <li><strong>Full-cycle evidence.</strong> 2022 through 2026 on real market data, drawdowns included.</li>
       </ul>
       <div class="actions">
-        <button class="btn btn-fill" type="button" id="heroPlay">Watch the path</button>
+        <button class="btn btn-fill" type="button" id="heroPlay">Watch the process</button>
+        <a class="btn btn-ghost" href="#method">How we trade</a>
       </div>
-      <p class="hero-note">2022-01-01 to 2026-09-09 · $845,703,073 · 7,169 trades · 98.40% WR · 20.22% max DD</p>
+      <p class="hero-note">Verified window 2022-01-01 to 2026-09-09 · start $30,000 · path metrics in the readout below</p>
     </div>
   </header>
 
   <section id="path" class="stage">
     <div class="wrap phone-screen">
       <div class="stage-top">
-        <div class="mega">$30k <span>→</span> $845.7M</div>
+        <div class="mega">Equity path <span>·</span> live replay</div>
         <div class="stage-meta">
           <div id="btDate">2022-01-01</div>
           <div id="btStatus">Ready</div>
@@ -272,11 +293,36 @@
     </div>
   </section>
 
+  <section class="below" id="method">
+    <div class="wrap">
+      <p class="kicker">How we trade</p>
+      <h2>The operating model</h2>
+      <p class="lead">
+        This is mechanical BTCUSDT trading on Bybit-style perpetual structure.
+        The chart is there so you can see entries and exits resolve in market time - not to sell a headline number.
+      </p>
+      <div class="method">
+        <article>
+          <h3>1. Signal → limit</h3>
+          <p>When the system arms a trade, it places a limit entry. We wait for price. If it does not fill, there is no chase.</p>
+        </article>
+        <article>
+          <h3>2. Bracket the risk</h3>
+          <p>Each fill carries a take-profit and a stop. Wins and losses are decided by those levels. That is what the live WR counts.</p>
+        </article>
+        <article>
+          <h3>3. Compound the book</h3>
+          <p>As equity builds, order size increases. Early tickets stay small; later tickets are larger. The equity panel is that compounding in motion.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <section class="below" id="metrics">
     <div class="wrap">
-      <p class="kicker">Engine readout</p>
-      <h2>Verified run numbers</h2>
-      <p class="lead">Same path as the 1h chart above.</p>
+      <p class="kicker">Verified readout</p>
+      <h2>Historical path metrics</h2>
+      <p class="lead">Reference figures for the path shown above. Context for diligence - not a promise of future results.</p>
       <div class="meta-grid">
         <article class="meta-card">
           <h3>Result</h3>
