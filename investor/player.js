@@ -68,11 +68,28 @@
     }
 
     var playing = false, idx = 0, timer = null;
-    var TICK = 45;
+    var TICK_FAST = 38;
+    var TICK_TRADE = 220;
+    var TICK_TRADE_EDGE = 420;
+    var TICK_EVENT = 480;
+    var opensAt = new Array(N);
+    for (var oi = 0; oi < N; oi++) opensAt[oi] = false;
+    for (var ot = 0; ot < trades.length; ot++) {
+      var ei = Math.max(0, Math.min(N - 1, trades[ot][0]));
+      opensAt[ei] = true;
+    }
 
     function eventNear(i) {
-      for (var e = 0; e < events.length; e++) if (Math.abs(events[e].i - i) <= 1) return events[e];
+      for (var e = 0; e < events.length; e++) if (Math.abs(events[e].i - i) <= 2) return events[e];
       return null;
+    }
+    function eventDist(i) {
+      var best = 9999;
+      for (var e = 0; e < events.length; e++) {
+        var dd = Math.abs(events[e].i - i);
+        if (dd < best) best = dd;
+      }
+      return best;
     }
     function activeTrade(i) {
       for (var t = trades.length - 1; t >= 0; t--) {
@@ -84,6 +101,33 @@
     function lastClose(i) {
       for (var f = i; f >= 0; f--) if (closesAt[f].length) return closesAt[f][closesAt[f].length - 1];
       return null;
+    }
+    function paceMs(i) {
+      var ed = eventDist(i);
+      if (ed <= 1) return TICK_EVENT;
+      if (ed <= 3) return Math.round(TICK_EVENT * 0.7);
+      var act = activeTrade(i);
+      if (opensAt[i] || (closesAt[i] && closesAt[i].length)) return TICK_TRADE_EDGE;
+      if (act) {
+        var fromOpen = i - act[0];
+        var toClose = act[1] - i;
+        if (fromOpen <= 2 || toClose <= 2) return TICK_TRADE_EDGE;
+        return TICK_TRADE;
+      }
+      // ease in before a nearby open/close/event
+      for (var look = 1; look <= 3; look++) {
+        var j = i + look;
+        if (j < N && (opensAt[j] || (closesAt[j] && closesAt[j].length) || eventDist(j) <= 1)) {
+          return Math.round(TICK_FAST + (TICK_TRADE - TICK_FAST) * (1 - (look - 1) / 3));
+        }
+      }
+      return TICK_FAST;
+    }
+    function paceLabel(i) {
+      if (eventDist(i) <= 2) return "Event focus";
+      if (opensAt[i] || (closesAt[i] && closesAt[i].length)) return "Trade focus";
+      if (activeTrade(i)) return "Trade focus";
+      return "Fast-forward";
     }
 
     var SMA_N = 9;
@@ -242,7 +286,7 @@
       if ($("btPathDd")) $("btPathDd").textContent = "-";
       if ($("btDate")) $("btDate").textContent = (d[i] || "").slice(0, 10);
       if ($("btcNow")) $("btcNow").textContent = fmtPx(c[i]);
-      if ($("btStatus")) $("btStatus").textContent = i >= N - 1 ? "Complete" : (playing ? "Fast-forward" : "Paused");
+      if ($("btStatus")) $("btStatus").textContent = i >= N - 1 ? "Complete" : (playing ? paceLabel(i) : "Paused");
       var box = $("activeBox");
       if (box) {
         if (act) {
@@ -268,21 +312,27 @@
       drawEquity(i);
     }
 
-    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+    function stop() {
+      if (timer) { clearTimeout(timer); timer = null; }
+    }
+    function schedule() {
+      stop();
+      if (!playing) return;
+      timer = setTimeout(tick, paceMs(idx));
+    }
     function tick() {
       if (!playing) return;
       if (idx >= N - 1) { playing = false; stop(); render(idx); return; }
       idx += 1;
       render(idx);
+      if (playing) schedule();
     }
     function play() {
       if (playing) return;
       if (idx >= N - 1) idx = 0;
       playing = true;
-      stop();
-      timer = setInterval(tick, TICK);
       render(idx);
-      if (status) status.textContent = "Fast-forward";
+      schedule();
     }
 
     if ($("btPlay")) $("btPlay").onclick = play;
