@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Axe Edge | Capital Brief</title>
-  <meta name="description" content="Verified BTC path: $30k to $845.7M on 15m candles with TP/SL hits." />
+  <meta name="description" content="Verified BTC path: $30k to $845.7M on 1h candles with TP/SL hits." />
   <meta property="og:title" content="Axe Edge | Capital Brief" />
-  <meta property="og:description" content="Normal 15m BTC candles, TP/SL hits, equity from $30k to $845.7M." />
+  <meta property="og:description" content="Normal 1h BTC candles, TP/SL hits, equity from $30k to $845.7M." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -74,6 +74,8 @@
     .chart-panel { border: 1px solid var(--line); background: var(--panel); padding: 0.45rem 0.5rem 0.5rem; }
     .chart-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.2rem; }
     .chart-head .label { font-family: "JetBrains Mono", monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .chart-head .price-block { text-align: right; }
+    .chart-head .price-block .label { margin-bottom: 0.1rem; }
     .chart-head .price { font-family: "Syne", sans-serif; font-weight: 700; font-size: clamp(1.15rem, 4.5vw, 1.55rem); line-height: 1.1; }
     .legend { display: flex; flex-wrap: wrap; gap: 0.45rem; font-family: "JetBrains Mono", monospace; font-size: 0.56rem; color: var(--muted); margin-top: 0.12rem; }
     .legend i { display: inline-block; width: 0.5rem; height: 0.5rem; margin-right: 0.18rem; vertical-align: -1px; }
@@ -186,7 +188,7 @@
   <div class="wrap">
     <nav class="nav">
       <div class="brand">Axe Edge <span>/</span> Capital</div>
-      <div class="nav-meta">15m BTC chart</div>
+      <div class="nav-meta">1h BTC chart</div>
     </nav>
   </div>
 
@@ -194,10 +196,10 @@
     <div class="wrap">
       <p class="eyebrow">Private capital brief · 2022 to 2026</p>
       <h1>Turned $30k into<br /><em>$845.7 million</em></h1>
-      <p class="lede">Normal 15-minute BTC candles - green up, red down - with take-profit / stop hits and major market events marked.</p>
+      <p class="lede">Normal 1-hour BTC candles - green up, red down - with take-profit / stop hits and major market events marked.</p>
       <ul class="hooks">
         <li><strong>$30,000 → $845.7M</strong> same rules, full cycle.</li>
-        <li><strong>15m chart</strong> with TP / SL levels on real fills.</li>
+        <li><strong>1h chart</strong> with TP / SL levels on real fills.</li>
         <li><strong>98.4% decisive WR</strong> · max DD 20.2%.</li>
       </ul>
       <div class="actions">
@@ -222,7 +224,7 @@
       <div class="chart-panel">
         <div class="chart-head">
           <div>
-            <div class="label">BTC price · 15m</div>
+            <div class="label">1h chart</div>
             <div class="legend">
               <span class="up"><i></i>Up</span>
               <span class="dn"><i></i>Down</span>
@@ -232,7 +234,10 @@
               <span class="ev"><i></i>Event</span>
             </div>
           </div>
-          <div class="price" id="btcNow">-</div>
+          <div class="price-block">
+            <div class="label">BTC price</div>
+            <div class="price" id="btcNow">-</div>
+          </div>
         </div>
         <div class="btc-shell"><canvas id="btcCanvas" width="1200" height="560"></canvas></div>
       </div>
@@ -262,7 +267,7 @@
         <button class="btn btn-fill" type="button" id="btPlay">Play</button>
         <button class="btn btn-ghost" type="button" id="btPause">Pause</button>
         <button class="btn btn-ghost" type="button" id="btReset">Reset</button>
-        <span class="speed">48 x 15m candles · major events highlighted</span>
+        <span class="speed">48 x 1h candles · major events highlighted</span>
       </div>
     </div>
   </section>
@@ -271,7 +276,7 @@
     <div class="wrap">
       <p class="kicker">Engine readout</p>
       <h2>Verified run numbers</h2>
-      <p class="lead">Same path as the 15m chart above.</p>
+      <p class="lead">Same path as the 1h chart above.</p>
       <div class="meta-grid">
         <article class="meta-card">
           <h3>Result</h3>
@@ -310,7 +315,7 @@
       <p class="risk">
         Risk disclosure: Leveraged crypto trading can result in substantial or total loss of capital.
         Path shown is a historical backtest on actual BTCUSDT data (meta 20260909_200417_046558).
-        Chart candles are 15-minute OHLC aggregated from the run bar series. Event markers are major market context, not trade signals.
+        Chart candles are 1-hour OHLC aggregated from the run bar series. Event markers are major market context, not trade signals.
         Not live investor performance, not audited fund returns, not a promise of future results.
       </p>
     </div>
@@ -325,7 +330,7 @@
   var trades = P.trades || [];
   var c15 = P.c15 || [];
   var c15Dates = P.c15_dates || [];
-  var c15Win = P.c15_win || 48;
+  var c15Win = P.c15_win || 96;
   var btcClose = P.btc || [];
   var frames = Math.max(1, equity.length);
   var startEquity = P.start || 30000;
@@ -382,7 +387,7 @@
   var btcCtx = btcCanvas.getContext("2d");
   var eqCtx = eqCanvas.getContext("2d");
 
-  var playing = false, frame = 0, timer = null, FRAME_MS = 200;
+  var playing = false, frame = 0, timer = null, FRAME_MS = 520;
 
   var activeByFrame = new Array(frames);
   for (var ai = 0; ai < frames; ai++) activeByFrame[ai] = [];
@@ -509,7 +514,7 @@
     }
 
     // Candles - TradingView-style green/red
-    var candleW = Math.max(3, (plotW / n) * 0.7);
+    var candleW = Math.max(2.2, (plotW / n) * 0.62);
     for (var i = 0; i < n; i++) {
       var cd = candles[i];
       var up = cd.c >= cd.o;
@@ -673,7 +678,10 @@
       }
       frame += 1;
       if (frame >= frames) { frame = frames - 1; playing = false; stopTimer(); render(frame); return; }
-      if (eventNear(frame)) evHold = 5; // ~1s pause on major events
+      // linger so TP/SL / entries are readable
+      if (eventNear(frame)) evHold = 4;
+      else if ((closesByFrame[frame] || []).length) evHold = 3;
+      else if ((activeByFrame[frame] || []).length) evHold = 2;
       render(frame);
     }, FRAME_MS);
   }
