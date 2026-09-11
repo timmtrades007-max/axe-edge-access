@@ -22,7 +22,7 @@
     }
     var o = P.o, h = P.h, l = P.l, c = P.c, d = P.d, eq = P.eq;
     var N = P.n || o.length;
-    var WIN = P.win || 48;
+    var WIN = 28;
     var trades = P.trades || [];
     var events = P.events || [];
     var startEq = P.start || 30000;
@@ -86,6 +86,17 @@
       return null;
     }
 
+    var SMA_N = 9;
+    var sma = new Array(N);
+    (function () {
+      var sum = 0;
+      for (var i = 0; i < N; i++) {
+        sum += c[i];
+        if (i >= SMA_N) sum -= c[i - SMA_N];
+        sma[i] = i >= SMA_N - 1 ? sum / SMA_N : c[i];
+      }
+    })();
+
     function drawBtc(endIdx) {
       var W = btcCanvas.width, H = btcCanvas.height;
       btcCtx.clearRect(0, 0, W, H);
@@ -95,15 +106,17 @@
       for (var i = start; i <= endIdx; i++) {
         if (l[i] < minP) minP = l[i];
         if (h[i] > maxP) maxP = h[i];
+        if (sma[i] < minP) minP = sma[i];
+        if (sma[i] > maxP) maxP = sma[i];
       }
       var act = activeTrade(endIdx);
       if (act) {
         minP = Math.min(minP, act[3] || minP, act[5] || minP, act[6] || minP);
         maxP = Math.max(maxP, act[3] || maxP, act[5] || maxP, act[6] || maxP);
       }
-      var pad = (maxP - minP) * 0.1 || 1;
+      var pad = (maxP - minP) * 0.08 || 1;
       minP -= pad; maxP += pad;
-      var left = 6, right = 56, top = 24, bottom = 22;
+      var left = 8, right = 58, top = 22, bottom = 24;
       var plotW = W - left - right, plotH = H - top - bottom;
       function X(k) { return left + ((k + 0.5) / n) * plotW; }
       function Y(v) { return top + (1 - (v - minP) / (maxP - minP)) * plotH; }
@@ -122,7 +135,9 @@
       btcCtx.fillText((d[start] || "").slice(2, 10), left, H - 6);
       btcCtx.fillText((d[endIdx] || "").slice(2, 10), W - right - 54, H - 6);
 
-      var cw = Math.max(2, (plotW / n) * 0.65);
+      var gap = plotW / n;
+      var cw = Math.max(4, gap * 0.78);
+      var wick = Math.max(1.5, cw * 0.18);
       for (var k = 0; k < n; k++) {
         var i = start + k;
         var up = c[i] >= o[i];
@@ -130,15 +145,32 @@
         var x = X(k);
         btcCtx.strokeStyle = col;
         btcCtx.fillStyle = col;
-        btcCtx.lineWidth = 1.2;
+        btcCtx.lineWidth = wick;
         btcCtx.beginPath();
         btcCtx.moveTo(x, Y(h[i]));
         btcCtx.lineTo(x, Y(l[i]));
         btcCtx.stroke();
         var y1 = Y(Math.max(o[i], c[i]));
         var y2 = Y(Math.min(o[i], c[i]));
-        btcCtx.fillRect(x - cw / 2, y1, cw, Math.max(1.5, y2 - y1));
+        btcCtx.fillRect(x - cw / 2, y1, cw, Math.max(2.5, y2 - y1));
       }
+
+      // SMA trend line through closes
+      btcCtx.beginPath();
+      btcCtx.lineWidth = 2.4;
+      btcCtx.strokeStyle = "rgba(125,211,252,0.95)";
+      var started = false;
+      for (var k2 = 0; k2 < n; k2++) {
+        var ii = start + k2;
+        var yy = Y(sma[ii]);
+        var xx = X(k2);
+        if (!started) { btcCtx.moveTo(xx, yy); started = true; }
+        else btcCtx.lineTo(xx, yy);
+      }
+      btcCtx.stroke();
+      btcCtx.fillStyle = "rgba(125,211,252,0.95)";
+      btcCtx.font = "10px monospace";
+      btcCtx.fillText("SMA9", left + 6, top + 12);
 
       if (act) {
         function lvl(px, color, tag) {
@@ -149,6 +181,7 @@
           btcCtx.moveTo(left, y);
           btcCtx.lineTo(W - right, y);
           btcCtx.strokeStyle = color;
+          btcCtx.lineWidth = 1.2;
           btcCtx.stroke();
           btcCtx.setLineDash([]);
           btcCtx.fillStyle = color;
