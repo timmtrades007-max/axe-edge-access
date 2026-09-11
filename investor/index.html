@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Axe Edge | Private Investor Brief</title>
+  <meta name="description" content="Private investor brief for Axe Edge: verified BTCUSDT system path from $30,000 (2022) to $845.7M (2026). Not a retail seat offer." />
+  <meta property="og:title" content="Axe Edge | Private Investor Brief" />
+  <meta property="og:description" content="One mandate. One investor conversation. Verified compounding path on BTCUSDT." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #070708;
+      --ink: #f4efe6;
+      --muted: #9a9184;
+      --gold: #c9a56a;
+      --gold-soft: rgba(201, 165, 106, 0.18);
+      --line: rgba(244, 239, 230, 0.12);
+      --danger: #c45c4a;
+      --ok: #b7c4a4;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Sora", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 18% 8%, rgba(201,165,106,0.16), transparent 55%),
+        radial-gradient(ellipse 55% 45% at 88% 18%, rgba(90,70,45,0.22), transparent 50%),
+        linear-gradient(180deg, #0c0b0a 0%, #070708 42%, #050505 100%);
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.045;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .wrap {
+      width: min(1120px, calc(100% - 2.5rem));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    a { color: inherit; }
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 0 0;
+    }
+    .nav-brand {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.35rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .nav-brand span { color: var(--gold); }
+    .nav a.cta {
+      text-decoration: none;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 0.55rem 1rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: background 0.25s, color 0.25s;
+    }
+    .nav a.cta:hover { background: var(--gold); color: #120f0b; }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      align-items: end;
+      padding: 0 0 4.5rem;
+      position: relative;
+    }
+    .hero-inner { padding-top: 18vh; max-width: 920px; }
+    .eyebrow {
+      color: var(--gold);
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+      opacity: 0;
+      animation: rise 1s ease 0.15s forwards;
+    }
+    .hero h1 {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(3.4rem, 9vw, 7.2rem);
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.4rem;
+      opacity: 0;
+      animation: rise 1.1s ease 0.28s forwards;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold);
+      font-weight: 500;
+    }
+    .hero-lede {
+      max-width: 38rem;
+      color: var(--muted);
+      font-weight: 300;
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: rise 1.1s ease 0.45s forwards;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      opacity: 0;
+      animation: rise 1.1s ease 0.6s forwards;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      padding: 0.95rem 1.35rem;
+      font-size: 0.74rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 500;
+      border: 1px solid transparent;
+      transition: transform 0.2s, background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-gold { background: var(--gold); color: #120f0b; }
+    .btn-line { border-color: var(--line); color: var(--ink); }
+    .btn-line:hover { border-color: var(--gold); color: var(--gold); }
+    .hero-note {
+      margin-top: 1.5rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+      opacity: 0;
+      animation: rise 1.1s ease 0.75s forwards;
+    }
+
+    section { padding: 5.5rem 0; position: relative; z-index: 1; }
+    .kicker {
+      color: var(--gold);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+      font-weight: 600;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+    .lead {
+      color: var(--muted);
+      max-width: 40rem;
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+
+    .stage {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(201,165,106,0.05), transparent 35%);
+      padding: 2rem 0 2.4rem;
+    }
+    .stage-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: end;
+      margin-bottom: 1.25rem;
+    }
+    .mega {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(2.8rem, 7vw, 5.2rem);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+    }
+    .mega span { color: var(--gold); }
+    .stage-meta {
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-align: right;
+    }
+    .chart-shell {
+      position: relative;
+      height: clamp(260px, 42vh, 420px);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.015);
+    }
+    canvas { width: 100%; height: 100%; display: block; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.75rem;
+      margin-top: 1.1rem;
+    }
+    .stat {
+      border-top: 1px solid var(--line);
+      padding-top: 0.75rem;
+    }
+    .stat b {
+      display: block;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.55rem;
+      font-weight: 600;
+    }
+    .stat span { color: var(--muted); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; }
+    .controls { display: flex; gap: 0.6rem; margin-top: 1rem; }
+
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .pillar {
+      border-top: 1px solid var(--gold);
+      padding-top: 1.1rem;
+    }
+    .pillar h3 {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.55rem;
+      font-weight: 600;
+      margin-bottom: 0.55rem;
+    }
+    .pillar p { color: var(--muted); font-size: 0.92rem; font-weight: 300; }
+
+    .mandate {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    .mandate-box {
+      border: 1px solid rgba(201,165,106,0.35);
+      background: linear-gradient(160deg, rgba(201,165,106,0.1), rgba(0,0,0,0.2));
+      padding: 1.6rem 1.5rem;
+    }
+    .mandate-box h3 {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.8rem;
+      margin-bottom: 0.8rem;
+    }
+    .mandate-box ol {
+      padding-left: 1.15rem;
+      color: var(--muted);
+      display: grid;
+      gap: 0.55rem;
+      font-size: 0.92rem;
+      font-weight: 300;
+    }
+    .mandate-box a { color: var(--gold); }
+
+    .final {
+      text-align: center;
+      padding-bottom: 6rem;
+    }
+    .final h2 { max-width: 16ch; margin-left: auto; margin-right: auto; }
+    .final .lead { margin-left: auto; margin-right: auto; }
+    .final .hero-actions { justify-content: center; }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 2rem 0 3rem;
+      position: relative;
+      z-index: 1;
+    }
+    footer .risk {
+      color: var(--muted);
+      font-size: 0.78rem;
+      max-width: 52rem;
+      font-weight: 300;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      .stats, .pillars, .mandate { grid-template-columns: 1fr; }
+      .stage-meta { text-align: left; }
+      .hero-inner { padding-top: 12vh; }
+    }
+  
+    .share-bar {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      align-items: stretch;
+    }
+    .share-bar button {
+      border: 1px solid rgba(180, 220, 200, 0.25);
+      background: rgba(10, 18, 16, 0.92);
+      color: #edf6f1;
+      padding: 0.65rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+    .share-bar button:hover { border-color: #3dff9a; }
+    .share-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 1rem;
+      transform: translateX(-50%) translateY(12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+      background: #13201a;
+      color: #edf6f1;
+      border: 1px solid rgba(61,255,154,0.35);
+      padding: 0.55rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      z-index: 60;
+    }
+    .share-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav">
+      <div class="nav-brand">Axe Edge <span>Private</span></div>
+      <a class="cta" href="#converse">Request a conversation</a>
+    </nav>
+  </div>
+
+  <header class="hero">
+    <div class="wrap hero-inner">
+      <p class="eyebrow">Confidential investor brief</p>
+      <h1>Axe Edge.<br /><em>Compounding,</em><br />not theatre.</h1>
+      <p class="hero-lede">
+        A private briefing for one serious capital partner.
+        Not a retail seat product. Not a $16,000 access funnel.
+        A verified BTCUSDT system path - from thirty thousand dollars to eight hundred forty-five million -
+        across the full 2022 crash, recovery, and expansion cycle.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-gold" href="#path">Watch the path</a>
+        <a class="btn btn-line" href="#mandate">How a private mandate works</a>
+      </div>
+      <p class="hero-note">Proof window: 2022-01-01 to 2026-09-09 · Start $30,000 · Final $845.7M · Host-on pack</p>
+    </div>
+  </header>
+
+  <section id="path" class="stage">
+    <div class="wrap">
+      <div class="stage-top">
+        <div>
+          <p class="kicker">Verified replay</p>
+          <div class="mega">$30k <span>to</span> $845.7M</div>
+        </div>
+        <div class="stage-meta">
+          <div id="btDate">2022-01-01</div>
+          <div id="btStatus">Ready</div>
+        </div>
+      </div>
+      <div class="chart-shell">
+        <canvas id="invCanvas" width="1400" height="520"></canvas>
+      </div>
+      <div class="stats">
+        <div class="stat"><b id="btEquity">$30,000</b><span>Equity</span></div>
+        <div class="stat"><b id="btPct">+0.0%</b><span>Growth</span></div>
+        <div class="stat"><b id="btTrades">0</b><span>Closed trades</span></div>
+        <div class="stat"><b id="btWR">-</b><span>Win rate</span></div>
+        <div class="stat"><b id="btWL">- / -</b><span>W / L</span></div>
+      </div>
+      <div class="controls">
+        <button class="btn btn-gold" type="button" id="btPlay">Play path</button>
+        <button class="btn btn-line" type="button" id="btReset">Reset</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="thesis">
+    <div class="wrap">
+      <p class="kicker">Thesis</p>
+      <h2>Built for regimes, not vibes.</h2>
+      <p class="lead">
+        The number is extreme because compounding, leverage, and time stack.
+        The process is not magic: wait for structure, confirm before risking capital,
+        respect dangerous regimes, and keep executing when the edge is present.
+      </p>
+      <div class="pillars">
+        <article class="pillar">
+          <h3>Structure first</h3>
+          <p>Entries are gated by market structure and confirmation - not prediction theatre or influencer narratives.</p>
+        </article>
+        <article class="pillar">
+          <h3>Regime awareness</h3>
+          <p>Dangerous conditions are blocked or hosted. Capital is preserved for the windows that actually pay.</p>
+        </article>
+        <article class="pillar">
+          <h3>Full-cycle proof</h3>
+          <p>This brief uses the 2022-to-now continuous path - including the brutal early years - not a cherry-picked bull-only window.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="mandate">
+    <div class="wrap mandate">
+      <div>
+        <p class="kicker">Engagement</p>
+        <h2>One investor. One conversation.</h2>
+        <p class="lead">
+          There is no public seat price on this page by design.
+          If the path and operating model fit your capital posture, we discuss structure privately:
+          custody on your exchange, risk envelope, reporting cadence, and economics that match a single mandate - not a thousand retail seats.
+        </p>
+        <p class="lead" style="margin-bottom:0">
+          Exchange onboarding still uses our Bybit referral (<strong>QJ5NOR</strong>) so accounts are correctly attributed.
+          Copy / execution access is arranged after the private conversation - not via a checkout form.
+        </p>
+      </div>
+      <div class="mandate-box">
+        <h3>Prerequisites</h3>
+        <ol>
+          <li>Serious capital conversation (not retail seat shopping).</li>
+          <li>Open / bind Bybit with
+            <a href="https://www.bybit.com/invite?ref=QJ5NOR&amp;medium=referral&amp;utm_campaign=evergreen&amp;share_to=link" target="_blank" rel="noopener noreferrer">referral QJ5NOR</a>.</li>
+          <li>Complete KYC. Deposit qualifying funds. Hit Bybit referral trade tasks if you want referral rewards unlocked.</li>
+          <li>We align risk, sizing, and follow / execution access for your account only.</li>
+        </ol>
+        <a class="btn btn-gold" style="margin-top:1.2rem;width:100%" href="#converse">Continue privately</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="final" id="converse">
+    <div class="wrap">
+      <p class="kicker">Next step</p>
+      <h2>If this is for you, say so quietly.</h2>
+      <p class="lead">
+        Reply with a short note: capital range, timeline, and whether you already hold a Bybit account under QJ5NOR.
+        We will not run a public waitlist on this brief. Reply on the private channel where you received this link.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-gold" href="https://www.bybit.com/invite?ref=QJ5NOR&amp;medium=referral&amp;utm_campaign=evergreen&amp;share_to=link" target="_blank" rel="noopener noreferrer">Open Bybit with QJ5NOR</a>
+        <a class="btn btn-line" href="#mandate">Review mandate terms</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="nav-brand" style="margin-bottom:1rem">Axe Edge <span>Private</span></div>
+      <p class="risk">
+        Risk disclosure: Leveraged crypto trading can result in substantial or total loss of capital.
+        The equity path shown is a historical backtest on actual BTCUSDT market data under stated parameters
+        (meta 20260909_200417_046558, final $845,703,073). It is not live investor performance, not audited fund returns,
+        and not a promise of future results. Past performance does not guarantee future results.
+        This page is not an offer of securities, investment advice, or a solicitation to the public.
+        Economics for any private arrangement are discussed bilaterally and are intentionally omitted here.
+      </p>
+    </div>
+  </footer>
+
+<script src="equity_path.js"></script>
+<script>
+(function () {
+  var pathObj = window.AXE_EDGE_INVESTOR_EQUITY_PATH || {};
+  var equity = pathObj.equity || [];
+  var dates = pathObj.dates || [];
+  var frames = Math.max(1, (pathObj.frames || (equity.length - 1)));
+  var startEquity = pathObj.start || 30000;
+  var endEquity = pathObj.end || (equity.length ? equity[equity.length - 1] : startEquity);
+  var totalTrades = pathObj.trades || 0;
+  var totalWins = pathObj.wins || 0;
+  var totalLosses = pathObj.losses || 0;
+  var canvas = document.getElementById("invCanvas");
+  if (!canvas) return;
+  var ctx = canvas.getContext("2d");
+  var points = [];
+  var playing = false;
+  var frame = 0;
+  var raf = null;
+
+  function fmtMoney(n) {
+    if (Math.abs(n) >= 1e9) return "$" + (n / 1e9).toFixed(2) + "B";
+    if (Math.abs(n) >= 1e6) return "$" + (n / 1e6).toFixed(1) + "M";
+    if (Math.abs(n) >= 1e3) return "$" + Math.round(n).toLocaleString("en-US");
+    return "$" + n.toFixed(0);
+  }
+  function fmtPct(n) { return (n >= 0 ? "+" : "") + n.toFixed(1) + "%"; }
+  function equityAtIndex(i) {
+    i = Math.max(0, Math.min(equity.length - 1, i));
+    return equity[i];
+  }
+  function tradesAt(t) { return Math.floor(t * totalTrades); }
+  function winsAt(t) { return Math.floor(t * totalWins); }
+  function lossesAt(t) { return Math.floor(t * totalLosses); }
+
+  function draw() {
+    var w = canvas.width, h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+    if (points.length < 2) return;
+    var min = Math.min.apply(null, points);
+    var max = Math.max.apply(null, points);
+    if (max - min < startEquity * 0.05) {
+      var mid = (max + min) / 2;
+      min = mid - startEquity * 0.03;
+      max = mid + startEquity * 0.03;
+    }
+    var pad = (max - min) * 0.12 || 1;
+    min -= pad; max += pad;
+    function X(i) { return (i / Math.max(1, frames - 1)) * (w - 24) + 12; }
+    function Y(v) { return h - 16 - ((v - min) / (max - min)) * (h - 32); }
+
+    ctx.beginPath();
+    ctx.moveTo(X(0), h);
+    for (var i = 0; i < points.length; i++) ctx.lineTo(X(i), Y(points[i]));
+    ctx.lineTo(X(points.length - 1), h);
+    ctx.closePath();
+    var grad = ctx.createLinearGradient(0, 0, 0, h);
+    grad.addColorStop(0, "rgba(201,165,106,0.28)");
+    grad.addColorStop(1, "rgba(201,165,106,0)");
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    for (var j = 1; j < points.length; j++) {
+      ctx.beginPath();
+      ctx.moveTo(X(j - 1), Y(points[j - 1]));
+      ctx.lineTo(X(j), Y(points[j]));
+      ctx.strokeStyle = points[j] >= points[j - 1] ? "#c9a56a" : "#c45c4a";
+      ctx.lineWidth = 2.4;
+      ctx.lineJoin = "round";
+      ctx.lineCap = "round";
+      ctx.stroke();
+    }
+    var last = points[points.length - 1];
+    ctx.beginPath();
+    ctx.arc(X(points.length - 1), Y(last), 5, 0, Math.PI * 2);
+    ctx.fillStyle = "#f4efe6";
+    ctx.fill();
+  }
+
+  function renderFrame(i) {
+    var t = i / Math.max(1, frames - 1);
+    var eq = equityAtIndex(i);
+    points = [];
+    for (var k = 0; k <= i; k++) points.push(equityAtIndex(k));
+    var pct = ((eq / startEquity) - 1) * 100;
+    var closed = tradesAt(t);
+    var w = winsAt(t);
+    var l = lossesAt(t);
+    var wr = closed > 0 ? (w / closed) * 100 : 0;
+    document.getElementById("btEquity").textContent = fmtMoney(eq);
+    document.getElementById("btPct").textContent = fmtPct(pct);
+    document.getElementById("btTrades").textContent = String(closed);
+    document.getElementById("btWR").textContent = wr.toFixed(1) + "%";
+    document.getElementById("btWL").textContent = w + " / " + l;
+    document.getElementById("btDate").textContent = dates[i] || "";
+    document.getElementById("btStatus").textContent =
+      i >= frames - 1 ? "Complete · verified path" : (playing ? "Playing · full cycle" : "Paused");
+    draw();
+  }
+
+  function tick() {
+    if (!playing) return;
+    frame += 1;
+    if (frame >= frames) {
+      frame = frames - 1;
+      playing = false;
+      renderFrame(frame);
+      return;
+    }
+    renderFrame(frame);
+    raf = requestAnimationFrame(tick);
+  }
+
+  document.getElementById("btPlay").addEventListener("click", function () {
+    if (playing) return;
+    if (frame >= frames - 1) frame = 0;
+    playing = true;
+    raf = requestAnimationFrame(tick);
+  });
+  document.getElementById("btReset").addEventListener("click", function () {
+    playing = false;
+    if (raf) cancelAnimationFrame(raf);
+    frame = 0;
+    renderFrame(0);
+  });
+
+  renderFrame(0);
+})();
+</script>
+
+  <div class="share-bar" aria-label="Share this page">
+    <button type="button" id="shareCopyLink">Copy link</button>
+    <button type="button" id="shareWhatsApp">Share on WhatsApp</button>
+  </div>
+  <div class="share-toast" id="shareToast" aria-live="polite"></div>
+  <script src="share-site.js"></script>
+
+</body>
+</html>
