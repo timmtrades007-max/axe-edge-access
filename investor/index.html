@@ -3,310 +3,240 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Axe Edge | Private Investor Brief</title>
-  <meta name="description" content="Private investor brief for Axe Edge: verified BTCUSDT system path from $30,000 (2022) to $845.7M (2026). Not a retail seat offer." />
-  <meta property="og:title" content="Axe Edge | Private Investor Brief" />
-  <meta property="og:description" content="One mandate. One investor conversation. Verified compounding path on BTCUSDT." />
+  <title>Axe Edge | Capital Brief</title>
+  <meta name="description" content="Axe Edge capital brief: verified BTCUSDT path from $30,000 (2022) to $845.7M (2026). Full-cycle proof with drawdowns and backtest metrics." />
+  <meta property="og:title" content="Axe Edge | Capital Brief" />
+  <meta property="og:description" content="Verified compounding path on BTCUSDT. Serious capital briefing - not a retail seat page." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #070708;
-      --ink: #f4efe6;
-      --muted: #9a9184;
-      --gold: #c9a56a;
-      --gold-soft: rgba(201, 165, 106, 0.18);
-      --line: rgba(244, 239, 230, 0.12);
-      --danger: #c45c4a;
-      --ok: #b7c4a4;
+      --bg: #03050a;
+      --ink: #e8f4ff;
+      --muted: #7f93a8;
+      --cyan: #3de7ff;
+      --cyan-dim: rgba(61, 231, 255, 0.14);
+      --amber: #ffb347;
+      --line: rgba(120, 170, 210, 0.16);
+      --panel: rgba(8, 16, 28, 0.72);
+      --bad: #ff5d6c;
+      --ok: #5dffb0;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: "Sora", system-ui, sans-serif;
+      font-family: "Space Grotesk", system-ui, sans-serif;
       background: var(--bg);
       color: var(--ink);
-      line-height: 1.55;
+      line-height: 1.5;
       overflow-x: hidden;
     }
     body::before {
       content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 70% 50% at 18% 8%, rgba(201,165,106,0.16), transparent 55%),
-        radial-gradient(ellipse 55% 45% at 88% 18%, rgba(90,70,45,0.22), transparent 50%),
-        linear-gradient(180deg, #0c0b0a 0%, #070708 42%, #050505 100%);
+        radial-gradient(ellipse 60% 45% at 12% 0%, rgba(61,231,255,0.16), transparent 55%),
+        radial-gradient(ellipse 50% 40% at 90% 10%, rgba(255,179,71,0.08), transparent 50%),
+        linear-gradient(180deg, #061018 0%, #03050a 50%, #020308 100%);
     }
     body::after {
       content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.045;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(61,231,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(61,231,255,0.04) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 20%, #000 20%, transparent 75%);
     }
-    .wrap {
-      width: min(1120px, calc(100% - 2.5rem));
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
+    .wrap { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; position: relative; z-index: 1; }
     a { color: inherit; }
+
     .nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.4rem 0 0;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.25rem 0 0;
     }
-    .nav-brand {
-      font-family: "Cormorant Garamond", Georgia, serif;
-      font-size: 1.35rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-    .nav-brand span { color: var(--gold); }
-    .nav a.cta {
-      text-decoration: none;
-      border: 1px solid var(--gold);
-      color: var(--gold);
-      padding: 0.55rem 1rem;
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      font-weight: 500;
-      transition: background 0.25s, color 0.25s;
-    }
-    .nav a.cta:hover { background: var(--gold); color: #120f0b; }
-
-    .hero {
-      min-height: 100vh;
-      display: grid;
-      align-items: end;
-      padding: 0 0 4.5rem;
-      position: relative;
-    }
-    .hero-inner { padding-top: 18vh; max-width: 920px; }
-    .eyebrow {
-      color: var(--gold);
-      font-size: 0.72rem;
+    .brand {
+      font-family: "Orbitron", sans-serif;
       letter-spacing: 0.22em;
+      font-size: 0.95rem;
       text-transform: uppercase;
-      margin-bottom: 1.4rem;
-      opacity: 0;
-      animation: rise 1s ease 0.15s forwards;
     }
-    .hero h1 {
-      font-family: "Cormorant Garamond", Georgia, serif;
-      font-weight: 600;
-      font-size: clamp(3.4rem, 9vw, 7.2rem);
-      line-height: 0.92;
-      letter-spacing: -0.02em;
-      margin-bottom: 1.4rem;
-      opacity: 0;
-      animation: rise 1.1s ease 0.28s forwards;
-    }
-    .hero h1 em {
-      font-style: italic;
-      color: var(--gold);
-      font-weight: 500;
-    }
-    .hero-lede {
-      max-width: 38rem;
-      color: var(--muted);
-      font-weight: 300;
-      font-size: 1.05rem;
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: rise 1.1s ease 0.45s forwards;
-    }
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.85rem;
-      opacity: 0;
-      animation: rise 1.1s ease 0.6s forwards;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+    .brand span { color: var(--cyan); }
+    .nav-cta {
       text-decoration: none;
-      padding: 0.95rem 1.35rem;
-      font-size: 0.74rem;
-      letter-spacing: 0.14em;
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      padding: 0.55rem 0.95rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      font-weight: 500;
-      border: 1px solid transparent;
-      transition: transform 0.2s, background 0.2s, color 0.2s, border-color 0.2s;
-    }
-    .btn:hover { transform: translateY(-2px); }
-    .btn-gold { background: var(--gold); color: #120f0b; }
-    .btn-line { border-color: var(--line); color: var(--ink); }
-    .btn-line:hover { border-color: var(--gold); color: var(--gold); }
-    .hero-note {
-      margin-top: 1.5rem;
-      color: var(--muted);
-      font-size: 0.82rem;
-      opacity: 0;
-      animation: rise 1.1s ease 0.75s forwards;
+      font-family: "IBM Plex Mono", monospace;
+      box-shadow: 0 0 18px rgba(61,231,255,0.15);
     }
 
-    section { padding: 5.5rem 0; position: relative; z-index: 1; }
-    .kicker {
-      color: var(--gold);
+    .hero { min-height: 88vh; display: grid; align-items: end; padding-bottom: 3.5rem; }
+    .hero-inner { padding-top: 14vh; max-width: 980px; }
+    .eyebrow {
+      font-family: "IBM Plex Mono", monospace;
+      color: var(--cyan);
       font-size: 0.72rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      margin-bottom: 1rem;
+      margin-bottom: 1.1rem;
+      opacity: 0; animation: rise 0.9s ease 0.1s forwards;
+    }
+    h1 {
+      font-family: "Orbitron", sans-serif;
+      font-weight: 600;
+      font-size: clamp(2.4rem, 6.5vw, 4.8rem);
+      line-height: 1.05;
+      letter-spacing: 0.02em;
+      margin-bottom: 1.2rem;
+      opacity: 0; animation: rise 1s ease 0.25s forwards;
+    }
+    h1 em { font-style: normal; color: var(--cyan); text-shadow: 0 0 28px rgba(61,231,255,0.35); }
+    .lede {
+      max-width: 40rem; color: var(--muted); font-weight: 300; font-size: 1.05rem;
+      margin-bottom: 1.8rem; opacity: 0; animation: rise 1s ease 0.4s forwards;
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; opacity: 0; animation: rise 1s ease 0.55s forwards; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      text-decoration: none; border: 1px solid transparent;
+      padding: 0.9rem 1.2rem; font-size: 0.72rem; letter-spacing: 0.14em;
+      text-transform: uppercase; font-family: "IBM Plex Mono", monospace; font-weight: 500;
+      cursor: pointer; background: transparent; color: var(--ink);
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-cyan { background: var(--cyan); color: #031018; box-shadow: 0 0 24px rgba(61,231,255,0.28); }
+    .btn-ghost { border-color: var(--line); }
+    .btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+    .hero-note {
+      margin-top: 1.35rem; color: var(--muted); font-size: 0.8rem;
+      font-family: "IBM Plex Mono", monospace; opacity: 0; animation: rise 1s ease 0.7s forwards;
+    }
+
+    section { padding: 4.5rem 0; position: relative; z-index: 1; }
+    .kicker {
+      font-family: "IBM Plex Mono", monospace; color: var(--cyan);
+      font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.85rem;
     }
     h2 {
-      font-family: "Cormorant Garamond", Georgia, serif;
-      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
-      font-weight: 600;
-      line-height: 1.05;
-      margin-bottom: 1rem;
-      letter-spacing: -0.02em;
+      font-family: "Orbitron", sans-serif; font-weight: 600;
+      font-size: clamp(1.6rem, 3.5vw, 2.5rem); letter-spacing: 0.04em; margin-bottom: 0.9rem;
     }
-    .lead {
-      color: var(--muted);
-      max-width: 40rem;
-      font-weight: 300;
-      margin-bottom: 2rem;
-    }
+    .lead { color: var(--muted); max-width: 42rem; font-weight: 300; margin-bottom: 1.6rem; }
 
     .stage {
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(201,165,106,0.05), transparent 35%);
-      padding: 2rem 0 2.4rem;
+      border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(61,231,255,0.05), transparent 40%);
+      padding: 2rem 0 2.5rem;
     }
-    .stage-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      flex-wrap: wrap;
-      align-items: end;
-      margin-bottom: 1.25rem;
-    }
+    .stage-top { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: end; margin-bottom: 1rem; }
     .mega {
-      font-family: "Cormorant Garamond", Georgia, serif;
-      font-size: clamp(2.8rem, 7vw, 5.2rem);
-      line-height: 0.95;
-      letter-spacing: -0.03em;
+      font-family: "Orbitron", sans-serif; font-size: clamp(1.7rem, 4.5vw, 3rem);
+      letter-spacing: 0.03em;
     }
-    .mega span { color: var(--gold); }
-    .stage-meta {
-      color: var(--muted);
-      font-size: 0.82rem;
-      text-align: right;
-    }
-    .chart-shell {
-      position: relative;
-      height: clamp(260px, 42vh, 420px);
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.015);
-    }
-    canvas { width: 100%; height: 100%; display: block; }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 0.75rem;
-      margin-top: 1.1rem;
-    }
-    .stat {
-      border-top: 1px solid var(--line);
-      padding-top: 0.75rem;
-    }
-    .stat b {
-      display: block;
-      font-family: "Cormorant Garamond", Georgia, serif;
-      font-size: 1.55rem;
-      font-weight: 600;
-    }
-    .stat span { color: var(--muted); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; }
-    .controls { display: flex; gap: 0.6rem; margin-top: 1rem; }
+    .mega span { color: var(--cyan); }
+    .stage-meta { text-align: right; font-family: "IBM Plex Mono", monospace; color: var(--muted); font-size: 0.78rem; }
 
-    .pillars {
+    .chart-panel {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: inset 0 0 40px rgba(61,231,255,0.04);
+      padding: 0.75rem;
+    }
+    .chart-shell { height: clamp(240px, 38vh, 380px); position: relative; }
+    .dd-shell { height: 88px; margin-top: 0.55rem; border-top: 1px solid var(--line); padding-top: 0.45rem; }
+    .dd-label { font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; color: var(--muted); margin-bottom: 0.25rem; }
+    canvas { width: 100%; height: 100%; display: block; }
+
+    .live-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.65rem;
+      margin-top: 1rem;
+    }
+    .metric {
+      border: 1px solid var(--line);
+      background: rgba(4, 10, 18, 0.65);
+      padding: 0.75rem 0.8rem;
+    }
+    .metric b {
+      display: block;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .metric span {
+      color: var(--muted);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-family: "IBM Plex Mono", monospace;
+    }
+    .metric.hot b { color: var(--cyan); text-shadow: 0 0 12px rgba(61,231,255,0.35); }
+    .metric.warn b { color: var(--amber); }
+    .metric.bad b { color: var(--bad); }
+
+    .controls { display: flex; flex-wrap: wrap; gap: 0.55rem; align-items: center; margin-top: 1rem; }
+    .speed {
+      font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; color: var(--muted);
+      margin-left: 0.35rem;
+    }
+
+    .meta-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-top: 2rem;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
     }
-    .pillar {
-      border-top: 1px solid var(--gold);
-      padding-top: 1.1rem;
+    .meta-card {
+      border-top: 1px solid var(--cyan);
+      padding-top: 0.85rem;
     }
-    .pillar h3 {
-      font-family: "Cormorant Garamond", Georgia, serif;
-      font-size: 1.55rem;
-      font-weight: 600;
-      margin-bottom: 0.55rem;
+    .meta-card h3 {
+      font-family: "Orbitron", sans-serif; font-size: 0.85rem; letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 0.55rem; color: var(--cyan);
     }
-    .pillar p { color: var(--muted); font-size: 0.92rem; font-weight: 300; }
+    .meta-card ul { list-style: none; display: grid; gap: 0.35rem; color: var(--muted); font-size: 0.88rem; }
+    .meta-card li strong { color: var(--ink); font-family: "IBM Plex Mono", monospace; font-weight: 500; }
 
-    .mandate {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 2.5rem;
-      align-items: start;
+    .two {
+      display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 2rem; align-items: start;
     }
-    .mandate-box {
-      border: 1px solid rgba(201,165,106,0.35);
-      background: linear-gradient(160deg, rgba(201,165,106,0.1), rgba(0,0,0,0.2));
-      padding: 1.6rem 1.5rem;
+    .box {
+      border: 1px solid rgba(61,231,255,0.28);
+      background: linear-gradient(160deg, rgba(61,231,255,0.08), rgba(0,0,0,0.25));
+      padding: 1.4rem 1.3rem;
+      box-shadow: 0 0 40px rgba(61,231,255,0.08);
     }
-    .mandate-box h3 {
-      font-family: "Cormorant Garamond", Georgia, serif;
-      font-size: 1.8rem;
-      margin-bottom: 0.8rem;
-    }
-    .mandate-box ol {
-      padding-left: 1.15rem;
-      color: var(--muted);
-      display: grid;
-      gap: 0.55rem;
-      font-size: 0.92rem;
-      font-weight: 300;
-    }
-    .mandate-box a { color: var(--gold); }
+    .box h3 { font-family: "Orbitron", sans-serif; font-size: 1rem; letter-spacing: 0.08em; margin-bottom: 0.8rem; }
+    .box ol { padding-left: 1.15rem; color: var(--muted); display: grid; gap: 0.5rem; font-size: 0.92rem; }
+    .box a { color: var(--cyan); }
 
-    .final {
-      text-align: center;
-      padding-bottom: 6rem;
-    }
-    .final h2 { max-width: 16ch; margin-left: auto; margin-right: auto; }
+    .final { text-align: center; padding-bottom: 5rem; }
+    .final h2 { max-width: 18ch; margin: 0 auto 0.9rem; }
     .final .lead { margin-left: auto; margin-right: auto; }
-    .final .hero-actions { justify-content: center; }
+    .final .actions { justify-content: center; }
 
-    footer {
-      border-top: 1px solid var(--line);
-      padding: 2rem 0 3rem;
-      position: relative;
-      z-index: 1;
-    }
-    footer .risk {
-      color: var(--muted);
-      font-size: 0.78rem;
-      max-width: 52rem;
-      font-weight: 300;
-    }
+    footer { border-top: 1px solid var(--line); padding: 2rem 0 3rem; position: relative; z-index: 1; }
+    footer .risk { color: var(--muted); font-size: 0.76rem; max-width: 58rem; font-weight: 300; }
 
     @keyframes rise {
-      from { opacity: 0; transform: translateY(18px); }
+      from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     @media (max-width: 900px) {
-      .stats, .pillars, .mandate { grid-template-columns: 1fr; }
+      .live-grid, .meta-grid, .two { grid-template-columns: 1fr 1fr; }
       .stage-meta { text-align: left; }
-      .hero-inner { padding-top: 12vh; }
+    }
+    @media (max-width: 560px) {
+      .live-grid, .meta-grid, .two { grid-template-columns: 1fr; }
     }
   
     .share-bar {
@@ -357,26 +287,26 @@
 <body>
   <div class="wrap">
     <nav class="nav">
-      <div class="nav-brand">Axe Edge <span>Private</span></div>
-      <a class="cta" href="#converse">Request a conversation</a>
+      <div class="brand">Axe Edge <span>//</span> Capital</div>
+      <a class="nav-cta" href="#converse">Private discussion</a>
     </nav>
   </div>
 
   <header class="hero">
     <div class="wrap hero-inner">
-      <p class="eyebrow">Confidential investor brief</p>
-      <h1>Axe Edge.<br /><em>Compounding,</em><br />not theatre.</h1>
-      <p class="hero-lede">
-        A private briefing for one serious capital partner.
-        Not a retail seat product. Not a $16,000 access funnel.
-        A verified BTCUSDT system path - from thirty thousand dollars to eight hundred forty-five million -
-        across the full 2022 crash, recovery, and expansion cycle.
+      <p class="eyebrow">Capital brief · verified system path</p>
+      <h1>COMPOUNDING<br />AT <em>MACHINE</em> SCALE</h1>
+      <p class="lede">
+        Axe Edge is a rules-based BTCUSDT system built for serious capital.
+        This brief shows the full-cycle verified path from 2022 through today -
+        including early structure, drawdowns, and the compounding that follows.
+        Not a retail seat checkout. Economics are discussed privately.
       </p>
-      <div class="hero-actions">
-        <a class="btn btn-gold" href="#path">Watch the path</a>
-        <a class="btn btn-line" href="#mandate">How a private mandate works</a>
+      <div class="actions">
+        <a class="btn btn-cyan" href="#path">Run the path</a>
+        <a class="btn btn-ghost" href="#metrics">Backtest metrics</a>
       </div>
-      <p class="hero-note">Proof window: 2022-01-01 to 2026-09-09 · Start $30,000 · Final $845.7M · Host-on pack</p>
+      <p class="hero-note">2022-01-01 → 2026-09-09 · $30,000 start · $845.7M final · host-on pack</p>
     </div>
   </header>
 
@@ -384,111 +314,135 @@
     <div class="wrap">
       <div class="stage-top">
         <div>
-          <p class="kicker">Verified replay</p>
-          <div class="mega">$30k <span>to</span> $845.7M</div>
+          <p class="kicker">Live replay</p>
+          <div class="mega">$30K <span>→</span> $845.7M</div>
         </div>
         <div class="stage-meta">
           <div id="btDate">2022-01-01</div>
-          <div id="btStatus">Ready</div>
+          <div id="btStatus">Ready · log scale (dips visible)</div>
         </div>
       </div>
-      <div class="chart-shell">
-        <canvas id="invCanvas" width="1400" height="520"></canvas>
+
+      <div class="chart-panel">
+        <div class="chart-shell"><canvas id="eqCanvas" width="1400" height="520"></canvas></div>
+        <div class="dd-shell">
+          <div class="dd-label">Underwater vs peak equity (path)</div>
+          <canvas id="ddCanvas" width="1400" height="140"></canvas>
+        </div>
       </div>
-      <div class="stats">
-        <div class="stat"><b id="btEquity">$30,000</b><span>Equity</span></div>
-        <div class="stat"><b id="btPct">+0.0%</b><span>Growth</span></div>
-        <div class="stat"><b id="btTrades">0</b><span>Closed trades</span></div>
-        <div class="stat"><b id="btWR">-</b><span>Win rate</span></div>
-        <div class="stat"><b id="btWL">- / -</b><span>W / L</span></div>
+
+      <div class="live-grid">
+        <div class="metric hot"><b id="btEquity">$30,000</b><span>Equity</span></div>
+        <div class="metric"><b id="btPct">+0.0%</b><span>Growth</span></div>
+        <div class="metric warn"><b id="btPathDd">0.00%</b><span>Path DD now</span></div>
+        <div class="metric bad"><b id="btPathDdMax">0.00%</b><span>Path DD max</span></div>
+        <div class="metric"><b id="btTrades">0</b><span>Closed trades</span></div>
+        <div class="metric hot"><b id="btWR">-</b><span>Decisive WR</span></div>
+        <div class="metric"><b id="btWL">- / -</b><span>Wins / Losses</span></div>
+        <div class="metric"><b id="btHosts">-</b><span>Host closes (excl.)</span></div>
       </div>
+
       <div class="controls">
-        <button class="btn btn-gold" type="button" id="btPlay">Play path</button>
-        <button class="btn btn-line" type="button" id="btReset">Reset</button>
+        <button class="btn btn-cyan" type="button" id="btPlay">Play path</button>
+        <button class="btn btn-ghost" type="button" id="btPause">Pause</button>
+        <button class="btn btn-ghost" type="button" id="btReset">Reset</button>
+        <span class="speed" id="btSpeed">Slow replay · ~18s full cycle</span>
       </div>
     </div>
   </section>
 
-  <section id="thesis">
+  <section id="metrics">
     <div class="wrap">
-      <p class="kicker">Thesis</p>
-      <h2>Built for regimes, not vibes.</h2>
+      <p class="kicker">Backtester readout</p>
+      <h2>Same class of numbers you see in-run</h2>
       <p class="lead">
-        The number is extreme because compounding, leverage, and time stack.
-        The process is not magic: wait for structure, confirm before risking capital,
-        respect dangerous regimes, and keep executing when the edge is present.
+        Decisive win rate uses wins / (wins + losses). Host placeholder closes are tracked separately and excluded from that W/L -
+        that is why “wins / all closes” looks lower (~79%) and should not be sold as the strategy win rate.
       </p>
-      <div class="pillars">
-        <article class="pillar">
-          <h3>Structure first</h3>
-          <p>Entries are gated by market structure and confirmation - not prediction theatre or influencer narratives.</p>
+      <div class="meta-grid">
+        <article class="meta-card">
+          <h3>Result</h3>
+          <ul>
+            <li>Final balance: <strong id="mFinal">$845.7M</strong></li>
+            <li>Total PnL: <strong id="mPnl">-</strong></li>
+            <li>Commission: <strong id="mFee">-</strong></li>
+            <li>Multiple: <strong id="mMult">-</strong></li>
+          </ul>
         </article>
-        <article class="pillar">
-          <h3>Regime awareness</h3>
-          <p>Dangerous conditions are blocked or hosted. Capital is preserved for the windows that actually pay.</p>
+        <article class="meta-card">
+          <h3>Risk</h3>
+          <ul>
+            <li>Max DD (Profit): <strong id="mDdProfit">-</strong></li>
+            <li>Max DD (Acc): <strong id="mDdAcc">-</strong></li>
+            <li>Max DD (Acc+Unrl): <strong id="mDdAccU">-</strong></li>
+            <li>Min Acc / Acc+Unrl: <strong id="mMin">-</strong></li>
+          </ul>
         </article>
-        <article class="pillar">
-          <h3>Full-cycle proof</h3>
-          <p>This brief uses the 2022-to-now continuous path - including the brutal early years - not a cherry-picked bull-only window.</p>
+        <article class="meta-card">
+          <h3>Trade quality</h3>
+          <ul>
+            <li>Trades: <strong id="mTrades">-</strong></li>
+            <li>Decisive WR: <strong id="mWR">-</strong></li>
+            <li>W / L: <strong id="mWL">-</strong></li>
+            <li>Host closes: <strong id="mHosts">-</strong></li>
+          </ul>
         </article>
       </div>
+      <p class="lead" style="margin-top:1.4rem;margin-bottom:0;font-size:0.85rem;font-family:IBM Plex Mono,monospace" id="mHash"></p>
     </div>
   </section>
 
   <section id="mandate">
-    <div class="wrap mandate">
+    <div class="wrap two">
       <div>
         <p class="kicker">Engagement</p>
-        <h2>One investor. One conversation.</h2>
+        <h2>Built for serious capital</h2>
         <p class="lead">
-          There is no public seat price on this page by design.
-          If the path and operating model fit your capital posture, we discuss structure privately:
-          custody on your exchange, risk envelope, reporting cadence, and economics that match a single mandate - not a thousand retail seats.
+          This page is a capital brief - not a public seat storefront and not a claim that capacity is limited to a single partner.
+          If the path and operating model fit, we discuss structure privately: custody on your exchange, risk envelope, reporting, and economics.
         </p>
         <p class="lead" style="margin-bottom:0">
-          Exchange onboarding still uses our Bybit referral (<strong>QJ5NOR</strong>) so accounts are correctly attributed.
-          Copy / execution access is arranged after the private conversation - not via a checkout form.
+          Exchange accounts should still open / bind with referral <strong>QJ5NOR</strong> so attribution is clean before any execution access is arranged.
         </p>
       </div>
-      <div class="mandate-box">
+      <div class="box">
         <h3>Prerequisites</h3>
         <ol>
-          <li>Serious capital conversation (not retail seat shopping).</li>
-          <li>Open / bind Bybit with
-            <a href="https://www.bybit.com/invite?ref=QJ5NOR&amp;medium=referral&amp;utm_campaign=evergreen&amp;share_to=link" target="_blank" rel="noopener noreferrer">referral QJ5NOR</a>.</li>
-          <li>Complete KYC. Deposit qualifying funds. Hit Bybit referral trade tasks if you want referral rewards unlocked.</li>
-          <li>We align risk, sizing, and follow / execution access for your account only.</li>
+          <li>Open Bybit with
+            <a href="https://www.bybit.com/invite?ref=QJ5NOR&amp;medium=referral&amp;utm_campaign=evergreen&amp;share_to=link" target="_blank" rel="noopener noreferrer">QJ5NOR</a>.</li>
+          <li>Complete KYC. Fund the account. Clear Bybit referral deposit / trade tasks if you want referral rewards unlocked.</li>
+          <li>Private discussion on risk, sizing, and access.</li>
+          <li>Execution / copy access only after alignment - not via a public checkout.</li>
         </ol>
-        <a class="btn btn-gold" style="margin-top:1.2rem;width:100%" href="#converse">Continue privately</a>
+        <a class="btn btn-cyan" style="margin-top:1.1rem;width:100%" href="#converse">Continue</a>
       </div>
     </div>
   </section>
 
   <section class="final" id="converse">
     <div class="wrap">
-      <p class="kicker">Next step</p>
-      <h2>If this is for you, say so quietly.</h2>
+      <p class="kicker">Next</p>
+      <h2>Request a private discussion</h2>
       <p class="lead">
-        Reply with a short note: capital range, timeline, and whether you already hold a Bybit account under QJ5NOR.
-        We will not run a public waitlist on this brief. Reply on the private channel where you received this link.
+        Reply on the channel where you received this link with capital range and timeline.
+        Include whether Bybit is already open under QJ5NOR.
       </p>
-      <div class="hero-actions">
-        <a class="btn btn-gold" href="https://www.bybit.com/invite?ref=QJ5NOR&amp;medium=referral&amp;utm_campaign=evergreen&amp;share_to=link" target="_blank" rel="noopener noreferrer">Open Bybit with QJ5NOR</a>
-        <a class="btn btn-line" href="#mandate">Review mandate terms</a>
+      <div class="actions">
+        <a class="btn btn-cyan" href="https://www.bybit.com/invite?ref=QJ5NOR&amp;medium=referral&amp;utm_campaign=evergreen&amp;share_to=link" target="_blank" rel="noopener noreferrer">Open Bybit · QJ5NOR</a>
+        <a class="btn btn-ghost" href="#path">Replay the path</a>
       </div>
     </div>
   </section>
 
   <footer>
     <div class="wrap">
-      <div class="nav-brand" style="margin-bottom:1rem">Axe Edge <span>Private</span></div>
+      <div class="brand" style="margin-bottom:1rem">Axe Edge <span>//</span> Capital</div>
       <p class="risk">
         Risk disclosure: Leveraged crypto trading can result in substantial or total loss of capital.
-        The equity path shown is a historical backtest on actual BTCUSDT market data under stated parameters
-        (meta 20260909_200417_046558, final $845,703,073). It is not live investor performance, not audited fund returns,
-        and not a promise of future results. Past performance does not guarantee future results.
-        This page is not an offer of securities, investment advice, or a solicitation to the public.
-        Economics for any private arrangement are discussed bilaterally and are intentionally omitted here.
+        Path shown is a historical backtest on actual BTCUSDT data (meta 20260909_200417_046558; final $845,703,073; decisive WR 98.40%; Max DD Profit 20.22%).
+        Not live investor performance, not audited fund returns, not a promise of future results.
+        Past performance does not guarantee future results. Not an offer of securities or investment advice.
+        Commercial terms for any arrangement are discussed bilaterally and are intentionally omitted here.
       </p>
     </div>
   </footer>
@@ -496,130 +450,199 @@
 <script src="equity_path.js"></script>
 <script>
 (function () {
-  var pathObj = window.AXE_EDGE_INVESTOR_EQUITY_PATH || {};
-  var equity = pathObj.equity || [];
-  var dates = pathObj.dates || [];
-  var frames = Math.max(1, (pathObj.frames || (equity.length - 1)));
-  var startEquity = pathObj.start || 30000;
-  var endEquity = pathObj.end || (equity.length ? equity[equity.length - 1] : startEquity);
-  var totalTrades = pathObj.trades || 0;
-  var totalWins = pathObj.wins || 0;
-  var totalLosses = pathObj.losses || 0;
-  var canvas = document.getElementById("invCanvas");
-  if (!canvas) return;
-  var ctx = canvas.getContext("2d");
-  var points = [];
-  var playing = false;
-  var frame = 0;
-  var raf = null;
+  var P = window.AXE_EDGE_INVESTOR_EQUITY_PATH || {};
+  var equity = P.equity || [];
+  var dates = P.dates || [];
+  var ddPath = P.drawdown_pct_path || [];
+  var frames = Math.max(1, P.frames || Math.max(0, equity.length - 1));
+  var startEquity = P.start || 30000;
+  var totalTrades = P.trades || 0;
+  var totalWins = P.wins || 0;
+  var totalLosses = P.losses || 0;
+  var hosts = P.steep_host_closes || Math.max(0, totalTrades - totalWins - totalLosses);
+  var decisiveWR = P.win_rate_decisive != null ? P.win_rate_decisive : (totalWins + totalLosses ? 100 * totalWins / (totalWins + totalLosses) : 0);
 
   function fmtMoney(n) {
-    if (Math.abs(n) >= 1e9) return "$" + (n / 1e9).toFixed(2) + "B";
-    if (Math.abs(n) >= 1e6) return "$" + (n / 1e6).toFixed(1) + "M";
-    if (Math.abs(n) >= 1e3) return "$" + Math.round(n).toLocaleString("en-US");
-    return "$" + n.toFixed(0);
+    var a = Math.abs(n);
+    if (a >= 1e9) return "$" + (n / 1e9).toFixed(2) + "B";
+    if (a >= 1e6) return "$" + (n / 1e6).toFixed(1) + "M";
+    if (a >= 1e3) return "$" + Math.round(n).toLocaleString("en-US");
+    return "$" + Number(n).toFixed(0);
   }
-  function fmtPct(n) { return (n >= 0 ? "+" : "") + n.toFixed(1) + "%"; }
-  function equityAtIndex(i) {
-    i = Math.max(0, Math.min(equity.length - 1, i));
-    return equity[i];
-  }
+  function fmtPct(n, d) { d = d == null ? 1 : d; return (n >= 0 ? "+" : "") + Number(n).toFixed(d) + "%"; }
+  function fmtPctAbs(n, d) { d = d == null ? 2 : d; return Number(n).toFixed(d) + "%"; }
+
+  // static metrics panel
+  document.getElementById("mFinal").textContent = fmtMoney(P.end || 0);
+  document.getElementById("mPnl").textContent = fmtMoney(P.total_pnl || 0);
+  document.getElementById("mFee").textContent = fmtMoney(P.total_commission || 0);
+  document.getElementById("mMult").textContent = ((P.end || 0) / (P.start || 1)).toFixed(0) + "x";
+  document.getElementById("mDdProfit").textContent = fmtPctAbs(P.max_drawdown_profit_ex_unrl_pct || 0);
+  document.getElementById("mDdAcc").textContent = fmtPctAbs(P.max_drawdown_balance_ex_unrl_pct || 0);
+  document.getElementById("mDdAccU").textContent = fmtPctAbs(P.max_drawdown_balance_plus_unrl_pct || 0);
+  document.getElementById("mMin").textContent = fmtMoney(P.min_balance_ex_unrl || 0) + " / " + fmtMoney(P.min_balance_plus_unrl || 0);
+  document.getElementById("mTrades").textContent = String(totalTrades);
+  document.getElementById("mWR").textContent = fmtPctAbs(decisiveWR, 2);
+  document.getElementById("mWL").textContent = totalWins + " / " + totalLosses;
+  document.getElementById("mHosts").textContent = String(hosts);
+  document.getElementById("mHash").textContent =
+    "engine " + (P.engine || "?") + " · params_hash16 " + (P.params_hash16 || "?") +
+    " · decisive WR " + fmtPctAbs(decisiveWR, 2) +
+    " · wins/all-closes " + fmtPctAbs(P.win_rate_of_all_closes_pct || 0, 2) + " (includes host flats)";
+
+  var eqCanvas = document.getElementById("eqCanvas");
+  var ddCanvas = document.getElementById("ddCanvas");
+  if (!eqCanvas || !ddCanvas) return;
+  var eqCtx = eqCanvas.getContext("2d");
+  var ddCtx = ddCanvas.getContext("2d");
+
+  var playing = false;
+  var frame = 0;
+  var timer = null;
+  // Slow: ~75ms/frame * 240 ≈ 18s
+  var FRAME_MS = 75;
+
+  function equityAt(i) { return equity[Math.max(0, Math.min(equity.length - 1, i))]; }
+  function ddAt(i) { return ddPath[Math.max(0, Math.min(ddPath.length - 1, i))] || 0; }
   function tradesAt(t) { return Math.floor(t * totalTrades); }
   function winsAt(t) { return Math.floor(t * totalWins); }
   function lossesAt(t) { return Math.floor(t * totalLosses); }
 
-  function draw() {
-    var w = canvas.width, h = canvas.height;
-    ctx.clearRect(0, 0, w, h);
-    if (points.length < 2) return;
-    var min = Math.min.apply(null, points);
-    var max = Math.max.apply(null, points);
-    if (max - min < startEquity * 0.05) {
-      var mid = (max + min) / 2;
-      min = mid - startEquity * 0.03;
-      max = mid + startEquity * 0.03;
+  function drawEquity(upto) {
+    var w = eqCanvas.width, h = eqCanvas.height;
+    eqCtx.clearRect(0, 0, w, h);
+    var pts = [];
+    for (var i = 0; i <= upto; i++) pts.push(equityAt(i));
+    if (pts.length < 2) return;
+    // log scale so early dips remain visible while late compounding explodes
+    var logs = pts.map(function (v) { return Math.log10(Math.max(v, 1)); });
+    var minL = Math.min.apply(null, logs);
+    var maxL = Math.max.apply(null, logs);
+    if (maxL - minL < 0.05) { maxL += 0.05; minL -= 0.02; }
+    var pad = (maxL - minL) * 0.08;
+    minL -= pad; maxL += pad;
+    function X(i) { return (i / Math.max(1, frames - 1)) * (w - 28) + 14; }
+    function Y(v) {
+      var lv = Math.log10(Math.max(v, 1));
+      return h - 18 - ((lv - minL) / (maxL - minL)) * (h - 36);
     }
-    var pad = (max - min) * 0.12 || 1;
-    min -= pad; max += pad;
-    function X(i) { return (i / Math.max(1, frames - 1)) * (w - 24) + 12; }
-    function Y(v) { return h - 16 - ((v - min) / (max - min)) * (h - 32); }
-
-    ctx.beginPath();
-    ctx.moveTo(X(0), h);
-    for (var i = 0; i < points.length; i++) ctx.lineTo(X(i), Y(points[i]));
-    ctx.lineTo(X(points.length - 1), h);
-    ctx.closePath();
-    var grad = ctx.createLinearGradient(0, 0, 0, h);
-    grad.addColorStop(0, "rgba(201,165,106,0.28)");
-    grad.addColorStop(1, "rgba(201,165,106,0)");
-    ctx.fillStyle = grad;
-    ctx.fill();
-
-    for (var j = 1; j < points.length; j++) {
-      ctx.beginPath();
-      ctx.moveTo(X(j - 1), Y(points[j - 1]));
-      ctx.lineTo(X(j), Y(points[j]));
-      ctx.strokeStyle = points[j] >= points[j - 1] ? "#c9a56a" : "#c45c4a";
-      ctx.lineWidth = 2.4;
-      ctx.lineJoin = "round";
-      ctx.lineCap = "round";
-      ctx.stroke();
+    eqCtx.beginPath();
+    eqCtx.moveTo(X(0), h);
+    for (var j = 0; j < pts.length; j++) eqCtx.lineTo(X(j), Y(pts[j]));
+    eqCtx.lineTo(X(pts.length - 1), h);
+    eqCtx.closePath();
+    var g = eqCtx.createLinearGradient(0, 0, 0, h);
+    g.addColorStop(0, "rgba(61,231,255,0.28)");
+    g.addColorStop(1, "rgba(61,231,255,0)");
+    eqCtx.fillStyle = g;
+    eqCtx.fill();
+    for (var k = 1; k < pts.length; k++) {
+      eqCtx.beginPath();
+      eqCtx.moveTo(X(k - 1), Y(pts[k - 1]));
+      eqCtx.lineTo(X(k), Y(pts[k]));
+      eqCtx.strokeStyle = pts[k] >= pts[k - 1] ? "#3de7ff" : "#ff5d6c";
+      eqCtx.lineWidth = 2.3;
+      eqCtx.lineJoin = "round";
+      eqCtx.stroke();
     }
-    var last = points[points.length - 1];
-    ctx.beginPath();
-    ctx.arc(X(points.length - 1), Y(last), 5, 0, Math.PI * 2);
-    ctx.fillStyle = "#f4efe6";
-    ctx.fill();
+    eqCtx.beginPath();
+    eqCtx.arc(X(pts.length - 1), Y(pts[pts.length - 1]), 4.5, 0, Math.PI * 2);
+    eqCtx.fillStyle = "#e8f4ff";
+    eqCtx.fill();
   }
 
-  function renderFrame(i) {
+  function drawDd(upto) {
+    var w = ddCanvas.width, h = ddCanvas.height;
+    ddCtx.clearRect(0, 0, w, h);
+    var pts = [];
+    for (var i = 0; i <= upto; i++) pts.push(ddAt(i));
+    if (pts.length < 2) return;
+    var maxD = Math.max(1, Math.max.apply(null, pts));
+    function X(i) { return (i / Math.max(1, frames - 1)) * (w - 28) + 14; }
+    function Y(v) { return 8 + (v / maxD) * (h - 20); }
+    ddCtx.beginPath();
+    ddCtx.moveTo(X(0), 8);
+    for (var j = 0; j < pts.length; j++) ddCtx.lineTo(X(j), Y(pts[j]));
+    ddCtx.lineTo(X(pts.length - 1), 8);
+    ddCtx.closePath();
+    ddCtx.fillStyle = "rgba(255,93,108,0.22)";
+    ddCtx.fill();
+    ddCtx.beginPath();
+    for (var k = 0; k < pts.length; k++) {
+      if (k === 0) ddCtx.moveTo(X(k), Y(pts[k]));
+      else ddCtx.lineTo(X(k), Y(pts[k]));
+    }
+    ddCtx.strokeStyle = "#ff5d6c";
+    ddCtx.lineWidth = 1.8;
+    ddCtx.stroke();
+  }
+
+  function render(i) {
     var t = i / Math.max(1, frames - 1);
-    var eq = equityAtIndex(i);
-    points = [];
-    for (var k = 0; k <= i; k++) points.push(equityAtIndex(k));
+    var eq = equityAt(i);
     var pct = ((eq / startEquity) - 1) * 100;
     var closed = tradesAt(t);
     var w = winsAt(t);
     var l = lossesAt(t);
-    var wr = closed > 0 ? (w / closed) * 100 : 0;
+    var decisiveSoFar = (w + l) > 0 ? (100 * w / (w + l)) : 0;
+    var pathDd = ddAt(i);
+    var pathDdMax = 0;
+    for (var d = 0; d <= i; d++) pathDdMax = Math.max(pathDdMax, ddAt(d));
+
     document.getElementById("btEquity").textContent = fmtMoney(eq);
-    document.getElementById("btPct").textContent = fmtPct(pct);
+    document.getElementById("btPct").textContent = fmtPct(pct, 1);
+    document.getElementById("btPathDd").textContent = fmtPctAbs(pathDd, 2);
+    document.getElementById("btPathDdMax").textContent = fmtPctAbs(pathDdMax, 2);
     document.getElementById("btTrades").textContent = String(closed);
-    document.getElementById("btWR").textContent = wr.toFixed(1) + "%";
+    document.getElementById("btWR").textContent = fmtPctAbs(decisiveSoFar, 2);
     document.getElementById("btWL").textContent = w + " / " + l;
+    document.getElementById("btHosts").textContent = String(Math.floor(t * hosts));
     document.getElementById("btDate").textContent = dates[i] || "";
     document.getElementById("btStatus").textContent =
-      i >= frames - 1 ? "Complete · verified path" : (playing ? "Playing · full cycle" : "Paused");
-    draw();
+      i >= frames - 1 ? "Complete · log equity + DD strip" : (playing ? "Playing slow · watch dips" : "Paused");
+
+    drawEquity(i);
+    drawDd(i);
   }
 
-  function tick() {
-    if (!playing) return;
-    frame += 1;
-    if (frame >= frames) {
-      frame = frames - 1;
-      playing = false;
-      renderFrame(frame);
-      return;
-    }
-    renderFrame(frame);
-    raf = requestAnimationFrame(tick);
+  function stopTimer() {
+    if (timer) { clearInterval(timer); timer = null; }
+  }
+  function startTimer() {
+    stopTimer();
+    timer = setInterval(function () {
+      if (!playing) return;
+      frame += 1;
+      if (frame >= frames) {
+        frame = frames - 1;
+        playing = false;
+        stopTimer();
+        render(frame);
+        return;
+      }
+      render(frame);
+    }, FRAME_MS);
   }
 
   document.getElementById("btPlay").addEventListener("click", function () {
     if (playing) return;
     if (frame >= frames - 1) frame = 0;
     playing = true;
-    raf = requestAnimationFrame(tick);
+    startTimer();
+  });
+  document.getElementById("btPause").addEventListener("click", function () {
+    playing = false;
+    stopTimer();
+    render(frame);
   });
   document.getElementById("btReset").addEventListener("click", function () {
     playing = false;
-    if (raf) cancelAnimationFrame(raf);
+    stopTimer();
     frame = 0;
-    renderFrame(0);
+    render(0);
   });
 
-  renderFrame(0);
+  render(0);
 })();
 </script>
 
