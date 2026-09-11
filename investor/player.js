@@ -431,17 +431,35 @@
       fullCtx.fillStyle = "rgba(125,211,252,0.08)";
       fullCtx.fill();
 
-      // trade entries
-      for (var t = 0; t < trades.length; t++) {
-        var tr = trades[t];
-        var ti = Math.max(0, Math.min(N - 1, tr[0]));
-        var winHit = tr[8] === 1;
-        var lossHit = tr[8] === 2;
-        fullCtx.beginPath();
-        fullCtx.arc(X(ti), Y(tr[3] || c[ti]), winHit || lossHit ? 3.2 : 2.4, 0, Math.PI * 2);
-        fullCtx.fillStyle = winHit ? "#66bb6a" : (lossHit ? "#ef5350" : "#5eead4");
-        fullCtx.fill();
+      // ALL trade entries on the path (wins on top)
+      var mapN = trades.length;
+      for (var pass = 0; pass < 2; pass++) {
+        for (var t = 0; t < mapN; t++) {
+          var tr = trades[t];
+          var winHit = tr[8] === 1;
+          var lossHit = tr[8] === 2;
+          if (pass === 0 && winHit) continue;
+          if (pass === 1 && !winHit) continue;
+          var ti = Math.max(0, Math.min(N - 1, tr[0]));
+          var px = tr[3] || c[ti];
+          var xx = X(ti);
+          var yy = Y(px);
+          // stem so dense clusters still show on the timeline
+          fullCtx.strokeStyle = winHit ? "rgba(102,187,106,0.35)" : (lossHit ? "rgba(239,83,80,0.4)" : "rgba(94,234,212,0.3)");
+          fullCtx.lineWidth = 1;
+          fullCtx.beginPath();
+          fullCtx.moveTo(xx, yy - 7);
+          fullCtx.lineTo(xx, yy + 7);
+          fullCtx.stroke();
+          fullCtx.beginPath();
+          fullCtx.arc(xx, yy, winHit ? 2.4 : 2.1, 0, Math.PI * 2);
+          fullCtx.fillStyle = winHit ? "#66bb6a" : (lossHit ? "#ef5350" : "#5eead4");
+          fullCtx.fill();
+        }
       }
+      fullCtx.fillStyle = "#eef3f7";
+      fullCtx.font = "bold 11px monospace";
+      fullCtx.fillText(String(mapN) + " entries marked", left + 6, top + plotH - 8);
 
       // axis labels
       fullCtx.fillStyle = "#8a9aab";
