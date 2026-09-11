@@ -164,15 +164,18 @@
       var justClosed = (closesAt[endIdx] && closesAt[endIdx].length) ? closesAt[endIdx][closesAt[endIdx].length - 1] : null;
       var focusTr = act || justClosed || null;
 
-      // Keep entry candle in view during trade zoom
+      // Trade zoom: keep candle count low so bodies stay large
       var start = Math.max(0, endIdx - win + 1);
       if (focusTr && mode === "trade") {
-        var wantStart = Math.max(0, focusTr[0] - 2);
-        var wantEnd = Math.min(N - 1, Math.max(endIdx, focusTr[0] + 1));
-        if (focusTr[1] <= endIdx) wantEnd = Math.min(N - 1, focusTr[1] + 1);
-        start = wantStart;
-        if (wantEnd - start + 1 > win) start = Math.max(0, wantEnd - win + 1);
-        endIdx = Math.min(endIdx, wantEnd);
+        var entry = focusTr[0];
+        var exitI = focusTr[1];
+        if (endIdx <= entry + win - 3) {
+          start = Math.max(0, entry - 2);
+        } else if (endIdx >= exitI && (exitI - entry + 3) <= win) {
+          start = Math.max(0, entry - 2);
+        } else {
+          start = Math.max(0, endIdx - win + 1);
+        }
       }
       var n = endIdx - start + 1;
       if (n < 1) return;
