@@ -22,12 +22,13 @@
     }
     var o = P.o, h = P.h, l = P.l, c = P.c, d = P.d, eq = P.eq;
     var N = P.n || o.length;
-    var WIN = 28;
+    var WIN_FAST = 18;
+    var WIN_TRADE = 11;
+    var WIN_EVENT = 14;
     var trades = P.trades || [];
     var events = P.events || [];
     var startEq = P.start || 30000;
 
-    // metrics (safe)
     try {
       if ($("mFinal")) $("mFinal").textContent = fmtMoney(P.end);
       if ($("mMult")) $("mMult").textContent = ((P.end || 0) / startEq).toFixed(0) + "x";
@@ -68,15 +69,14 @@
     }
 
     var playing = false, idx = 0, timer = null;
-    var TICK_FAST = 38;
-    var TICK_TRADE = 220;
-    var TICK_TRADE_EDGE = 420;
-    var TICK_EVENT = 480;
+    var TICK_FAST = 42;
+    var TICK_TRADE = 260;
+    var TICK_TRADE_EDGE = 520;
+    var TICK_EVENT = 520;
     var opensAt = new Array(N);
     for (var oi = 0; oi < N; oi++) opensAt[oi] = false;
     for (var ot = 0; ot < trades.length; ot++) {
-      var ei = Math.max(0, Math.min(N - 1, trades[ot][0]));
-      opensAt[ei] = true;
+      opensAt[Math.max(0, Math.min(N - 1, trades[ot][0]))] = true;
     }
 
     function eventNear(i) {
@@ -102,6 +102,21 @@
       for (var f = i; f >= 0; f--) if (closesAt[f].length) return closesAt[f][closesAt[f].length - 1];
       return null;
     }
+    function focusMode(i) {
+      if (eventDist(i) <= 2) return "event";
+      if (opensAt[i] || (closesAt[i] && closesAt[i].length) || activeTrade(i)) return "trade";
+      for (var look = 1; look <= 2; look++) {
+        var j = i + look;
+        if (j < N && (opensAt[j] || (closesAt[j] && closesAt[j].length))) return "trade";
+      }
+      return "fast";
+    }
+    function windowFor(i) {
+      var m = focusMode(i);
+      if (m === "trade") return WIN_TRADE;
+      if (m === "event") return WIN_EVENT;
+      return WIN_FAST;
+    }
     function paceMs(i) {
       var ed = eventDist(i);
       if (ed <= 1) return TICK_EVENT;
@@ -114,7 +129,6 @@
         if (fromOpen <= 2 || toClose <= 2) return TICK_TRADE_EDGE;
         return TICK_TRADE;
       }
-      // ease in before a nearby open/close/event
       for (var look = 1; look <= 3; look++) {
         var j = i + look;
         if (j < N && (opensAt[j] || (closesAt[j] && closesAt[j].length) || eventDist(j) <= 1)) {
@@ -124,9 +138,9 @@
       return TICK_FAST;
     }
     function paceLabel(i) {
-      if (eventDist(i) <= 2) return "Event focus";
-      if (opensAt[i] || (closesAt[i] && closesAt[i].length)) return "Trade focus";
-      if (activeTrade(i)) return "Trade focus";
+      var m = focusMode(i);
+      if (m === "event") return "Event focus";
+      if (m === "trade") return "Trade zoom";
       return "Fast-forward";
     }
 
@@ -144,97 +158,216 @@
     function drawBtc(endIdx) {
       var W = btcCanvas.width, H = btcCanvas.height;
       btcCtx.clearRect(0, 0, W, H);
-      var start = Math.max(0, endIdx - WIN + 1);
+      var mode = focusMode(endIdx);
+      var win = windowFor(endIdx);
+      var act = activeTrade(endIdx);
+      var justClosed = (closesAt[endIdx] && closesAt[endIdx].length) ? closesAt[endIdx][closesAt[endIdx].length - 1] : null;
+      var focusTr = act || justClosed || null;
+
+      // Keep entry candle in view during trade zoom
+      var start = Math.max(0, endIdx - win + 1);
+      if (focusTr && mode === "trade") {
+        var wantStart = Math.max(0, focusTr[0] - 2);
+        var wantEnd = Math.min(N - 1, Math.max(endIdx, focusTr[0] + 1));
+        if (focusTr[1] <= endIdx) wantEnd = Math.min(N - 1, focusTr[1] + 1);
+        start = wantStart;
+        if (wantEnd - start + 1 > win) start = Math.max(0, wantEnd - win + 1);
+        endIdx = Math.min(endIdx, wantEnd);
+      }
       var n = endIdx - start + 1;
+      if (n < 1) return;
+
       var minP = Infinity, maxP = -Infinity;
       for (var i = start; i <= endIdx; i++) {
         if (l[i] < minP) minP = l[i];
         if (h[i] > maxP) maxP = h[i];
-        if (sma[i] < minP) minP = sma[i];
-        if (sma[i] > maxP) maxP = sma[i];
       }
-      var act = activeTrade(endIdx);
-      if (act) {
-        minP = Math.min(minP, act[3] || minP, act[5] || minP, act[6] || minP);
-        maxP = Math.max(maxP, act[3] || maxP, act[5] || maxP, act[6] || maxP);
+      if (focusTr) {
+        minP = Math.min(minP, focusTr[3], focusTr[5], focusTr[6]);
+        maxP = Math.max(maxP, focusTr[3], focusTr[5], focusTr[6]);
+        // tight zoom on the trade bracket so candles look tall
+        var mid = (focusTr[5] + focusTr[6]) / 2;
+        var half = Math.max(Math.abs(focusTr[5] - focusTr[6]) * 0.55, (maxP - minP) * 0.35, 80);
+        minP = Math.min(minP, mid - half);
+        maxP = Math.max(maxP, mid + half);
+      } else {
+        for (var s = start; s <= endIdx; s++) {
+          if (sma[s] < minP) minP = sma[s];
+          if (sma[s] > maxP) maxP = sma[s];
+        }
       }
-      var pad = (maxP - minP) * 0.08 || 1;
+      var pad = (maxP - minP) * (mode === "trade" ? 0.06 : 0.1) || 1;
       minP -= pad; maxP += pad;
-      var left = 8, right = 58, top = 22, bottom = 24;
+
+      var left = 10, right = 72, top = 28, bottom = 28;
       var plotW = W - left - right, plotH = H - top - bottom;
       function X(k) { return left + ((k + 0.5) / n) * plotW; }
       function Y(v) { return top + (1 - (v - minP) / (maxP - minP)) * plotH; }
+      function idxK(absI) { return absI - start; }
 
       var ev = eventNear(endIdx);
       if (ev) {
-        btcCtx.fillStyle = "rgba(255,213,79,0.12)";
+        btcCtx.fillStyle = "rgba(255,213,79,0.1)";
         btcCtx.fillRect(left, top, plotW, plotH);
+      }
+
+      // Mode badge
+      btcCtx.fillStyle = mode === "trade" ? "rgba(94,234,212,0.18)" : (mode === "event" ? "rgba(255,213,79,0.18)" : "rgba(138,154,171,0.12)");
+      btcCtx.fillRect(left, top - 22, mode === "trade" ? 118 : 110, 18);
+      btcCtx.fillStyle = mode === "trade" ? "#5eead4" : (mode === "event" ? "#ffd54f" : "#8a9aab");
+      btcCtx.font = "bold 11px monospace";
+      btcCtx.fillText(mode === "trade" ? "TRADE ZOOM" : (mode === "event" ? "EVENT ZOOM" : "OVERVIEW"), left + 6, top - 9);
+
+      if (ev) {
         btcCtx.fillStyle = "#ffd54f";
         btcCtx.font = "bold 12px monospace";
-        btcCtx.fillText("EVENT  " + ev.label, left + 8, top + 14);
+        btcCtx.fillText(ev.label, left + 130, top - 9);
       }
 
       btcCtx.fillStyle = "#8a9aab";
-      btcCtx.font = "10px monospace";
-      btcCtx.fillText((d[start] || "").slice(2, 10), left, H - 6);
-      btcCtx.fillText((d[endIdx] || "").slice(2, 10), W - right - 54, H - 6);
+      btcCtx.font = "11px monospace";
+      btcCtx.fillText((d[start] || "").slice(2, 10), left, H - 8);
+      btcCtx.fillText((d[endIdx] || "").slice(2, 10), W - right - 58, H - 8);
+
+      // Risk band between TP and SL while trade is live
+      if (focusTr) {
+        var yTp = Y(focusTr[5]), ySl = Y(focusTr[6]);
+        var yTop = Math.min(yTp, ySl), yBot = Math.max(yTp, ySl);
+        btcCtx.fillStyle = "rgba(94,234,212,0.06)";
+        btcCtx.fillRect(left, yTop, plotW, yBot - yTop);
+      }
 
       var gap = plotW / n;
-      var cw = Math.max(4, gap * 0.78);
-      var wick = Math.max(1.5, cw * 0.18);
+      var cw = Math.max(mode === "trade" ? 14 : 7, gap * (mode === "trade" ? 0.82 : 0.72));
+      var wick = Math.max(mode === "trade" ? 2.2 : 1.6, cw * 0.16);
+
       for (var k = 0; k < n; k++) {
-        var i = start + k;
-        var up = c[i] >= o[i];
+        var ii = start + k;
+        var up = c[ii] >= o[ii];
         var col = up ? "#26a69a" : "#ef5350";
         var x = X(k);
+        var isEntry = focusTr && ii === focusTr[0];
+        var isExit = focusTr && ii === focusTr[1] && endIdx >= focusTr[1];
+        if (isEntry) {
+          btcCtx.fillStyle = "rgba(94,234,212,0.18)";
+          btcCtx.fillRect(x - gap * 0.48, top, gap * 0.96, plotH);
+        }
+        if (isExit) {
+          var hitCol = focusTr[8] === 1 ? "rgba(102,187,106,0.2)" : "rgba(239,83,80,0.2)";
+          btcCtx.fillStyle = hitCol;
+          btcCtx.fillRect(x - gap * 0.48, top, gap * 0.96, plotH);
+        }
         btcCtx.strokeStyle = col;
         btcCtx.fillStyle = col;
         btcCtx.lineWidth = wick;
         btcCtx.beginPath();
-        btcCtx.moveTo(x, Y(h[i]));
-        btcCtx.lineTo(x, Y(l[i]));
+        btcCtx.moveTo(x, Y(h[ii]));
+        btcCtx.lineTo(x, Y(l[ii]));
         btcCtx.stroke();
-        var y1 = Y(Math.max(o[i], c[i]));
-        var y2 = Y(Math.min(o[i], c[i]));
-        btcCtx.fillRect(x - cw / 2, y1, cw, Math.max(2.5, y2 - y1));
+        var y1 = Y(Math.max(o[ii], c[ii]));
+        var y2 = Y(Math.min(o[ii], c[ii]));
+        btcCtx.fillRect(x - cw / 2, y1, cw, Math.max(3, y2 - y1));
       }
 
-      // SMA trend line through closes
+      // SMA (thinner in trade zoom)
       btcCtx.beginPath();
-      btcCtx.lineWidth = 2.4;
-      btcCtx.strokeStyle = "rgba(125,211,252,0.95)";
+      btcCtx.lineWidth = mode === "trade" ? 1.6 : 2.2;
+      btcCtx.strokeStyle = "rgba(125,211,252,0.85)";
       var started = false;
       for (var k2 = 0; k2 < n; k2++) {
-        var ii = start + k2;
-        var yy = Y(sma[ii]);
-        var xx = X(k2);
+        var xx = X(k2), yy = Y(sma[start + k2]);
         if (!started) { btcCtx.moveTo(xx, yy); started = true; }
         else btcCtx.lineTo(xx, yy);
       }
       btcCtx.stroke();
-      btcCtx.fillStyle = "rgba(125,211,252,0.95)";
-      btcCtx.font = "10px monospace";
-      btcCtx.fillText("SMA9", left + 6, top + 12);
 
-      if (act) {
-        function lvl(px, color, tag) {
+      if (focusTr) {
+        function lvl(px, color, tag, solid) {
           if (!px) return;
           var y = Y(px);
-          btcCtx.setLineDash([5, 4]);
+          btcCtx.setLineDash(solid ? [] : [6, 4]);
           btcCtx.beginPath();
           btcCtx.moveTo(left, y);
           btcCtx.lineTo(W - right, y);
           btcCtx.strokeStyle = color;
-          btcCtx.lineWidth = 1.2;
+          btcCtx.lineWidth = solid ? 2.2 : 1.6;
           btcCtx.stroke();
           btcCtx.setLineDash([]);
+          btcCtx.fillStyle = "rgba(10,14,18,0.75)";
+          btcCtx.fillRect(W - right + 2, y - 9, 66, 16);
           btcCtx.fillStyle = color;
-          btcCtx.font = "10px monospace";
-          btcCtx.fillText(tag, W - right + 4, y + 3);
+          btcCtx.font = "bold 11px monospace";
+          btcCtx.fillText(tag, W - right + 6, y + 3);
         }
-        lvl(act[3], "#5eead4", "ENT");
-        lvl(act[5], "#66bb6a", "TP");
-        lvl(act[6], "#ef5350", "SL");
+        lvl(focusTr[3], "#5eead4", "ENT", true);
+        lvl(focusTr[5], "#66bb6a", "TP", false);
+        lvl(focusTr[6], "#ef5350", "SL", false);
+
+        // Entry marker triangle on fill candle
+        if (focusTr[0] >= start && focusTr[0] <= endIdx) {
+          var ex = X(idxK(focusTr[0]));
+          var ey = Y(focusTr[3]);
+          btcCtx.fillStyle = "#5eead4";
+          btcCtx.beginPath();
+          if (focusTr[2] === 1) {
+            btcCtx.moveTo(ex, ey - 14);
+            btcCtx.lineTo(ex - 9, ey + 2);
+            btcCtx.lineTo(ex + 9, ey + 2);
+          } else {
+            btcCtx.moveTo(ex, ey + 14);
+            btcCtx.lineTo(ex - 9, ey - 2);
+            btcCtx.lineTo(ex + 9, ey - 2);
+          }
+          btcCtx.closePath();
+          btcCtx.fill();
+          btcCtx.font = "bold 12px monospace";
+          btcCtx.fillText(focusTr[2] === 1 ? "BUY LIMIT" : "SELL LIMIT", ex + 12, ey - 8);
+          btcCtx.font = "11px monospace";
+          btcCtx.fillStyle = "#eef3f7";
+          btcCtx.fillText(fmtPx(focusTr[3]) + "  qty " + fmtQty(focusTr[7]), ex + 12, ey + 8);
+        }
+
+        // Path from entry to current close while open
+        if (act && endIdx > act[0]) {
+          var x0 = X(idxK(Math.max(start, act[0])));
+          var x1 = X(idxK(endIdx));
+          btcCtx.setLineDash([3, 3]);
+          btcCtx.strokeStyle = "rgba(238,243,247,0.45)";
+          btcCtx.lineWidth = 1.4;
+          btcCtx.beginPath();
+          btcCtx.moveTo(x0, Y(act[3]));
+          btcCtx.lineTo(x1, Y(c[endIdx]));
+          btcCtx.stroke();
+          btcCtx.setLineDash([]);
+        }
+
+        // Exit callout
+        if (justClosed || (focusTr[1] <= endIdx && focusTr[1] >= start)) {
+          var hit = focusTr[8] === 1 ? "HIT TP" : (focusTr[8] === 2 ? "HIT SL" : "EXIT");
+          var hc = focusTr[8] === 1 ? "#66bb6a" : "#ef5350";
+          var zx = X(idxK(Math.min(endIdx, Math.max(start, focusTr[1]))));
+          var zy = Y(focusTr[4] || focusTr[3]);
+          btcCtx.fillStyle = "rgba(10,14,18,0.85)";
+          btcCtx.fillRect(zx - 46, zy - 28, 92, 22);
+          btcCtx.strokeStyle = hc;
+          btcCtx.lineWidth = 1.5;
+          btcCtx.strokeRect(zx - 46, zy - 28, 92, 22);
+          btcCtx.fillStyle = hc;
+          btcCtx.font = "bold 12px monospace";
+          btcCtx.fillText(hit, zx - 28, zy - 12);
+        }
+
+        // Step legend
+        var step = "1  LIMIT FILL";
+        if (act && endIdx > act[0]) step = "2  HOLD TO TP / SL";
+        if (justClosed || (focusTr[1] <= endIdx && !act)) step = "3  EXIT RESOLVED";
+        btcCtx.fillStyle = "#eef3f7";
+        btcCtx.font = "bold 12px monospace";
+        btcCtx.fillText(step, left + 6, top + 16);
+      } else {
+        btcCtx.fillStyle = "rgba(125,211,252,0.9)";
+        btcCtx.font = "10px monospace";
+        btcCtx.fillText("SMA9", left + 6, top + 14);
       }
     }
 
