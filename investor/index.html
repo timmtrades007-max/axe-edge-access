@@ -135,6 +135,9 @@
     .meta-card h3 { font-family: "Syne", sans-serif; font-size: 0.86rem; color: var(--accent2); margin-bottom: 0.35rem; }
     .meta-card ul { list-style: none; display: grid; gap: 0.25rem; color: var(--muted); font-size: 0.8rem; }
     .meta-card li strong { color: var(--ink); font-family: "JetBrains Mono", monospace; font-weight: 500; }
+
+    .access-note a { color: var(--accent2); text-decoration: underline; text-underline-offset: 2px; }
+    .access-note .code { font-family: "JetBrains Mono", monospace; color: var(--accent); font-weight: 600; }
     footer { border-top: 1px solid var(--line); padding: 1.2rem 0 2rem; position: relative; z-index: 1; }
     footer .risk { color: var(--muted); font-size: 0.66rem; max-width: 56rem; font-weight: 300; }
     @media (max-width: 700px) {
@@ -332,6 +335,45 @@
     </div>
   </section>
 
+
+  <section class="below" id="access">
+    <div class="wrap">
+      <p class="kicker">Access model</p>
+      <h2>Bybit Copy Trading + whitelisted seats</h2>
+      <p class="lead access-note">
+        Live capital follows through <strong>Bybit Copy Trading</strong>, not by handing API keys to a third party.
+        Seats are <strong>whitelist-only</strong> - approval before follow.
+      </p>
+      <div class="method">
+        <article>
+          <h3>1. Master account</h3>
+          <p>Axe Edge runs on a dedicated Bybit Copy Trading Master subaccount. The engine places the same rules-based BTCUSDT limit / TP / SL flow on that Master.</p>
+        </article>
+        <article>
+          <h3>2. Followers copy</h3>
+          <p>Approved seats follow the Master on Bybit. Fills and exits mirror from the Master book under Bybit Copy Trading rules - capital stays in the follower account.</p>
+        </article>
+        <article>
+          <h3>3. Whitelist gate</h3>
+          <p>There is no open public book. Seats are whitelisted after diligence / intro. Unapproved accounts are not invited to follow.</p>
+        </article>
+        <article>
+          <h3>4. Bybit signup (required)</h3>
+          <p class="access-note">Open or bind Bybit with referral code <span class="code">QJ5NOR</span> before onboarding.<br />
+          <a href="https://www.bybit.com/invite?ref=QJ5NOR&amp;medium=referral&amp;utm_campaign=evergreen&amp;share_to=link" target="_blank" rel="noopener noreferrer">bybit.com/invite?ref=QJ5NOR</a></p>
+        </article>
+        <article>
+          <h3>5. After whitelist</h3>
+          <p>Once approved, you receive the Copy Master follow instructions. Referral signup and Copy follow are separate steps - both are required for a clean seat.</p>
+        </article>
+        <article>
+          <h3>6. What this is not</h3>
+          <p>Not a pooled fund and not discretionary chat signals. It is Master execution + Bybit Copy Trading for whitelisted followers.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <section class="below" id="metrics">
     <div class="wrap">
       <p class="kicker">Verified readout</p>
@@ -381,8 +423,8 @@
     </div>
   </footer>
 
-<script src="equity_path.js?v=1789124687"></script>
-<script src="player.js?v=1789124687"></script>
+<script src="equity_path.js?v=1789125452"></script>
+<script src="player.js?v=1789125452"></script>
 
 
   <div class="share-bar" aria-label="Share this page">
