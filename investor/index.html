@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Axe Edge | Capital Brief</title>
-  <meta name="description" content="Verified BTC path: $30k to $845.7M. Candles, TP/SL hits, compounding size." />
+  <meta name="description" content="Verified BTC path: $30k to $845.7M on 15m candles with TP/SL hits." />
   <meta property="og:title" content="Axe Edge | Capital Brief" />
-  <meta property="og:description" content="Watch BTC candles, TP/SL hits, and equity compound from $30k to $845.7M." />
+  <meta property="og:description" content="Normal 15m BTC candles, TP/SL hits, equity from $30k to $845.7M." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,55 +17,39 @@
       --ink: #eef3f7;
       --muted: #8a9aab;
       --line: rgba(140,170,190,0.14);
-      --panel: rgba(14,22,30,0.92);
+      --panel: rgba(14,22,30,0.94);
       --accent: #5eead4;
       --accent2: #7dd3fc;
-      --ok: #34d399;
-      --bad: #fb7185;
-      --event: #fbbf24;
+      --up: #26a69a;
+      --down: #ef5350;
+      --ok: #26a69a;
+      --bad: #ef5350;
+      --event: #ffd54f;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
       font-family: "DM Sans", system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-      line-height: 1.45;
-      overflow-x: hidden;
+      background: var(--bg); color: var(--ink); line-height: 1.45; overflow-x: hidden;
     }
     body::before {
-      content: "";
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background:
         radial-gradient(ellipse 50% 35% at 10% 0%, rgba(94,234,212,0.1), transparent 55%),
         linear-gradient(180deg, #0c1218, #0a0e12 60%);
     }
     .wrap { width: min(1100px, calc(100% - 1.25rem)); margin: 0 auto; position: relative; z-index: 1; }
-    .nav {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 0.7rem 0 0.35rem;
-    }
-    .brand {
-      font-family: "Syne", sans-serif; font-weight: 700;
-      letter-spacing: 0.12em; font-size: 0.78rem; text-transform: uppercase;
-    }
+    .nav { display: flex; justify-content: space-between; align-items: center; padding: 0.7rem 0 0.35rem; }
+    .brand { font-family: "Syne", sans-serif; font-weight: 700; letter-spacing: 0.12em; font-size: 0.78rem; text-transform: uppercase; }
     .brand span { color: var(--accent); }
     .nav-meta { font-family: "JetBrains Mono", monospace; font-size: 0.62rem; color: var(--muted); }
-
-    .hero { padding: 0.6rem 0 0.85rem; }
-    .eyebrow {
-      font-family: "JetBrains Mono", monospace; color: var(--accent);
-      font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.35rem;
-    }
-    h1 {
-      font-family: "Syne", sans-serif; font-weight: 800;
-      font-size: clamp(1.55rem, 5.5vw, 2.6rem); line-height: 1.05;
-      letter-spacing: -0.02em; margin-bottom: 0.45rem;
-    }
+    .hero { padding: 0.55rem 0 0.7rem; }
+    .eyebrow { font-family: "JetBrains Mono", monospace; color: var(--accent); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.3rem; }
+    h1 { font-family: "Syne", sans-serif; font-weight: 800; font-size: clamp(1.5rem, 5.2vw, 2.5rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
     h1 em { font-style: normal; color: var(--accent); }
-    .lede { color: var(--muted); font-weight: 300; font-size: 0.92rem; max-width: 34rem; margin-bottom: 0.65rem; }
+    .lede { color: var(--muted); font-weight: 300; font-size: 0.9rem; max-width: 34rem; margin-bottom: 0.55rem; }
     .hooks { display: none; }
-    .actions { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .actions { display: flex; gap: 0.45rem; }
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
       border: 1px solid transparent; padding: 0.55rem 0.85rem;
@@ -76,155 +60,82 @@
     .btn-fill { background: var(--accent); color: #04201a; }
     .btn-ghost { border-color: var(--line); }
     .hero-note { display: none; }
-
     #path.stage {
       border-top: 1px solid var(--line);
       background: linear-gradient(180deg, rgba(94,234,212,0.035), transparent 40%);
-      padding: 0.55rem 0 0.85rem;
+      padding: 0.45rem 0 0.75rem;
     }
-    .phone-screen {
-      display: flex; flex-direction: column; gap: 0.4rem;
-    }
-    .stage-top {
-      display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem;
-    }
-    .mega {
-      font-family: "Syne", sans-serif; font-size: clamp(1.05rem, 3.8vw, 1.55rem); font-weight: 700;
-    }
+    .phone-screen { display: flex; flex-direction: column; gap: 0.38rem; }
+    .stage-top { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; }
+    .mega { font-family: "Syne", sans-serif; font-size: clamp(1.05rem, 3.8vw, 1.5rem); font-weight: 700; }
     .mega span { color: var(--accent); }
-    .stage-meta {
-      text-align: right; font-family: "JetBrains Mono", monospace;
-      color: var(--muted); font-size: 0.68rem;
-    }
+    .stage-meta { text-align: right; font-family: "JetBrains Mono", monospace; color: var(--muted); font-size: 0.66rem; }
     .stage-meta #btDate { color: var(--ink); font-weight: 600; font-size: 0.78rem; }
-
-    .chart-panel {
-      border: 1px solid var(--line); background: var(--panel);
-      padding: 0.45rem 0.5rem 0.5rem;
-    }
-    .chart-head {
-      display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem;
-      margin-bottom: 0.2rem;
-    }
-    .chart-head .left { min-width: 0; }
-    .chart-head .label {
-      font-family: "JetBrains Mono", monospace; font-size: 0.62rem;
-      letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
-    }
-    .chart-head .price {
-      font-family: "Syne", sans-serif; font-weight: 700;
-      font-size: clamp(1.15rem, 4.5vw, 1.55rem); color: var(--ink); line-height: 1.1;
-    }
-    .legend {
-      display: flex; flex-wrap: wrap; gap: 0.45rem;
-      font-family: "JetBrains Mono", monospace; font-size: 0.58rem; color: var(--muted);
-      margin-top: 0.15rem;
-    }
-    .legend i { display: inline-block; width: 0.55rem; height: 0.55rem; margin-right: 0.2rem; vertical-align: -1px; }
-    .legend .tp i { background: var(--ok); }
-    .legend .sl i { background: var(--bad); }
+    .chart-panel { border: 1px solid var(--line); background: var(--panel); padding: 0.45rem 0.5rem 0.5rem; }
+    .chart-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.2rem; }
+    .chart-head .label { font-family: "JetBrains Mono", monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .chart-head .price { font-family: "Syne", sans-serif; font-weight: 700; font-size: clamp(1.15rem, 4.5vw, 1.55rem); line-height: 1.1; }
+    .legend { display: flex; flex-wrap: wrap; gap: 0.45rem; font-family: "JetBrains Mono", monospace; font-size: 0.56rem; color: var(--muted); margin-top: 0.12rem; }
+    .legend i { display: inline-block; width: 0.5rem; height: 0.5rem; margin-right: 0.18rem; vertical-align: -1px; }
+    .legend .up i { background: var(--up); }
+    .legend .dn i { background: var(--down); }
     .legend .en i { background: var(--accent); }
+    .legend .tp i { background: #66bb6a; }
+    .legend .sl i { background: #ef5350; }
     .legend .ev i { background: var(--event); }
-    .btc-shell { height: clamp(168px, 28vh, 260px); position: relative; }
-    .eq-shell { height: clamp(88px, 14vh, 140px); position: relative; }
-    .dd-shell { height: 36px; margin-top: 0.2rem; border-top: 1px solid var(--line); padding-top: 0.15rem; }
+    .btc-shell { height: clamp(210px, 38vh, 340px); position: relative; }
+    .eq-shell { height: clamp(78px, 12vh, 120px); position: relative; }
     canvas { width: 100%; height: 100%; display: block; }
-
-    .hit-line {
-      font-family: "JetBrains Mono", monospace; font-size: 0.68rem;
-      color: var(--muted); min-height: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    .event-banner {
+      display: none; align-items: center; gap: 0.45rem;
+      border: 1px solid rgba(255,213,79,0.45);
+      background: rgba(255,213,79,0.12);
+      color: var(--event);
+      font-family: "JetBrains Mono", monospace; font-size: 0.72rem;
+      padding: 0.45rem 0.55rem; font-weight: 600;
     }
+    .event-banner.on { display: flex; }
+    .event-banner span { color: var(--muted); font-weight: 400; }
+    .hit-line { font-family: "JetBrains Mono", monospace; font-size: 0.66rem; color: var(--muted); min-height: 1.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .hit-line b { color: var(--ink); font-weight: 500; }
-    .hit-line .win { color: var(--ok); }
-    .hit-line .loss { color: var(--bad); }
-    .event-line {
-      font-family: "JetBrains Mono", monospace; font-size: 0.65rem;
-      color: var(--event); min-height: 1rem;
-    }
-
-    .live-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.35rem;
-    }
-    .metric {
-      border: 1px solid var(--line); background: rgba(8,14,20,0.7);
-      padding: 0.4rem 0.45rem;
-    }
-    .metric b {
-      display: block; font-family: "JetBrains Mono", monospace;
-      font-size: 0.85rem; font-weight: 600;
-    }
-    .metric span {
-      color: var(--muted); font-size: 0.55rem; letter-spacing: 0.06em;
-      text-transform: uppercase; font-family: "JetBrains Mono", monospace;
-    }
+    .hit-line .win { color: var(--up); }
+    .hit-line .loss { color: var(--down); }
+    .live-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.32rem; }
+    .metric { border: 1px solid var(--line); background: rgba(8,14,20,0.7); padding: 0.38rem 0.42rem; }
+    .metric b { display: block; font-family: "JetBrains Mono", monospace; font-size: 0.82rem; font-weight: 600; }
+    .metric span { color: var(--muted); font-size: 0.52rem; letter-spacing: 0.06em; text-transform: uppercase; font-family: "JetBrains Mono", monospace; }
     .metric.hot b { color: var(--accent); }
-    .metric.ok b { color: var(--ok); }
-    .metric.bad b { color: var(--bad); }
-    .live-extra {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.35rem;
-    }
-    .live-extra .metric b { font-size: 0.75rem; }
-
     .controls { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; }
-    .speed { font-family: "JetBrains Mono", monospace; font-size: 0.6rem; color: var(--muted); }
-
-    .below { padding: 1.6rem 0 2rem; }
-    .kicker {
-      font-family: "JetBrains Mono", monospace; color: var(--accent);
-      font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.4rem;
-    }
-    h2 {
-      font-family: "Syne", sans-serif; font-weight: 700;
-      font-size: clamp(1.2rem, 3vw, 1.7rem); margin-bottom: 0.5rem;
-    }
-    .lead { color: var(--muted); font-weight: 300; font-size: 0.9rem; margin-bottom: 0.9rem; max-width: 40rem; }
+    .speed { font-family: "JetBrains Mono", monospace; font-size: 0.58rem; color: var(--muted); }
+    .below { padding: 1.5rem 0 2rem; }
+    .kicker { font-family: "JetBrains Mono", monospace; color: var(--accent); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.4rem; }
+    h2 { font-family: "Syne", sans-serif; font-weight: 700; font-size: clamp(1.15rem, 3vw, 1.6rem); margin-bottom: 0.45rem; }
+    .lead { color: var(--muted); font-weight: 300; font-size: 0.88rem; margin-bottom: 0.85rem; max-width: 40rem; }
     .meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.7rem; }
     .meta-card { border-top: 1px solid var(--accent); padding-top: 0.55rem; }
-    .meta-card h3 { font-family: "Syne", sans-serif; font-size: 0.88rem; color: var(--accent2); margin-bottom: 0.35rem; }
-    .meta-card ul { list-style: none; display: grid; gap: 0.25rem; color: var(--muted); font-size: 0.82rem; }
+    .meta-card h3 { font-family: "Syne", sans-serif; font-size: 0.86rem; color: var(--accent2); margin-bottom: 0.35rem; }
+    .meta-card ul { list-style: none; display: grid; gap: 0.25rem; color: var(--muted); font-size: 0.8rem; }
     .meta-card li strong { color: var(--ink); font-family: "JetBrains Mono", monospace; font-weight: 500; }
     footer { border-top: 1px solid var(--line); padding: 1.2rem 0 2rem; position: relative; z-index: 1; }
-    footer .risk { color: var(--muted); font-size: 0.68rem; max-width: 56rem; font-weight: 300; }
-
+    footer .risk { color: var(--muted); font-size: 0.66rem; max-width: 56rem; font-weight: 300; }
     @media (max-width: 700px) {
-      .wrap { width: calc(100% - 0.9rem); }
-      .hero { padding: 0.35rem 0 0.45rem; }
-      .lede { font-size: 0.82rem; margin-bottom: 0.45rem; }
-      #path.stage {
-        min-height: calc(100svh - 7.5rem);
-        min-height: calc(100dvh - 7.5rem);
-        padding: 0.35rem 0 0.5rem;
-      }
-      .phone-screen { gap: 0.32rem; }
-      .btc-shell { height: clamp(150px, 34svh, 240px); }
-      .eq-shell { height: clamp(72px, 13svh, 110px); }
-      .dd-shell { height: 28px; }
-      .live-extra { display: none; }
+      .wrap { width: calc(100% - 0.85rem); }
+      .hero { padding: 0.3rem 0 0.4rem; }
+      .lede { font-size: 0.8rem; }
+      #path.stage { min-height: calc(100svh - 7rem); min-height: calc(100dvh - 7rem); padding: 0.3rem 0 0.45rem; }
+      .btc-shell { height: clamp(190px, 40svh, 280px); }
+      .eq-shell { height: clamp(64px, 11svh, 96px); }
       .below { display: none; }
       .speed { display: none; }
-      .btn { padding: 0.5rem 0.7rem; }
     }
     @media (min-width: 701px) {
-      .hooks {
-        display: grid; gap: 0.35rem; margin-bottom: 0.7rem;
-        list-style: none;
-      }
-      .hooks li {
-        font-size: 0.9rem; padding-left: 0.95rem; position: relative;
-      }
-      .hooks li::before {
-        content: ""; position: absolute; left: 0; top: 0.5em;
-        width: 0.4rem; height: 0.4rem; background: var(--accent);
-      }
+      .hooks { display: grid; gap: 0.3rem; margin-bottom: 0.55rem; list-style: none; }
+      .hooks li { font-size: 0.88rem; padding-left: 0.9rem; position: relative; }
+      .hooks li::before { content: ""; position: absolute; left: 0; top: 0.5em; width: 0.38rem; height: 0.38rem; background: var(--accent); }
       .hooks strong { color: var(--accent2); }
-      .hero-note {
-        display: block; margin-top: 0.55rem; color: var(--muted);
-        font-size: 0.7rem; font-family: "JetBrains Mono", monospace;
-      }
+      .hero-note { display: block; margin-top: 0.5rem; color: var(--muted); font-size: 0.68rem; font-family: "JetBrains Mono", monospace; }
     }
-    @media (max-width: 420px) {
-      .live-grid { grid-template-columns: repeat(2, 1fr); }
-    }
+    @media (max-width: 420px) { .live-grid { grid-template-columns: repeat(2, 1fr); } }
   
     .share-bar {
       position: fixed;
@@ -275,7 +186,7 @@
   <div class="wrap">
     <nav class="nav">
       <div class="brand">Axe Edge <span>/</span> Capital</div>
-      <div class="nav-meta">Verified BTC path</div>
+      <div class="nav-meta">15m BTC chart</div>
     </nav>
   </div>
 
@@ -283,11 +194,11 @@
     <div class="wrap">
       <p class="eyebrow">Private capital brief · 2022 to 2026</p>
       <h1>Turned $30k into<br /><em>$845.7 million</em></h1>
-      <p class="lede">Watch Bitcoin candles, take-profit and stop hits, and equity compound on real market data.</p>
+      <p class="lede">Normal 15-minute BTC candles - green up, red down - with take-profit / stop hits and major market events marked.</p>
       <ul class="hooks">
-        <li><strong>$30,000 → $845.7M</strong> same rules, full cycle, drawdowns included.</li>
-        <li><strong>Candles + TP/SL</strong> so you see how trades actually resolve.</li>
-        <li><strong>98.4% decisive WR</strong> on real wins vs losses · max DD 20.2%.</li>
+        <li><strong>$30,000 → $845.7M</strong> same rules, full cycle.</li>
+        <li><strong>15m chart</strong> with TP / SL levels on real fills.</li>
+        <li><strong>98.4% decisive WR</strong> · max DD 20.2%.</li>
       </ul>
       <div class="actions">
         <button class="btn btn-fill" type="button" id="heroPlay">Watch the path</button>
@@ -306,11 +217,15 @@
         </div>
       </div>
 
+      <div class="event-banner" id="eventBanner"><b id="eventTitle">EVENT</b><span id="eventSub"></span></div>
+
       <div class="chart-panel">
         <div class="chart-head">
-          <div class="left">
-            <div class="label">BTC price</div>
+          <div>
+            <div class="label">BTC price · 15m</div>
             <div class="legend">
+              <span class="up"><i></i>Up</span>
+              <span class="dn"><i></i>Down</span>
               <span class="en"><i></i>Entry</span>
               <span class="tp"><i></i>TP</span>
               <span class="sl"><i></i>SL</span>
@@ -319,20 +234,18 @@
           </div>
           <div class="price" id="btcNow">-</div>
         </div>
-        <div class="btc-shell"><canvas id="btcCanvas" width="1200" height="520"></canvas></div>
+        <div class="btc-shell"><canvas id="btcCanvas" width="1200" height="560"></canvas></div>
       </div>
 
       <div class="chart-panel">
         <div class="chart-head">
-          <div class="left"><div class="label">Equity</div></div>
+          <div class="label">Equity</div>
           <div class="price" id="eqNow" style="font-size:1rem">$30,000</div>
         </div>
-        <div class="eq-shell"><canvas id="eqCanvas" width="1200" height="320"></canvas></div>
-        <div class="dd-shell"><canvas id="ddCanvas" width="1200" height="90"></canvas></div>
+        <div class="eq-shell"><canvas id="eqCanvas" width="1200" height="280"></canvas></div>
       </div>
 
       <div class="hit-line" id="activeBox">Waiting for next fill...</div>
-      <div class="event-line" id="eventLine"></div>
 
       <div class="live-grid">
         <div class="metric hot"><b id="btEquity">$30,000</b><span>Equity</span></div>
@@ -340,20 +253,17 @@
         <div class="metric"><b id="btQty">-</b><span>Qty</span></div>
         <div class="metric"><b id="btPct">+0%</b><span>Growth</span></div>
       </div>
-      <div class="live-extra">
-        <div class="metric ok"><b id="btWins">0</b><span>Wins</span></div>
-        <div class="metric bad"><b id="btLosses">0</b><span>Losses</span></div>
-        <div class="metric"><b id="btTrades">0</b><span>Closes</span></div>
-        <div class="metric"><b id="btPathDd">0%</b><span>Path DD</span></div>
+      <div style="display:none">
+        <b id="btWins">0</b><b id="btLosses">0</b><b id="btTrades">0</b><b id="btPathDd">0%</b>
+        <div id="tapeList"></div>
       </div>
 
       <div class="controls">
         <button class="btn btn-fill" type="button" id="btPlay">Play</button>
         <button class="btn btn-ghost" type="button" id="btPause">Pause</button>
         <button class="btn btn-ghost" type="button" id="btReset">Reset</button>
-        <span class="speed">Dates + major BTC events on the candle chart</span>
+        <span class="speed">48 x 15m candles · major events highlighted</span>
       </div>
-      <div id="tapeList" style="display:none"></div>
     </div>
   </section>
 
@@ -361,7 +271,7 @@
     <div class="wrap">
       <p class="kicker">Engine readout</p>
       <h2>Verified run numbers</h2>
-      <p class="lead">Same path you just watched - candles, levels, and compounding size on the actual backtest.</p>
+      <p class="lead">Same path as the 15m chart above.</p>
       <div class="meta-grid">
         <article class="meta-card">
           <h3>Result</h3>
@@ -399,8 +309,8 @@
       <div class="brand" style="margin-bottom:0.7rem">Axe Edge <span>/</span> Capital</div>
       <p class="risk">
         Risk disclosure: Leveraged crypto trading can result in substantial or total loss of capital.
-        Path shown is a historical backtest on actual BTCUSDT data (meta 20260909_200417_046558; final $845,703,073; decisive WR 98.40%; Max DD Profit 20.22%).
-        Host placeholder closes are excluded from the tape and win rate. Event labels are major market markers for context, not trade signals.
+        Path shown is a historical backtest on actual BTCUSDT data (meta 20260909_200417_046558).
+        Chart candles are 15-minute OHLC aggregated from the run bar series. Event markers are major market context, not trade signals.
         Not live investor performance, not audited fund returns, not a promise of future results.
       </p>
     </div>
@@ -412,60 +322,28 @@
   var P = window.AXE_EDGE_INVESTOR_PATH || {};
   var equity = P.equity || [];
   var dates = P.dates || [];
-  var ddPath = P.drawdown_pct || [];
   var trades = P.trades || [];
-  var oArr = P.o || [];
-  var hArr = P.h || [];
-  var lArr = P.l || [];
-  var cArr = P.c || P.btc || [];
+  var c15 = P.c15 || [];
+  var c15Dates = P.c15_dates || [];
+  var c15Win = P.c15_win || 48;
+  var btcClose = P.btc || [];
   var frames = Math.max(1, equity.length);
   var startEquity = P.start || 30000;
-  var WIN = 36;
-
-  // Major BTC events (date ISO -> short label)
-  var EVENTS = [
-    { d: "2022-05-09", label: "Luna / UST collapse" },
-    { d: "2022-06-18", label: "3AC / Celsius unwind" },
-    { d: "2022-11-11", label: "FTX collapse" },
-    { d: "2023-03-12", label: "SVB / banking scare" },
-    { d: "2023-06-15", label: "BlackRock ETF filing" },
-    { d: "2024-01-10", label: "Spot BTC ETF approved" },
-    { d: "2024-03-14", label: "BTC ATH breakout" },
-    { d: "2024-04-19", label: "Bitcoin halving" },
-    { d: "2024-08-05", label: "Yen carry unwind" },
-    { d: "2024-11-06", label: "US election rally" },
-    { d: "2025-01-20", label: "Trump inauguration" }
-  ];
-
-  function dateToFrame(iso) {
-    var best = 0, bestAbs = 1e18;
-    for (var i = 0; i < dates.length; i++) {
-      var a = Math.abs(Date.parse(dates[i] + "T00:00:00Z") - Date.parse(iso + "T00:00:00Z"));
-      if (a < bestAbs) { bestAbs = a; best = i; }
-    }
-    return best;
-  }
-  var eventFrames = EVENTS.map(function (e) {
-    return { frame: dateToFrame(e.d), label: e.label, d: e.d };
-  });
+  var eventFrames = P.events || [];
 
   var closesByFrame = new Array(frames);
   for (var i0 = 0; i0 < frames; i0++) closesByFrame[i0] = [];
   for (var t = 0; t < trades.length; t++) {
     var tr0 = trades[t];
-    var fo0 = Math.max(0, Math.min(frames - 1, tr0[1]));
-    closesByFrame[fo0].push(tr0);
+    closesByFrame[Math.max(0, Math.min(frames - 1, tr0[1]))].push(tr0);
   }
-  var cumWins = new Array(frames);
-  var cumLosses = new Array(frames);
-  var cumClosed = new Array(frames);
+  var cumWins = new Array(frames), cumLosses = new Array(frames), cumClosed = new Array(frames);
   var w = 0, l = 0, c = 0;
   for (var f = 0; f < frames; f++) {
     var bucket = closesByFrame[f];
     for (var b = 0; b < bucket.length; b++) {
       var r = bucket[b][8];
-      if (r === 1) w++;
-      else if (r === 2) l++;
+      if (r === 1) w++; else if (r === 2) l++;
       c++;
     }
     cumWins[f] = w; cumLosses[f] = l; cumClosed[f] = c;
@@ -480,12 +358,12 @@
   }
   function fmtPct(n, d) { d = d == null ? 0 : d; return (n >= 0 ? "+" : "") + Number(n).toFixed(d) + "%"; }
   function fmtPctAbs(n, d) { d = d == null ? 1 : d; return Number(n).toFixed(d) + "%"; }
-  function fmtQty(q) {
-    if (q >= 100) return q.toFixed(0);
-    if (q >= 10) return q.toFixed(1);
-    return q.toFixed(2);
-  }
+  function fmtQty(q) { return q >= 100 ? q.toFixed(0) : (q >= 10 ? q.toFixed(1) : q.toFixed(2)); }
   function fmtPx(n) { return "$" + Math.round(n).toLocaleString("en-US"); }
+  function sample(arr, i) {
+    if (!arr || !arr.length) return 0;
+    return arr[Math.max(0, Math.min(arr.length - 1, i))];
+  }
 
   document.getElementById("mFinal").textContent = fmtMoney(P.end || 0);
   document.getElementById("mMult").textContent = ((P.end || 0) / (P.start || 1)).toFixed(0) + "x";
@@ -500,21 +378,11 @@
 
   var btcCanvas = document.getElementById("btcCanvas");
   var eqCanvas = document.getElementById("eqCanvas");
-  var ddCanvas = document.getElementById("ddCanvas");
-  if (!btcCanvas || !eqCanvas || !ddCanvas) return;
+  if (!btcCanvas || !eqCanvas) return;
   var btcCtx = btcCanvas.getContext("2d");
   var eqCtx = eqCanvas.getContext("2d");
-  var ddCtx = ddCanvas.getContext("2d");
 
-  var playing = false;
-  var frame = 0;
-  var timer = null;
-  var FRAME_MS = 195;
-
-  function sample(arr, i) {
-    if (!arr || !arr.length) return 0;
-    return arr[Math.max(0, Math.min(arr.length - 1, i))];
-  }
+  var playing = false, frame = 0, timer = null, FRAME_MS = 200;
 
   var activeByFrame = new Array(frames);
   for (var ai = 0; ai < frames; ai++) activeByFrame[ai] = [];
@@ -525,8 +393,8 @@
     for (var af = a0; af <= a1; af++) activeByFrame[af].push(atr);
   }
   function activeTrades(i) {
-    var out = activeByFrame[Math.max(0, Math.min(frames - 1, i))] || [];
-    return out.length > 4 ? out.slice(-4) : out;
+    var out = activeByFrame[i] || [];
+    return out.length > 3 ? out.slice(-3) : out;
   }
   function recentCloses(i, n) {
     var out = [];
@@ -542,28 +410,45 @@
     }
     return null;
   }
-  function currentEvent(i) {
+  function eventNear(i) {
     var best = null;
     for (var e = 0; e < eventFrames.length; e++) {
       var ev = eventFrames[e];
+      if (Math.abs(ev.frame - i) <= 1) return ev;
       if (ev.frame <= i) best = ev;
+    }
+    return null;
+  }
+  function currentEvent(i) {
+    var best = null;
+    for (var e = 0; e < eventFrames.length; e++) {
+      if (eventFrames[e].frame <= i) best = eventFrames[e];
       else break;
     }
     return best;
   }
 
+  function parseWindow(upto) {
+    var flat = c15[Math.max(0, Math.min(c15.length - 1, upto))] || [];
+    var dlist = c15Dates[Math.max(0, Math.min(c15Dates.length - 1, upto))] || [];
+    var candles = [];
+    for (var i = 0; i + 3 < flat.length; i += 4) {
+      candles.push({ o: flat[i], h: flat[i + 1], l: flat[i + 2], c: flat[i + 3], d: dlist[i / 4] || "" });
+    }
+    return candles;
+  }
+
   function drawBtc(upto) {
     var w = btcCanvas.width, h = btcCanvas.height;
     btcCtx.clearRect(0, 0, w, h);
-    var start = Math.max(0, upto - WIN + 1);
-    var end = upto;
-    var n = end - start + 1;
-    if (n < 1) return;
+    var candles = parseWindow(upto);
+    var n = candles.length;
+    if (n < 2) return;
 
     var minP = Infinity, maxP = -Infinity;
-    for (var i = start; i <= end; i++) {
-      minP = Math.min(minP, sample(lArr, i), sample(cArr, i));
-      maxP = Math.max(maxP, sample(hArr, i), sample(cArr, i));
+    for (var i = 0; i < n; i++) {
+      minP = Math.min(minP, candles[i].l);
+      maxP = Math.max(maxP, candles[i].h);
     }
     var act = activeTrades(upto);
     for (var a = 0; a < act.length; a++) {
@@ -572,120 +457,113 @@
       if (tr[5]) { minP = Math.min(minP, tr[5]); maxP = Math.max(maxP, tr[5]); }
       if (tr[6]) { minP = Math.min(minP, tr[6]); maxP = Math.max(maxP, tr[6]); }
     }
-    var pad = (maxP - minP) * 0.12 || maxP * 0.02;
+    var pad = (maxP - minP) * 0.08 || maxP * 0.01;
     minP -= pad; maxP += pad;
-    var left = 10, right = 58, top = 8, bottom = 28;
-    var plotW = w - left - right;
-    var plotH = h - top - bottom;
 
-    function X(i) {
-      var idx = i - start;
-      return left + ((idx + 0.5) / n) * plotW;
-    }
-    function Y(v) {
-      return top + (1 - (v - minP) / (maxP - minP)) * plotH;
+    var left = 8, right = 62, top = 28, bottom = 26;
+    var plotW = w - left - right, plotH = h - top - bottom;
+    function X(i) { return left + ((i + 0.5) / n) * plotW; }
+    function Y(v) { return top + (1 - (v - minP) / (maxP - minP)) * plotH; }
+
+    // grid
+    btcCtx.strokeStyle = "rgba(140,170,190,0.08)";
+    btcCtx.lineWidth = 1;
+    for (var g = 0; g < 4; g++) {
+      var gy = top + (plotH * g) / 3;
+      btcCtx.beginPath(); btcCtx.moveTo(left, gy); btcCtx.lineTo(w - right, gy); btcCtx.stroke();
     }
 
-    // Date ticks (start / mid / end of window)
+    // Major event: if current window's end date is near an event, paint a clear band on last third
+    var evNow = eventNear(upto);
+    var evCur = currentEvent(upto);
+    if (evCur) {
+      // mark right edge when we are at/after event in this frame
+      var ex = w - right - 2;
+      if (evNow) {
+        btcCtx.fillStyle = "rgba(255,213,79,0.12)";
+        btcCtx.fillRect(left, top, plotW, plotH);
+        btcCtx.strokeStyle = "#ffd54f";
+        btcCtx.lineWidth = 2;
+        btcCtx.setLineDash([]);
+        btcCtx.strokeRect(left + 1, top + 1, plotW - 2, plotH - 2);
+        btcCtx.fillStyle = "#ffd54f";
+        btcCtx.font = "bold 13px JetBrains Mono, monospace";
+        btcCtx.fillText("EVENT  " + evNow.label, left + 10, top + 16);
+      } else {
+        btcCtx.fillStyle = "rgba(255,213,79,0.08)";
+        btcCtx.fillRect(ex - 18, top, 18, plotH);
+      }
+    }
+
+    // Date labels
     btcCtx.fillStyle = "#8a9aab";
     btcCtx.font = "11px JetBrains Mono, monospace";
-    var tickIdx = [start, Math.floor((start + end) / 2), end];
+    var ticks = [0, Math.floor((n - 1) / 2), n - 1];
     var seen = {};
-    for (var t = 0; t < tickIdx.length; t++) {
-      var di = tickIdx[t];
-      var lab = (dates[di] || "").slice(2);
+    for (var t = 0; t < ticks.length; t++) {
+      var ci = ticks[t];
+      var lab = (candles[ci].d || "").slice(2, 10);
       if (!lab || seen[lab]) continue;
       seen[lab] = 1;
-      btcCtx.fillText(lab, X(di) - 22, h - 8);
+      btcCtx.fillText(lab, X(ci) - 24, h - 8);
     }
 
-    // Major events in window
-    for (var e = 0; e < eventFrames.length; e++) {
-      var ev = eventFrames[e];
-      if (ev.frame < start || ev.frame > end) continue;
-      var ex = X(ev.frame);
-      btcCtx.beginPath();
-      btcCtx.setLineDash([3, 3]);
-      btcCtx.moveTo(ex, top);
-      btcCtx.lineTo(ex, top + plotH);
-      btcCtx.strokeStyle = "rgba(251,191,36,0.55)";
-      btcCtx.lineWidth = 1;
-      btcCtx.stroke();
-      btcCtx.setLineDash([]);
-      btcCtx.fillStyle = "#fbbf24";
-      btcCtx.font = "10px JetBrains Mono, monospace";
-      var elab = ev.label.length > 18 ? ev.label.slice(0, 16) + ".." : ev.label;
-      btcCtx.save();
-      btcCtx.translate(ex + 3, top + 12);
-      btcCtx.fillText(elab, 0, 0);
-      btcCtx.restore();
-    }
-
-    // Candles
-    var candleW = Math.max(2.5, (plotW / n) * 0.62);
-    for (var i = start; i <= end; i++) {
-      var o = sample(oArr, i), hh = sample(hArr, i), ll = sample(lArr, i), cc = sample(cArr, i);
-      if (!o) o = cc;
-      if (!hh) hh = Math.max(o, cc);
-      if (!ll) ll = Math.min(o, cc);
-      var up = cc >= o;
-      var col = up ? "#34d399" : "#fb7185";
+    // Candles - TradingView-style green/red
+    var candleW = Math.max(3, (plotW / n) * 0.7);
+    for (var i = 0; i < n; i++) {
+      var cd = candles[i];
+      var up = cd.c >= cd.o;
+      var col = up ? "#26a69a" : "#ef5350";
       var x = X(i);
       btcCtx.strokeStyle = col;
       btcCtx.fillStyle = col;
-      btcCtx.lineWidth = 1;
+      btcCtx.lineWidth = 1.2;
       btcCtx.beginPath();
-      btcCtx.moveTo(x, Y(hh));
-      btcCtx.lineTo(x, Y(ll));
+      btcCtx.moveTo(x, Y(cd.h));
+      btcCtx.lineTo(x, Y(cd.l));
       btcCtx.stroke();
-      var y1 = Y(Math.max(o, cc)), y2 = Y(Math.min(o, cc));
-      var bh = Math.max(1.5, y2 - y1);
-      btcCtx.fillRect(x - candleW / 2, y1, candleW, bh);
+      var yTop = Y(Math.max(cd.o, cd.c));
+      var yBot = Y(Math.min(cd.o, cd.c));
+      var bh = Math.max(1.5, yBot - yTop);
+      btcCtx.fillRect(x - candleW / 2, yTop, candleW, bh);
     }
 
-    // Active TP / SL / Entry
     function levelLine(price, color, tag) {
       if (!price) return;
       var y = Y(price);
       btcCtx.beginPath();
-      btcCtx.setLineDash([5, 4]);
+      btcCtx.setLineDash([6, 4]);
       btcCtx.moveTo(left, y);
-      btcCtx.lineTo(w - right + 4, y);
+      btcCtx.lineTo(w - right + 2, y);
       btcCtx.strokeStyle = color;
-      btcCtx.lineWidth = 1.2;
+      btcCtx.lineWidth = 1.3;
       btcCtx.stroke();
       btcCtx.setLineDash([]);
       btcCtx.fillStyle = color;
-      btcCtx.font = "10px JetBrains Mono, monospace";
-      btcCtx.fillText(tag, w - right + 6, y + 3);
+      btcCtx.font = "11px JetBrains Mono, monospace";
+      btcCtx.fillText(tag, w - right + 5, y + 3);
     }
     if (act.length) {
       var focus = act[act.length - 1];
-      levelLine(focus[3], "rgba(94,234,212,0.9)", "ENT");
-      levelLine(focus[5], "rgba(52,211,153,0.95)", "TP");
-      levelLine(focus[6], "rgba(251,113,133,0.95)", "SL");
+      levelLine(focus[3], "rgba(94,234,212,0.95)", "ENT");
+      levelLine(focus[5], "rgba(102,187,106,0.95)", "TP");
+      levelLine(focus[6], "rgba(239,83,80,0.95)", "SL");
     }
 
-    // Hit markers on recent closes
-    var recent = recentCloses(upto, 18);
+    // Hit markers on latest candle for recent closes this frame
+    var recent = recentCloses(upto, 8);
     for (var r = 0; r < recent.length; r++) {
       var tr = recent[r];
-      if (tr[1] < start || tr[1] > end) continue;
+      if (tr[1] !== upto && tr[1] !== upto - 1) continue;
       var hitPx = tr[8] === 1 && tr[5] ? tr[5] : (tr[8] === 2 && tr[6] ? tr[6] : tr[4]);
-      var hx = X(tr[1]), hy = Y(hitPx);
+      var hx = X(n - 1), hy = Y(hitPx);
       btcCtx.beginPath();
-      btcCtx.arc(hx, hy, 3.4, 0, Math.PI * 2);
-      btcCtx.fillStyle = tr[8] === 1 ? "#34d399" : (tr[8] === 2 ? "#fb7185" : "#94a3b8");
+      btcCtx.arc(hx, hy, 4, 0, Math.PI * 2);
+      btcCtx.fillStyle = tr[8] === 1 ? "#66bb6a" : "#ef5350";
       btcCtx.fill();
-      // small chevron toward level
-      btcCtx.beginPath();
-      if (tr[8] === 1) {
-        btcCtx.moveTo(hx, hy - 7); btcCtx.lineTo(hx - 3.5, hy - 2); btcCtx.lineTo(hx + 3.5, hy - 2);
-      } else if (tr[8] === 2) {
-        btcCtx.moveTo(hx, hy + 7); btcCtx.lineTo(hx - 3.5, hy + 2); btcCtx.lineTo(hx + 3.5, hy + 2);
-      }
-      btcCtx.closePath();
-      btcCtx.fill();
+      btcCtx.strokeStyle = "#eef3f7";
+      btcCtx.lineWidth = 1;
+      btcCtx.stroke();
     }
   }
 
@@ -699,63 +577,34 @@
     var minL = Math.min.apply(null, logs), maxL = Math.max.apply(null, logs);
     if (maxL - minL < 0.05) { maxL += 0.05; minL -= 0.02; }
     var pad = (maxL - minL) * 0.08; minL -= pad; maxL += pad;
-    function X(i) { return (i / Math.max(1, frames - 1)) * (w - 20) + 10; }
+    function X(i) { return (i / Math.max(1, frames - 1)) * (w - 18) + 9; }
     function Y(v) {
       var lv = Math.log10(Math.max(v, 1));
-      return h - 12 - ((lv - minL) / (maxL - minL)) * (h - 22);
+      return h - 14 - ((lv - minL) / (maxL - minL)) * (h - 24);
     }
-    // date ticks on equity too
     eqCtx.fillStyle = "#8a9aab";
     eqCtx.font = "10px JetBrains Mono, monospace";
     var marks = [0, Math.floor(upto / 2), upto];
     for (var m = 0; m < marks.length; m++) {
-      var mi = marks[m];
-      var lab = (dates[mi] || "").slice(2);
-      if (lab) eqCtx.fillText(lab, X(mi) - 16, h - 2);
+      var lab = (dates[marks[m]] || "").slice(2);
+      if (lab) eqCtx.fillText(lab, X(marks[m]) - 16, h - 2);
     }
     for (var k = 1; k < pts.length; k++) {
       eqCtx.beginPath();
       eqCtx.moveTo(X(k - 1), Y(pts[k - 1]));
       eqCtx.lineTo(X(k), Y(pts[k]));
-      eqCtx.strokeStyle = pts[k] >= pts[k - 1] ? "#5eead4" : "#fb7185";
+      eqCtx.strokeStyle = pts[k] >= pts[k - 1] ? "#5eead4" : "#ef5350";
       eqCtx.lineWidth = 1.8;
       eqCtx.stroke();
     }
-    // event markers on equity timeline
     for (var e = 0; e < eventFrames.length; e++) {
       var ev = eventFrames[e];
       if (ev.frame > upto) continue;
       eqCtx.beginPath();
-      eqCtx.arc(X(ev.frame), Y(sample(equity, ev.frame)), 2.2, 0, Math.PI * 2);
-      eqCtx.fillStyle = "#fbbf24";
+      eqCtx.arc(X(ev.frame), Y(sample(equity, ev.frame)), 3, 0, Math.PI * 2);
+      eqCtx.fillStyle = "#ffd54f";
       eqCtx.fill();
     }
-  }
-
-  function drawDd(upto) {
-    var w = ddCanvas.width, h = ddCanvas.height;
-    ddCtx.clearRect(0, 0, w, h);
-    var pts = [];
-    for (var i = 0; i <= upto; i++) pts.push(sample(ddPath, i) || 0);
-    if (pts.length < 2) return;
-    var maxD = Math.max(1, Math.max.apply(null, pts));
-    function X(i) { return (i / Math.max(1, frames - 1)) * (w - 20) + 10; }
-    function Y(v) { return 4 + (v / maxD) * (h - 10); }
-    ddCtx.beginPath();
-    ddCtx.moveTo(X(0), 4);
-    for (var j = 0; j < pts.length; j++) ddCtx.lineTo(X(j), Y(pts[j]));
-    ddCtx.lineTo(X(pts.length - 1), 4);
-    ddCtx.closePath();
-    ddCtx.fillStyle = "rgba(251,113,133,0.18)";
-    ddCtx.fill();
-    ddCtx.beginPath();
-    for (var k = 0; k < pts.length; k++) {
-      if (k === 0) ddCtx.moveTo(X(k), Y(pts[k]));
-      else ddCtx.lineTo(X(k), Y(pts[k]));
-    }
-    ddCtx.strokeStyle = "#fb7185";
-    ddCtx.lineWidth = 1.2;
-    ddCtx.stroke();
   }
 
   function renderHud(i) {
@@ -773,28 +622,34 @@
         var hit = tr2[8] === 1 ? "HIT TP" : (tr2[8] === 2 ? "HIT SL" : "EXIT");
         var cls = tr2[8] === 1 ? "win" : (tr2[8] === 2 ? "loss" : "");
         box.innerHTML = "<span class=\"" + cls + "\"><b>" + hit + "</b></span> @ " + fmtPx(tr2[4]) +
-          " · qty <b>" + fmtQty(tr2[7]) + "</b> · " + (tr2[9] >= 0 ? "+" : "") + fmtMoney(tr2[9]);
+          " · qty <b>" + fmtQty(tr2[7]) + "</b>";
+      } else box.textContent = "Waiting for next fill...";
+    }
+
+    var banner = document.getElementById("eventBanner");
+    var ev = eventNear(i);
+    if (ev) {
+      banner.className = "event-banner on";
+      document.getElementById("eventTitle").textContent = ev.label;
+      document.getElementById("eventSub").textContent = ev.d;
+    } else {
+      var cur = currentEvent(i);
+      if (cur) {
+        banner.className = "event-banner on";
+        document.getElementById("eventTitle").textContent = cur.label;
+        document.getElementById("eventSub").textContent = "from " + cur.d;
       } else {
-        box.textContent = "Waiting for next fill...";
+        banner.className = "event-banner";
       }
     }
-    var ev = currentEvent(i);
-    var el = document.getElementById("eventLine");
-    if (ev) el.textContent = "Market: " + ev.d.slice(0, 7) + " · " + ev.label;
-    else el.textContent = "";
   }
 
   function render(i) {
     var eq = sample(equity, i);
     var pct = ((eq / startEquity) - 1) * 100;
-    var wins = cumWins[i] || 0;
-    var losses = cumLosses[i] || 0;
-    var closed = cumClosed[i] || 0;
+    var wins = cumWins[i] || 0, losses = cumLosses[i] || 0;
     var wr = (wins + losses) > 0 ? (100 * wins / (wins + losses)) : 0;
-    var pathDd = sample(ddPath, i) || 0;
     var qty = lastQty(i);
-    var px = sample(cArr, i);
-
     document.getElementById("btEquity").textContent = fmtMoney(eq);
     document.getElementById("eqNow").textContent = fmtMoney(eq);
     document.getElementById("btPct").textContent = fmtPct(pct, 0);
@@ -802,28 +657,30 @@
     document.getElementById("btWR").textContent = fmtPctAbs(wr, 1);
     document.getElementById("btWins").textContent = String(wins);
     document.getElementById("btLosses").textContent = String(losses);
-    document.getElementById("btTrades").textContent = String(closed);
-    document.getElementById("btPathDd").textContent = fmtPctAbs(pathDd, 1);
+    document.getElementById("btTrades").textContent = String(cumClosed[i] || 0);
+    document.getElementById("btPathDd").textContent = fmtPctAbs(sample(P.drawdown_pct || [], i) || 0, 1);
     document.getElementById("btDate").textContent = dates[i] || "";
-    document.getElementById("btcNow").textContent = fmtPx(px);
-    document.getElementById("btStatus").textContent =
-      i >= frames - 1 ? "Complete" : (playing ? "Running" : "Paused");
-
+    document.getElementById("btcNow").textContent = fmtPx(sample(btcClose, i));
+    document.getElementById("btStatus").textContent = i >= frames - 1 ? "Complete" : (playing ? "Running" : "Paused");
     drawBtc(i);
     drawEquity(i);
-    drawDd(i);
     renderHud(i);
   }
 
   function stopTimer() { if (timer) { clearInterval(timer); timer = null; } }
+  var evHold = 0;
   function startTimer() {
     stopTimer();
     timer = setInterval(function () {
       if (!playing) return;
-      frame += 1;
-      if (frame >= frames) {
-        frame = frames - 1; playing = false; stopTimer(); render(frame); return;
+      if (evHold > 0) {
+        evHold -= 1;
+        render(frame);
+        return;
       }
+      frame += 1;
+      if (frame >= frames) { frame = frames - 1; playing = false; stopTimer(); render(frame); return; }
+      if (eventNear(frame)) evHold = 5; // ~1s pause on major events
       render(frame);
     }, FRAME_MS);
   }
@@ -842,11 +699,11 @@
     playing = false; stopTimer(); render(frame);
   });
   document.getElementById("btReset").addEventListener("click", function () {
-    playing = false; stopTimer(); frame = 0; render(0);
+    playing = false; stopTimer(); frame = 0; evHold = 0; render(0);
   });
 
   render(0);
-  setTimeout(function () { play(); }, 600);
+  setTimeout(function () { play(); }, 700);
 })();
 </script>
 
