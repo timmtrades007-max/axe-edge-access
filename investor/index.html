@@ -332,6 +332,8 @@
   var c15Dates = P.c15_dates || [];
   var c15Win = P.c15_win || 96;
   var btcClose = P.btc || [];
+  var formData = P.form || [];
+  var FORM_N = P.form_steps || 12;
   var frames = Math.max(1, equity.length);
   var startEquity = P.start || 30000;
   var eventFrames = P.events || [];
@@ -387,7 +389,9 @@
   var btcCtx = btcCanvas.getContext("2d");
   var eqCtx = eqCanvas.getContext("2d");
 
-  var playing = false, frame = 0, timer = null, FRAME_MS = 520;
+  var playing = false, frame = 0, formStep = 0, timer = null;
+  var GROW_MS = 72;   // live candle growth tick (faster than real 5m)
+  var HOLD_MS = 280;  // brief pause after candle completes / on events
 
   var activeByFrame = new Array(frames);
   for (var ai = 0; ai < frames; ai++) activeByFrame[ai] = [];
@@ -433,20 +437,41 @@
     return best;
   }
 
-  function parseWindow(upto) {
+  function formOHLC(upto, step) {
+    var flat = formData[Math.max(0, Math.min(formData.length - 1, upto))] || [];
+    var s = Math.max(0, Math.min(FORM_N - 1, step));
+    var i = s * 4;
+    if (i + 3 >= flat.length) {
+      // fallback to completed last candle
+      var win = c15[Math.max(0, Math.min(c15.length - 1, upto))] || [];
+      var n = Math.floor(win.length / 4);
+      var b = (n - 1) * 4;
+      return { o: win[b], h: win[b + 1], l: win[b + 2], c: win[b + 3] };
+    }
+    return { o: flat[i], h: flat[i + 1], l: flat[i + 2], c: flat[i + 3] };
+  }
+
+  function parseWindow(upto, step) {
     var flat = c15[Math.max(0, Math.min(c15.length - 1, upto))] || [];
     var dlist = c15Dates[Math.max(0, Math.min(c15Dates.length - 1, upto))] || [];
     var candles = [];
-    for (var i = 0; i + 3 < flat.length; i += 4) {
-      candles.push({ o: flat[i], h: flat[i + 1], l: flat[i + 2], c: flat[i + 3], d: dlist[i / 4] || "" });
+    var n = Math.floor(flat.length / 4);
+    for (var i = 0; i < n; i++) {
+      var b = i * 4;
+      candles.push({ o: flat[b], h: flat[b + 1], l: flat[b + 2], c: flat[b + 3], d: dlist[i] || "", live: false });
+    }
+    if (candles.length) {
+      var live = formOHLC(upto, step);
+      var last = candles[candles.length - 1];
+      last.o = live.o; last.h = live.h; last.l = live.l; last.c = live.c; last.live = true;
     }
     return candles;
   }
 
-  function drawBtc(upto) {
+  function drawBtc(upto, step) {
     var w = btcCanvas.width, h = btcCanvas.height;
     btcCtx.clearRect(0, 0, w, h);
-    var candles = parseWindow(upto);
+    var candles = parseWindow(upto, step == null ? FORM_N - 1 : step);
     var n = candles.length;
     if (n < 2) return;
 
@@ -520,9 +545,10 @@
       var up = cd.c >= cd.o;
       var col = up ? "#26a69a" : "#ef5350";
       var x = X(i);
+      var wCandle = cd.live ? candleW * 1.15 : candleW;
       btcCtx.strokeStyle = col;
       btcCtx.fillStyle = col;
-      btcCtx.lineWidth = 1.2;
+      btcCtx.lineWidth = cd.live ? 1.6 : 1.2;
       btcCtx.beginPath();
       btcCtx.moveTo(x, Y(cd.h));
       btcCtx.lineTo(x, Y(cd.l));
@@ -530,7 +556,12 @@
       var yTop = Y(Math.max(cd.o, cd.c));
       var yBot = Y(Math.min(cd.o, cd.c));
       var bh = Math.max(1.5, yBot - yTop);
-      btcCtx.fillRect(x - candleW / 2, yTop, candleW, bh);
+      btcCtx.fillRect(x - wCandle / 2, yTop, wCandle, bh);
+      if (cd.live) {
+        btcCtx.strokeStyle = "rgba(238,243,247,0.55)";
+        btcCtx.lineWidth = 1;
+        btcCtx.strokeRect(x - wCandle / 2 - 0.5, yTop - 0.5, wCandle + 1, bh + 1);
+      }
     }
 
     function levelLine(price, color, tag) {
@@ -642,12 +673,14 @@
     }
   }
 
-  function render(i) {
+  function render(i, step) {
+    if (step == null) step = formStep;
     var eq = sample(equity, i);
     var pct = ((eq / startEquity) - 1) * 100;
     var wins = cumWins[i] || 0, losses = cumLosses[i] || 0;
     var wr = (wins + losses) > 0 ? (100 * wins / (wins + losses)) : 0;
     var qty = lastQty(i);
+    var live = formOHLC(i, step);
     document.getElementById("btEquity").textContent = fmtMoney(eq);
     document.getElementById("eqNow").textContent = fmtMoney(eq);
     document.getElementById("btPct").textContent = fmtPct(pct, 0);
@@ -658,36 +691,56 @@
     document.getElementById("btTrades").textContent = String(cumClosed[i] || 0);
     document.getElementById("btPathDd").textContent = fmtPctAbs(sample(P.drawdown_pct || [], i) || 0, 1);
     document.getElementById("btDate").textContent = dates[i] || "";
-    document.getElementById("btcNow").textContent = fmtPx(sample(btcClose, i));
-    document.getElementById("btStatus").textContent = i >= frames - 1 ? "Complete" : (playing ? "Running" : "Paused");
-    drawBtc(i);
+    document.getElementById("btcNow").textContent = fmtPx(live.c || sample(btcClose, i));
+    document.getElementById("btStatus").textContent = i >= frames - 1 && step >= FORM_N - 1 ? "Complete" : (playing ? "Running" : "Paused");
+    drawBtc(i, step);
     drawEquity(i);
     renderHud(i);
   }
 
-  function stopTimer() { if (timer) { clearInterval(timer); timer = null; } }
-  var evHold = 0;
-  function startTimer() {
+  function stopTimer() { if (timer) { clearTimeout(timer); clearInterval(timer); timer = null; } }
+  var holdLeft = 0;
+  function schedule(ms) {
     stopTimer();
-    timer = setInterval(function () {
-      if (!playing) return;
-      if (evHold > 0) {
-        evHold -= 1;
-        render(frame);
-        return;
-      }
-      frame += 1;
-      if (frame >= frames) { frame = frames - 1; playing = false; stopTimer(); render(frame); return; }
-      // linger so TP/SL / entries are readable
-      if (eventNear(frame)) evHold = 4;
-      else if ((closesByFrame[frame] || []).length) evHold = 3;
-      else if ((activeByFrame[frame] || []).length) evHold = 2;
-      render(frame);
-    }, FRAME_MS);
+    timer = setTimeout(tick, ms);
+  }
+  function tick() {
+    if (!playing) return;
+    if (holdLeft > 0) {
+      holdLeft -= 1;
+      render(frame, formStep);
+      schedule(HOLD_MS);
+      return;
+    }
+    // Grow / retract the live candle through real intra-hour snapshots
+    if (formStep < FORM_N - 1) {
+      formStep += 1;
+      render(frame, formStep);
+      schedule(GROW_MS);
+      return;
+    }
+    // Candle complete — brief pause, then advance and start next candle from its open
+    if (frame >= frames - 1) {
+      playing = false;
+      stopTimer();
+      render(frame, FORM_N - 1);
+      return;
+    }
+    frame += 1;
+    formStep = 0;
+    render(frame, 0);
+    if (eventNear(frame)) holdLeft = 3;
+    else if ((closesByFrame[frame] || []).length) holdLeft = 2;
+    else if ((activeByFrame[frame] || []).length) holdLeft = 1;
+    else holdLeft = 0;
+    schedule(holdLeft > 0 ? HOLD_MS : GROW_MS);
+  }
+  function startTimer() {
+    schedule(GROW_MS);
   }
   function play() {
     if (playing) return;
-    if (frame >= frames - 1) frame = 0;
+    if (frame >= frames - 1 && formStep >= FORM_N - 1) { frame = 0; formStep = 0; }
     playing = true; startTimer();
   }
 
@@ -697,13 +750,13 @@
     play();
   });
   document.getElementById("btPause").addEventListener("click", function () {
-    playing = false; stopTimer(); render(frame);
+    playing = false; stopTimer(); render(frame, formStep);
   });
   document.getElementById("btReset").addEventListener("click", function () {
-    playing = false; stopTimer(); frame = 0; evHold = 0; render(0);
+    playing = false; stopTimer(); frame = 0; formStep = 0; holdLeft = 0; render(0, 0);
   });
 
-  render(0);
+  render(0, 0);
   setTimeout(function () { play(); }, 700);
 })();
 </script>
