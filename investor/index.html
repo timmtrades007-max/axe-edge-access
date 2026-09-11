@@ -4,239 +4,257 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Axe Edge | Capital Brief</title>
-  <meta name="description" content="Axe Edge capital brief: verified BTCUSDT path from $30,000 (2022) to $845.7M (2026). Full-cycle proof with drawdowns and backtest metrics." />
+  <meta name="description" content="Verified BTCUSDT path: $30,000 (2022) to $845.7M. Limit entries, TP/SL tape, compounding size. Capital brief." />
   <meta property="og:title" content="Axe Edge | Capital Brief" />
-  <meta property="og:description" content="Verified compounding path on BTCUSDT. Serious capital briefing - not a retail seat page." />
+  <meta property="og:description" content="Full-cycle verified compounding on BTCUSDT with live trade tape." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #03050a;
-      --ink: #e8f4ff;
-      --muted: #7f93a8;
-      --cyan: #3de7ff;
-      --cyan-dim: rgba(61, 231, 255, 0.14);
-      --amber: #ffb347;
-      --line: rgba(120, 170, 210, 0.16);
-      --panel: rgba(8, 16, 28, 0.72);
-      --bad: #ff5d6c;
-      --ok: #5dffb0;
+      --bg: #0a0e12;
+      --ink: #eef3f7;
+      --muted: #8a9aab;
+      --line: rgba(140, 170, 190, 0.14);
+      --panel: rgba(14, 22, 30, 0.88);
+      --accent: #5eead4;
+      --accent2: #7dd3fc;
+      --ok: #34d399;
+      --bad: #fb7185;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: "Space Grotesk", system-ui, sans-serif;
+      font-family: "DM Sans", system-ui, sans-serif;
       background: var(--bg);
       color: var(--ink);
-      line-height: 1.5;
+      line-height: 1.55;
       overflow-x: hidden;
     }
     body::before {
       content: "";
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 60% 45% at 12% 0%, rgba(61,231,255,0.16), transparent 55%),
-        radial-gradient(ellipse 50% 40% at 90% 10%, rgba(255,179,71,0.08), transparent 50%),
-        linear-gradient(180deg, #061018 0%, #03050a 50%, #020308 100%);
+        radial-gradient(ellipse 55% 40% at 8% -5%, rgba(94,234,212,0.12), transparent 55%),
+        radial-gradient(ellipse 45% 35% at 95% 5%, rgba(125,211,252,0.09), transparent 50%),
+        linear-gradient(180deg, #0c1218 0%, #0a0e12 55%, #080b0f 100%);
     }
-    body::after {
-      content: "";
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image:
-        linear-gradient(rgba(61,231,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(61,231,255,0.04) 1px, transparent 1px);
-      background-size: 72px 72px;
-      mask-image: radial-gradient(ellipse 80% 70% at 50% 20%, #000 20%, transparent 75%);
-    }
-    .wrap { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; position: relative; z-index: 1; }
-    a { color: inherit; }
-
+    .wrap { width: min(1200px, calc(100% - 2rem)); margin: 0 auto; position: relative; z-index: 1; }
     .nav {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 1.25rem 0 0;
+      padding: 1.35rem 0 0;
     }
     .brand {
-      font-family: "Orbitron", sans-serif;
-      letter-spacing: 0.22em;
-      font-size: 0.95rem;
+      font-family: "Syne", sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      font-size: 0.92rem;
       text-transform: uppercase;
     }
-    .brand span { color: var(--cyan); }
-    .nav-cta {
-      text-decoration: none;
-      border: 1px solid var(--cyan);
-      color: var(--cyan);
-      padding: 0.55rem 0.95rem;
+    .brand span { color: var(--accent); }
+    .nav-meta {
+      font-family: "JetBrains Mono", monospace;
       font-size: 0.68rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      font-family: "IBM Plex Mono", monospace;
-      box-shadow: 0 0 18px rgba(61,231,255,0.15);
+      color: var(--muted);
+      letter-spacing: 0.06em;
     }
-
-    .hero { min-height: 88vh; display: grid; align-items: end; padding-bottom: 3.5rem; }
-    .hero-inner { padding-top: 14vh; max-width: 980px; }
+    .hero { min-height: 78vh; display: grid; align-items: end; padding-bottom: 3rem; }
+    .hero-inner { padding-top: 12vh; max-width: 920px; }
     .eyebrow {
-      font-family: "IBM Plex Mono", monospace;
-      color: var(--cyan);
+      font-family: "JetBrains Mono", monospace;
+      color: var(--accent);
       font-size: 0.72rem;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      margin-bottom: 1.1rem;
-      opacity: 0; animation: rise 0.9s ease 0.1s forwards;
+      margin-bottom: 1rem;
+      opacity: 0; animation: rise 0.8s ease 0.05s forwards;
     }
     h1 {
-      font-family: "Orbitron", sans-serif;
-      font-weight: 600;
-      font-size: clamp(2.4rem, 6.5vw, 4.8rem);
-      line-height: 1.05;
-      letter-spacing: 0.02em;
-      margin-bottom: 1.2rem;
-      opacity: 0; animation: rise 1s ease 0.25s forwards;
+      font-family: "Syne", sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.35rem, 6vw, 4.4rem);
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.15rem;
+      opacity: 0; animation: rise 0.9s ease 0.15s forwards;
     }
-    h1 em { font-style: normal; color: var(--cyan); text-shadow: 0 0 28px rgba(61,231,255,0.35); }
+    h1 em { font-style: normal; color: var(--accent); }
     .lede {
-      max-width: 40rem; color: var(--muted); font-weight: 300; font-size: 1.05rem;
-      margin-bottom: 1.8rem; opacity: 0; animation: rise 1s ease 0.4s forwards;
+      max-width: 38rem; color: var(--muted); font-weight: 300; font-size: 1.08rem;
+      margin-bottom: 1.5rem; opacity: 0; animation: rise 0.9s ease 0.28s forwards;
     }
-    .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; opacity: 0; animation: rise 1s ease 0.55s forwards; }
+    .hooks {
+      display: grid; gap: 0.55rem; margin-bottom: 1.6rem;
+      opacity: 0; animation: rise 0.9s ease 0.4s forwards;
+    }
+    .hooks li {
+      list-style: none;
+      font-size: 0.95rem;
+      color: var(--ink);
+      padding-left: 1.1rem;
+      position: relative;
+    }
+    .hooks li::before {
+      content: "";
+      position: absolute; left: 0; top: 0.55em;
+      width: 0.45rem; height: 0.45rem;
+      background: var(--accent);
+      border-radius: 1px;
+    }
+    .hooks li strong { color: var(--accent2); font-weight: 600; }
+    .actions { display: flex; flex-wrap: wrap; gap: 0.7rem; opacity: 0; animation: rise 0.9s ease 0.5s forwards; }
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
-      text-decoration: none; border: 1px solid transparent;
-      padding: 0.9rem 1.2rem; font-size: 0.72rem; letter-spacing: 0.14em;
-      text-transform: uppercase; font-family: "IBM Plex Mono", monospace; font-weight: 500;
+      border: 1px solid transparent;
+      padding: 0.85rem 1.15rem; font-size: 0.72rem; letter-spacing: 0.12em;
+      text-transform: uppercase; font-family: "JetBrains Mono", monospace; font-weight: 500;
       cursor: pointer; background: transparent; color: var(--ink);
-      transition: transform 0.2s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
+      transition: transform 0.2s, background 0.2s, border-color 0.2s;
+      text-decoration: none;
     }
-    .btn:hover { transform: translateY(-2px); }
-    .btn-cyan { background: var(--cyan); color: #031018; box-shadow: 0 0 24px rgba(61,231,255,0.28); }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-fill { background: var(--accent); color: #04201a; }
     .btn-ghost { border-color: var(--line); }
-    .btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
     .hero-note {
-      margin-top: 1.35rem; color: var(--muted); font-size: 0.8rem;
-      font-family: "IBM Plex Mono", monospace; opacity: 0; animation: rise 1s ease 0.7s forwards;
+      margin-top: 1.2rem; color: var(--muted); font-size: 0.78rem;
+      font-family: "JetBrains Mono", monospace;
+      opacity: 0; animation: rise 0.9s ease 0.62s forwards;
     }
-
-    section { padding: 4.5rem 0; position: relative; z-index: 1; }
+    section { padding: 4rem 0; position: relative; z-index: 1; }
     .kicker {
-      font-family: "IBM Plex Mono", monospace; color: var(--cyan);
-      font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.85rem;
+      font-family: "JetBrains Mono", monospace; color: var(--accent);
+      font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 0.75rem;
     }
     h2 {
-      font-family: "Orbitron", sans-serif; font-weight: 600;
-      font-size: clamp(1.6rem, 3.5vw, 2.5rem); letter-spacing: 0.04em; margin-bottom: 0.9rem;
+      font-family: "Syne", sans-serif; font-weight: 700;
+      font-size: clamp(1.55rem, 3.2vw, 2.35rem); letter-spacing: -0.02em; margin-bottom: 0.75rem;
     }
-    .lead { color: var(--muted); max-width: 42rem; font-weight: 300; margin-bottom: 1.6rem; }
-
+    .lead { color: var(--muted); max-width: 44rem; font-weight: 300; margin-bottom: 1.4rem; }
     .stage {
       border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(61,231,255,0.05), transparent 40%);
-      padding: 2rem 0 2.5rem;
+      background: linear-gradient(180deg, rgba(94,234,212,0.04), transparent 45%);
+      padding: 2rem 0 2.4rem;
     }
     .stage-top { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: end; margin-bottom: 1rem; }
     .mega {
-      font-family: "Orbitron", sans-serif; font-size: clamp(1.7rem, 4.5vw, 3rem);
-      letter-spacing: 0.03em;
+      font-family: "Syne", sans-serif; font-size: clamp(1.6rem, 4vw, 2.7rem); font-weight: 700;
     }
-    .mega span { color: var(--cyan); }
-    .stage-meta { text-align: right; font-family: "IBM Plex Mono", monospace; color: var(--muted); font-size: 0.78rem; }
-
+    .mega span { color: var(--accent); }
+    .stage-meta { text-align: right; font-family: "JetBrains Mono", monospace; color: var(--muted); font-size: 0.76rem; }
+    .dual { display: grid; grid-template-columns: 1fr; gap: 0.7rem; }
     .chart-panel {
       border: 1px solid var(--line);
       background: var(--panel);
-      box-shadow: inset 0 0 40px rgba(61,231,255,0.04);
-      padding: 0.75rem;
+      padding: 0.7rem 0.75rem 0.85rem;
     }
-    .chart-shell { height: clamp(240px, 38vh, 380px); position: relative; }
-    .dd-shell { height: 88px; margin-top: 0.55rem; border-top: 1px solid var(--line); padding-top: 0.45rem; }
-    .dd-label { font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; color: var(--muted); margin-bottom: 0.25rem; }
+    .chart-head {
+      display: flex; justify-content: space-between; align-items: baseline; gap: 0.75rem;
+      margin-bottom: 0.35rem;
+      font-family: "JetBrains Mono", monospace; font-size: 0.68rem; color: var(--muted);
+    }
+    .chart-head strong { color: var(--ink); font-weight: 500; }
+    .btc-shell { height: clamp(220px, 32vh, 320px); position: relative; }
+    .eq-shell { height: clamp(200px, 28vh, 280px); position: relative; }
+    .dd-shell { height: 72px; margin-top: 0.4rem; border-top: 1px solid var(--line); padding-top: 0.35rem; }
     canvas { width: 100%; height: 100%; display: block; }
-
+    .trade-hud {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 0.7rem;
+      margin-top: 0.7rem;
+    }
+    .tape, .active-box {
+      border: 1px solid var(--line);
+      background: rgba(8, 14, 20, 0.7);
+      padding: 0.7rem 0.8rem;
+      min-height: 148px;
+    }
+    .tape h3, .active-box h3 {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.55rem;
+    }
+    .tape-list { display: grid; gap: 0.28rem; font-family: "JetBrains Mono", monospace; font-size: 0.72rem; }
+    .tape-row { display: grid; grid-template-columns: 52px 48px 1fr 72px; gap: 0.4rem; color: var(--muted); }
+    .tape-row .side-long { color: var(--ok); }
+    .tape-row .side-short { color: var(--bad); }
+    .tape-row .win { color: var(--ok); }
+    .tape-row .loss { color: var(--bad); }
+    .active-lines { font-family: "JetBrains Mono", monospace; font-size: 0.78rem; display: grid; gap: 0.35rem; color: var(--muted); }
+    .active-lines b { color: var(--ink); font-weight: 500; }
+    .active-empty { color: var(--muted); font-size: 0.85rem; }
     .live-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 0.65rem;
-      margin-top: 1rem;
+      gap: 0.55rem;
+      margin-top: 0.85rem;
     }
     .metric {
       border: 1px solid var(--line);
-      background: rgba(4, 10, 18, 0.65);
-      padding: 0.75rem 0.8rem;
+      background: rgba(8, 14, 20, 0.65);
+      padding: 0.7rem 0.75rem;
     }
     .metric b {
       display: block;
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 1.05rem;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.02rem;
       font-weight: 600;
-      color: var(--ink);
     }
     .metric span {
       color: var(--muted);
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      font-family: "IBM Plex Mono", monospace;
+      font-family: "JetBrains Mono", monospace;
     }
-    .metric.hot b { color: var(--cyan); text-shadow: 0 0 12px rgba(61,231,255,0.35); }
-    .metric.warn b { color: var(--amber); }
+    .metric.hot b { color: var(--accent); }
+    .metric.ok b { color: var(--ok); }
     .metric.bad b { color: var(--bad); }
-
-    .controls { display: flex; flex-wrap: wrap; gap: 0.55rem; align-items: center; margin-top: 1rem; }
-    .speed {
-      font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; color: var(--muted);
-      margin-left: 0.35rem;
-    }
-
+    .controls { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: 0.9rem; }
+    .speed { font-family: "JetBrains Mono", monospace; font-size: 0.7rem; color: var(--muted); margin-left: 0.25rem; }
     .meta-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 0.75rem;
-      margin-top: 1.5rem;
+      gap: 0.85rem;
+      margin-top: 1.2rem;
     }
-    .meta-card {
-      border-top: 1px solid var(--cyan);
-      padding-top: 0.85rem;
-    }
+    .meta-card { border-top: 1px solid var(--accent); padding-top: 0.8rem; }
     .meta-card h3 {
-      font-family: "Orbitron", sans-serif; font-size: 0.85rem; letter-spacing: 0.1em;
-      text-transform: uppercase; margin-bottom: 0.55rem; color: var(--cyan);
+      font-family: "Syne", sans-serif; font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--accent2);
     }
-    .meta-card ul { list-style: none; display: grid; gap: 0.35rem; color: var(--muted); font-size: 0.88rem; }
-    .meta-card li strong { color: var(--ink); font-family: "IBM Plex Mono", monospace; font-weight: 500; }
-
-    .two {
-      display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 2rem; align-items: start;
+    .meta-card ul { list-style: none; display: grid; gap: 0.32rem; color: var(--muted); font-size: 0.88rem; }
+    .meta-card li strong { color: var(--ink); font-family: "JetBrains Mono", monospace; font-weight: 500; }
+    .points {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 0.5rem;
     }
-    .box {
-      border: 1px solid rgba(61,231,255,0.28);
-      background: linear-gradient(160deg, rgba(61,231,255,0.08), rgba(0,0,0,0.25));
-      padding: 1.4rem 1.3rem;
-      box-shadow: 0 0 40px rgba(61,231,255,0.08);
+    .point {
+      border: 1px solid var(--line);
+      background: rgba(14, 22, 30, 0.55);
+      padding: 1.15rem 1.1rem;
     }
-    .box h3 { font-family: "Orbitron", sans-serif; font-size: 1rem; letter-spacing: 0.08em; margin-bottom: 0.8rem; }
-    .box ol { padding-left: 1.15rem; color: var(--muted); display: grid; gap: 0.5rem; font-size: 0.92rem; }
-    .box a { color: var(--cyan); }
-
-    .final { text-align: center; padding-bottom: 5rem; }
-    .final h2 { max-width: 18ch; margin: 0 auto 0.9rem; }
-    .final .lead { margin-left: auto; margin-right: auto; }
-    .final .actions { justify-content: center; }
-
+    .point h3 { font-family: "Syne", sans-serif; font-size: 1.05rem; margin-bottom: 0.45rem; }
+    .point p { color: var(--muted); font-size: 0.92rem; font-weight: 300; }
     footer { border-top: 1px solid var(--line); padding: 2rem 0 3rem; position: relative; z-index: 1; }
-    footer .risk { color: var(--muted); font-size: 0.76rem; max-width: 58rem; font-weight: 300; }
-
+    footer .risk { color: var(--muted); font-size: 0.74rem; max-width: 58rem; font-weight: 300; }
     @keyframes rise {
-      from { opacity: 0; transform: translateY(16px); }
+      from { opacity: 0; transform: translateY(14px); }
       to { opacity: 1; transform: translateY(0); }
     }
     @media (max-width: 900px) {
-      .live-grid, .meta-grid, .two { grid-template-columns: 1fr 1fr; }
+      .live-grid, .meta-grid, .points, .trade-hud { grid-template-columns: 1fr 1fr; }
       .stage-meta { text-align: left; }
     }
     @media (max-width: 560px) {
-      .live-grid, .meta-grid, .two { grid-template-columns: 1fr; }
+      .live-grid, .meta-grid, .points, .trade-hud { grid-template-columns: 1fr; }
+      .tape-row { grid-template-columns: 44px 40px 1fr 64px; font-size: 0.66rem; }
     }
   
     .share-bar {
@@ -287,26 +305,30 @@
 <body>
   <div class="wrap">
     <nav class="nav">
-      <div class="brand">Axe Edge <span>//</span> Capital</div>
-      <a class="nav-cta" href="#converse">Private discussion</a>
+      <div class="brand">Axe Edge <span>/</span> Capital</div>
+      <div class="nav-meta">Verified path · host flats off tape</div>
     </nav>
   </div>
 
   <header class="hero">
     <div class="wrap hero-inner">
-      <p class="eyebrow">Capital brief · verified system path</p>
-      <h1>COMPOUNDING<br />AT <em>MACHINE</em> SCALE</h1>
+      <p class="eyebrow">Capital brief · BTCUSDT · 2022 to now</p>
+      <h1>$30,000 became<br /><em>$845.7 million</em></h1>
       <p class="lede">
-        Axe Edge is a rules-based BTCUSDT system built for serious capital.
-        This brief shows the full-cycle verified path from 2022 through today -
-        including early structure, drawdowns, and the compounding that follows.
-        Not a retail seat checkout. Economics are discussed privately.
+        Same rules, full cycle, no capacity marketing. Watch BTC print, limits fill,
+        TP and SL fire, and order size scale as equity compounds - the way the backtester runs it.
       </p>
+      <ul class="hooks">
+        <li><strong>Real structure:</strong> limit entries with hard TP / SL - not a smoothed equity fairy tale.</li>
+        <li><strong>Decisive quality:</strong> wins vs losses only. Host placeholders never touch the win rate.</li>
+        <li><strong>Size follows equity:</strong> as profit stacks, position qty steps up - you see it on the tape.</li>
+        <li><strong>Full cycle proof:</strong> 2022 structure through 2026 compounding, with drawdowns intact.</li>
+      </ul>
       <div class="actions">
-        <a class="btn btn-cyan" href="#path">Run the path</a>
-        <a class="btn btn-ghost" href="#metrics">Backtest metrics</a>
+        <button class="btn btn-fill" type="button" id="heroPlay">Run the tape</button>
+        <a class="btn btn-ghost" href="#mechanics">How trades print</a>
       </div>
-      <p class="hero-note">2022-01-01 → 2026-09-09 · $30,000 start · $845.7M final · host-on pack</p>
+      <p class="hero-note">Start $30,000 · Final $845,703,073 · 7,169 non-host closes · Decisive WR 98.40% · Max DD(Profit) 20.22%</p>
     </div>
   </header>
 
@@ -314,135 +336,136 @@
     <div class="wrap">
       <div class="stage-top">
         <div>
-          <p class="kicker">Live replay</p>
-          <div class="mega">$30K <span>→</span> $845.7M</div>
+          <p class="kicker">Backtester-style replay</p>
+          <div class="mega">BTC tape <span>+</span> equity</div>
         </div>
         <div class="stage-meta">
           <div id="btDate">2022-01-01</div>
-          <div id="btStatus">Ready · log scale (dips visible)</div>
+          <div id="btStatus">Ready · slow step like the engine</div>
         </div>
       </div>
 
-      <div class="chart-panel">
-        <div class="chart-shell"><canvas id="eqCanvas" width="1400" height="520"></canvas></div>
-        <div class="dd-shell">
-          <div class="dd-label">Underwater vs peak equity (path)</div>
-          <canvas id="ddCanvas" width="1400" height="140"></canvas>
+      <div class="dual">
+        <div class="chart-panel">
+          <div class="chart-head">
+            <span>BTCUSDT · limit / TP / SL marks</span>
+            <strong id="btcNow">-</strong>
+          </div>
+          <div class="btc-shell"><canvas id="btcCanvas" width="1400" height="480"></canvas></div>
+        </div>
+        <div class="chart-panel">
+          <div class="chart-head">
+            <span>Equity (log) · path drawdown</span>
+            <strong id="eqNow">$30,000</strong>
+          </div>
+          <div class="eq-shell"><canvas id="eqCanvas" width="1400" height="420"></canvas></div>
+          <div class="dd-shell">
+            <canvas id="ddCanvas" width="1400" height="120"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="trade-hud">
+        <div class="tape">
+          <h3>Recent closes (non-host)</h3>
+          <div class="tape-list" id="tapeList"></div>
+        </div>
+        <div class="active-box">
+          <h3>Active structure</h3>
+          <div id="activeBox" class="active-empty">Waiting for next limit fill...</div>
         </div>
       </div>
 
       <div class="live-grid">
         <div class="metric hot"><b id="btEquity">$30,000</b><span>Equity</span></div>
         <div class="metric"><b id="btPct">+0.0%</b><span>Growth</span></div>
-        <div class="metric warn"><b id="btPathDd">0.00%</b><span>Path DD now</span></div>
-        <div class="metric bad"><b id="btPathDdMax">0.00%</b><span>Path DD max</span></div>
-        <div class="metric"><b id="btTrades">0</b><span>Closed trades</span></div>
+        <div class="metric"><b id="btQty">-</b><span>Last qty (BTC)</span></div>
         <div class="metric hot"><b id="btWR">-</b><span>Decisive WR</span></div>
-        <div class="metric"><b id="btWL">- / -</b><span>Wins / Losses</span></div>
-        <div class="metric"><b id="btHosts">-</b><span>Host closes (excl.)</span></div>
+        <div class="metric ok"><b id="btWins">0</b><span>Wins</span></div>
+        <div class="metric bad"><b id="btLosses">0</b><span>Losses</span></div>
+        <div class="metric"><b id="btTrades">0</b><span>Closes on tape</span></div>
+        <div class="metric"><b id="btPathDd">0.00%</b><span>Path DD now</span></div>
       </div>
 
       <div class="controls">
-        <button class="btn btn-cyan" type="button" id="btPlay">Play path</button>
+        <button class="btn btn-fill" type="button" id="btPlay">Play</button>
         <button class="btn btn-ghost" type="button" id="btPause">Pause</button>
         <button class="btn btn-ghost" type="button" id="btReset">Reset</button>
-        <span class="speed" id="btSpeed">Slow replay · ~18s full cycle</span>
+        <span class="speed" id="btSpeed">~55s full cycle · frame step like the backtester</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="mechanics">
+    <div class="wrap">
+      <p class="kicker">What you are watching</p>
+      <h2>How the money is actually made</h2>
+      <p class="lead">
+        The top chart is BTC price. Markers show limit entry, take-profit, and stop-loss on real closes.
+        Host flats are stripped - they never inflate or deflate the live win rate.
+      </p>
+      <div class="points">
+        <article class="point">
+          <h3>Limit in</h3>
+          <p>Entries wait for price. No market-chase fantasy. You see the fill level on the BTC path as equity builds.</p>
+        </article>
+        <article class="point">
+          <h3>Hard exits</h3>
+          <p>TP and SL are fixed structure per trade. Wins and losses are counted only when those exits decide - not placeholders.</p>
+        </article>
+        <article class="point">
+          <h3>Size scales</h3>
+          <p>As balance compounds, qty steps higher. Late-cycle tickets dwarf early ones - that is the $845M math, visible on the tape.</p>
+        </article>
       </div>
     </div>
   </section>
 
   <section id="metrics">
     <div class="wrap">
-      <p class="kicker">Backtester readout</p>
-      <h2>Same class of numbers you see in-run</h2>
-      <p class="lead">
-        Decisive win rate uses wins / (wins + losses). Host placeholder closes are tracked separately and excluded from that W/L -
-        that is why “wins / all closes” looks lower (~79%) and should not be sold as the strategy win rate.
-      </p>
+      <p class="kicker">Engine readout</p>
+      <h2>Numbers from the verified run</h2>
       <div class="meta-grid">
         <article class="meta-card">
           <h3>Result</h3>
           <ul>
-            <li>Final balance: <strong id="mFinal">$845.7M</strong></li>
-            <li>Total PnL: <strong id="mPnl">-</strong></li>
-            <li>Commission: <strong id="mFee">-</strong></li>
+            <li>Final: <strong id="mFinal">$845.7M</strong></li>
             <li>Multiple: <strong id="mMult">-</strong></li>
+            <li>On tape: <strong id="mTape">-</strong></li>
+            <li>Hosts excluded: <strong id="mHostsEx">-</strong></li>
           </ul>
         </article>
         <article class="meta-card">
-          <h3>Risk</h3>
+          <h3>Quality</h3>
           <ul>
-            <li>Max DD (Profit): <strong id="mDdProfit">-</strong></li>
-            <li>Max DD (Acc): <strong id="mDdAcc">-</strong></li>
-            <li>Max DD (Acc+Unrl): <strong id="mDdAccU">-</strong></li>
-            <li>Min Acc / Acc+Unrl: <strong id="mMin">-</strong></li>
-          </ul>
-        </article>
-        <article class="meta-card">
-          <h3>Trade quality</h3>
-          <ul>
-            <li>Trades: <strong id="mTrades">-</strong></li>
             <li>Decisive WR: <strong id="mWR">-</strong></li>
-            <li>W / L: <strong id="mWL">-</strong></li>
-            <li>Host closes: <strong id="mHosts">-</strong></li>
+            <li>Wins / Losses: <strong id="mWL">-</strong></li>
+            <li>Max DD (Profit): <strong id="mDdProfit">-</strong></li>
+            <li>Period: <strong>2022-01-01 → 2026-09-09</strong></li>
           </ul>
         </article>
-      </div>
-      <p class="lead" style="margin-top:1.4rem;margin-bottom:0;font-size:0.85rem;font-family:IBM Plex Mono,monospace" id="mHash"></p>
-    </div>
-  </section>
-
-  <section id="mandate">
-    <div class="wrap two">
-      <div>
-        <p class="kicker">Engagement</p>
-        <h2>Built for serious capital</h2>
-        <p class="lead">
-          This page is a capital brief - not a public seat storefront and not a claim that capacity is limited to a single partner.
-          If the path and operating model fit, we discuss structure privately: custody on your exchange, risk envelope, reporting, and economics.
-        </p>
-        <p class="lead" style="margin-bottom:0">
-          Exchange accounts should still open / bind with referral <strong>QJ5NOR</strong> so attribution is clean before any execution access is arranged.
-        </p>
-      </div>
-      <div class="box">
-        <h3>Prerequisites</h3>
-        <ol>
-          <li>Open Bybit with
-            <a href="https://www.bybit.com/invite?ref=QJ5NOR&amp;medium=referral&amp;utm_campaign=evergreen&amp;share_to=link" target="_blank" rel="noopener noreferrer">QJ5NOR</a>.</li>
-          <li>Complete KYC. Fund the account. Clear Bybit referral deposit / trade tasks if you want referral rewards unlocked.</li>
-          <li>Private discussion on risk, sizing, and access.</li>
-          <li>Execution / copy access only after alignment - not via a public checkout.</li>
-        </ol>
-        <a class="btn btn-cyan" style="margin-top:1.1rem;width:100%" href="#converse">Continue</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="final" id="converse">
-    <div class="wrap">
-      <p class="kicker">Next</p>
-      <h2>Request a private discussion</h2>
-      <p class="lead">
-        Reply on the channel where you received this link with capital range and timeline.
-        Include whether Bybit is already open under QJ5NOR.
-      </p>
-      <div class="actions">
-        <a class="btn btn-cyan" href="https://www.bybit.com/invite?ref=QJ5NOR&amp;medium=referral&amp;utm_campaign=evergreen&amp;share_to=link" target="_blank" rel="noopener noreferrer">Open Bybit · QJ5NOR</a>
-        <a class="btn btn-ghost" href="#path">Replay the path</a>
+        <article class="meta-card">
+          <h3>Provenance</h3>
+          <ul>
+            <li>Engine: <strong id="mEng">-</strong></li>
+            <li>Hash: <strong id="mHash">-</strong></li>
+            <li>Meta: <strong id="mMeta">-</strong></li>
+            <li>Currency: <strong>USD</strong></li>
+          </ul>
+        </article>
       </div>
     </div>
   </section>
 
   <footer>
     <div class="wrap">
-      <div class="brand" style="margin-bottom:1rem">Axe Edge <span>//</span> Capital</div>
+      <div class="brand" style="margin-bottom:1rem">Axe Edge <span>/</span> Capital</div>
       <p class="risk">
         Risk disclosure: Leveraged crypto trading can result in substantial or total loss of capital.
-        Path shown is a historical backtest on actual BTCUSDT data (meta 20260909_200417_046558; final $845,703,073; decisive WR 98.40%; Max DD Profit 20.22%).
+        Path shown is a historical backtest on actual BTCUSDT data (meta 20260909_200417_046558; final $845,703,073; decisive WR 98.40% on non-host closes; Max DD Profit 20.22%).
+        Host placeholder closes are excluded from the tape and win rate on this page.
         Not live investor performance, not audited fund returns, not a promise of future results.
         Past performance does not guarantee future results. Not an offer of securities or investment advice.
-        Commercial terms for any arrangement are discussed bilaterally and are intentionally omitted here.
       </p>
     </div>
   </footer>
@@ -450,17 +473,38 @@
 <script src="equity_path.js"></script>
 <script>
 (function () {
-  var P = window.AXE_EDGE_INVESTOR_EQUITY_PATH || {};
+  var P = window.AXE_EDGE_INVESTOR_PATH || {};
   var equity = P.equity || [];
+  var btc = P.btc || [];
   var dates = P.dates || [];
-  var ddPath = P.drawdown_pct_path || [];
-  var frames = Math.max(1, P.frames || Math.max(0, equity.length - 1));
+  var ddPath = P.drawdown_pct || [];
+  var trades = P.trades || [];
+  var frames = Math.max(1, equity.length);
   var startEquity = P.start || 30000;
-  var totalTrades = P.trades || 0;
-  var totalWins = P.wins || 0;
-  var totalLosses = P.losses || 0;
-  var hosts = P.steep_host_closes || Math.max(0, totalTrades - totalWins - totalLosses);
-  var decisiveWR = P.win_rate_decisive != null ? P.win_rate_decisive : (totalWins + totalLosses ? 100 * totalWins / (totalWins + totalLosses) : 0);
+
+  var closesByFrame = new Array(frames);
+  for (var i = 0; i < frames; i++) closesByFrame[i] = [];
+  for (var t = 0; t < trades.length; t++) {
+    var tr = trades[t];
+    var fo = Math.max(0, Math.min(frames - 1, tr[1]));
+    closesByFrame[fo].push(tr);
+  }
+  var cumWins = new Array(frames);
+  var cumLosses = new Array(frames);
+  var cumClosed = new Array(frames);
+  var w = 0, l = 0, c = 0;
+  for (var f = 0; f < frames; f++) {
+    var bucket = closesByFrame[f];
+    for (var b = 0; b < bucket.length; b++) {
+      var r = bucket[b][8];
+      if (r === 1) w++;
+      else if (r === 2) l++;
+      c++;
+    }
+    cumWins[f] = w;
+    cumLosses[f] = l;
+    cumClosed[f] = c;
+  }
 
   function fmtMoney(n) {
     var a = Math.abs(n);
@@ -471,50 +515,149 @@
   }
   function fmtPct(n, d) { d = d == null ? 1 : d; return (n >= 0 ? "+" : "") + Number(n).toFixed(d) + "%"; }
   function fmtPctAbs(n, d) { d = d == null ? 2 : d; return Number(n).toFixed(d) + "%"; }
+  function fmtQty(q) {
+    if (q >= 100) return q.toFixed(0);
+    if (q >= 10) return q.toFixed(1);
+    return q.toFixed(2);
+  }
 
-  // static metrics panel
   document.getElementById("mFinal").textContent = fmtMoney(P.end || 0);
-  document.getElementById("mPnl").textContent = fmtMoney(P.total_pnl || 0);
-  document.getElementById("mFee").textContent = fmtMoney(P.total_commission || 0);
   document.getElementById("mMult").textContent = ((P.end || 0) / (P.start || 1)).toFixed(0) + "x";
-  document.getElementById("mDdProfit").textContent = fmtPctAbs(P.max_drawdown_profit_ex_unrl_pct || 0);
-  document.getElementById("mDdAcc").textContent = fmtPctAbs(P.max_drawdown_balance_ex_unrl_pct || 0);
-  document.getElementById("mDdAccU").textContent = fmtPctAbs(P.max_drawdown_balance_plus_unrl_pct || 0);
-  document.getElementById("mMin").textContent = fmtMoney(P.min_balance_ex_unrl || 0) + " / " + fmtMoney(P.min_balance_plus_unrl || 0);
-  document.getElementById("mTrades").textContent = String(totalTrades);
-  document.getElementById("mWR").textContent = fmtPctAbs(decisiveWR, 2);
-  document.getElementById("mWL").textContent = totalWins + " / " + totalLosses;
-  document.getElementById("mHosts").textContent = String(hosts);
-  document.getElementById("mHash").textContent =
-    "engine " + (P.engine || "?") + " · params_hash16 " + (P.params_hash16 || "?") +
-    " · decisive WR " + fmtPctAbs(decisiveWR, 2) +
-    " · wins/all-closes " + fmtPctAbs(P.win_rate_of_all_closes_pct || 0, 2) + " (includes host flats)";
+  document.getElementById("mTape").textContent = String(P.trades_on_tape || trades.length);
+  document.getElementById("mHostsEx").textContent = String(P.hosts_excluded || 0);
+  document.getElementById("mWR").textContent = fmtPctAbs(P.decisive_wr_pct || 0, 2);
+  document.getElementById("mWL").textContent = (P.wins || 0) + " / " + (P.losses || 0);
+  document.getElementById("mDdProfit").textContent = fmtPctAbs(P.max_dd_profit_pct || 0);
+  document.getElementById("mEng").textContent = P.backtest_engine_version || "-";
+  document.getElementById("mHash").textContent = P.params_hash16 || "-";
+  document.getElementById("mMeta").textContent = (P.meta_stem || "-").replace("backtest_", "");
 
+  var btcCanvas = document.getElementById("btcCanvas");
   var eqCanvas = document.getElementById("eqCanvas");
   var ddCanvas = document.getElementById("ddCanvas");
-  if (!eqCanvas || !ddCanvas) return;
+  if (!btcCanvas || !eqCanvas || !ddCanvas) return;
+  var btcCtx = btcCanvas.getContext("2d");
   var eqCtx = eqCanvas.getContext("2d");
   var ddCtx = ddCanvas.getContext("2d");
 
   var playing = false;
   var frame = 0;
   var timer = null;
-  // Slow: ~75ms/frame * 240 ≈ 18s
-  var FRAME_MS = 75;
+  var FRAME_MS = 195;
 
-  function equityAt(i) { return equity[Math.max(0, Math.min(equity.length - 1, i))]; }
-  function ddAt(i) { return ddPath[Math.max(0, Math.min(ddPath.length - 1, i))] || 0; }
-  function tradesAt(t) { return Math.floor(t * totalTrades); }
-  function winsAt(t) { return Math.floor(t * totalWins); }
-  function lossesAt(t) { return Math.floor(t * totalLosses); }
+  function at(arr, i) { return arr[Math.max(0, Math.min(arr.length - 1, i))]; }
+
+  // Pre-index open trades per frame (many closes are same-bar fills).
+  var activeByFrame = new Array(frames);
+  for (var ai = 0; ai < frames; ai++) activeByFrame[ai] = [];
+  for (var at = 0; at < trades.length; at++) {
+    var atr = trades[at];
+    var a0 = Math.max(0, Math.min(frames - 1, atr[0]));
+    var a1 = Math.max(a0, Math.min(frames - 1, atr[1]));
+    for (var af = a0; af <= a1; af++) activeByFrame[af].push(atr);
+  }
+  function activeTrades(i) {
+    var out = activeByFrame[Math.max(0, Math.min(frames - 1, i))] || [];
+    if (out.length > 6) return out.slice(-6);
+    return out;
+  }
+
+  function recentCloses(i, n) {
+    var out = [];
+    for (var f = i; f >= 0 && out.length < n; f--) {
+      var bucket = closesByFrame[f];
+      for (var b = bucket.length - 1; b >= 0 && out.length < n; b--) out.push(bucket[b]);
+    }
+    return out;
+  }
+
+  function lastQty(i) {
+    for (var f = i; f >= 0; f--) {
+      if (closesByFrame[f].length) return closesByFrame[f][closesByFrame[f].length - 1][7];
+    }
+    return null;
+  }
+
+  function drawBtc(upto) {
+    var w = btcCanvas.width, h = btcCanvas.height;
+    btcCtx.clearRect(0, 0, w, h);
+    var pts = [];
+    for (var i = 0; i <= upto; i++) pts.push(at(btc, i));
+    if (pts.length < 2) return;
+    var minP = Math.min.apply(null, pts);
+    var maxP = Math.max.apply(null, pts);
+    var pad = (maxP - minP) * 0.12 || maxP * 0.02;
+    minP -= pad; maxP += pad;
+    function X(i) { return (i / Math.max(1, frames - 1)) * (w - 28) + 14; }
+    function Y(v) { return h - 16 - ((v - minP) / (maxP - minP)) * (h - 32); }
+
+    btcCtx.beginPath();
+    btcCtx.moveTo(X(0), h);
+    for (var j = 0; j < pts.length; j++) btcCtx.lineTo(X(j), Y(pts[j]));
+    btcCtx.lineTo(X(pts.length - 1), h);
+    btcCtx.closePath();
+    var g = btcCtx.createLinearGradient(0, 0, 0, h);
+    g.addColorStop(0, "rgba(125,211,252,0.18)");
+    g.addColorStop(1, "rgba(125,211,252,0)");
+    btcCtx.fillStyle = g;
+    btcCtx.fill();
+
+    btcCtx.beginPath();
+    for (var k = 0; k < pts.length; k++) {
+      if (k === 0) btcCtx.moveTo(X(k), Y(pts[k]));
+      else btcCtx.lineTo(X(k), Y(pts[k]));
+    }
+    btcCtx.strokeStyle = "#7dd3fc";
+    btcCtx.lineWidth = 1.8;
+    btcCtx.stroke();
+
+    var act = activeTrades(upto);
+    for (var a = 0; a < act.length; a++) {
+      var tr = act[a];
+      var levels = [
+        { v: tr[3], c: "rgba(94,234,212,0.85)", dash: [5, 4] },
+        { v: tr[5], c: "rgba(52,211,153,0.7)", dash: [2, 4] },
+        { v: tr[6], c: "rgba(251,113,133,0.7)", dash: [2, 4] }
+      ];
+      for (var L = 0; L < levels.length; L++) {
+        if (!levels[L].v) continue;
+        btcCtx.beginPath();
+        btcCtx.setLineDash(levels[L].dash);
+        btcCtx.moveTo(X(tr[0]), Y(levels[L].v));
+        btcCtx.lineTo(X(Math.min(upto, tr[1])), Y(levels[L].v));
+        btcCtx.strokeStyle = levels[L].c;
+        btcCtx.lineWidth = 1.2;
+        btcCtx.stroke();
+        btcCtx.setLineDash([]);
+      }
+      btcCtx.beginPath();
+      btcCtx.arc(X(tr[0]), Y(tr[3]), 3.2, 0, Math.PI * 2);
+      btcCtx.fillStyle = tr[2] === 1 ? "#34d399" : "#fb7185";
+      btcCtx.fill();
+    }
+
+    var recent = recentCloses(upto, 40);
+    for (var r = 0; r < recent.length; r++) {
+      var tr2 = recent[r];
+      if (tr2[1] > upto) continue;
+      btcCtx.beginPath();
+      btcCtx.arc(X(tr2[1]), Y(tr2[4]), 2.4, 0, Math.PI * 2);
+      btcCtx.fillStyle = tr2[8] === 1 ? "#34d399" : (tr2[8] === 2 ? "#fb7185" : "#94a3b8");
+      btcCtx.fill();
+    }
+
+    btcCtx.beginPath();
+    btcCtx.arc(X(pts.length - 1), Y(pts[pts.length - 1]), 4, 0, Math.PI * 2);
+    btcCtx.fillStyle = "#eef3f7";
+    btcCtx.fill();
+  }
 
   function drawEquity(upto) {
     var w = eqCanvas.width, h = eqCanvas.height;
     eqCtx.clearRect(0, 0, w, h);
     var pts = [];
-    for (var i = 0; i <= upto; i++) pts.push(equityAt(i));
+    for (var i = 0; i <= upto; i++) pts.push(at(equity, i));
     if (pts.length < 2) return;
-    // log scale so early dips remain visible while late compounding explodes
     var logs = pts.map(function (v) { return Math.log10(Math.max(v, 1)); });
     var minL = Math.min.apply(null, logs);
     var maxL = Math.max.apply(null, logs);
@@ -524,7 +667,7 @@
     function X(i) { return (i / Math.max(1, frames - 1)) * (w - 28) + 14; }
     function Y(v) {
       var lv = Math.log10(Math.max(v, 1));
-      return h - 18 - ((lv - minL) / (maxL - minL)) * (h - 36);
+      return h - 16 - ((lv - minL) / (maxL - minL)) * (h - 32);
     }
     eqCtx.beginPath();
     eqCtx.moveTo(X(0), h);
@@ -532,22 +675,21 @@
     eqCtx.lineTo(X(pts.length - 1), h);
     eqCtx.closePath();
     var g = eqCtx.createLinearGradient(0, 0, 0, h);
-    g.addColorStop(0, "rgba(61,231,255,0.28)");
-    g.addColorStop(1, "rgba(61,231,255,0)");
+    g.addColorStop(0, "rgba(94,234,212,0.22)");
+    g.addColorStop(1, "rgba(94,234,212,0)");
     eqCtx.fillStyle = g;
     eqCtx.fill();
     for (var k = 1; k < pts.length; k++) {
       eqCtx.beginPath();
       eqCtx.moveTo(X(k - 1), Y(pts[k - 1]));
       eqCtx.lineTo(X(k), Y(pts[k]));
-      eqCtx.strokeStyle = pts[k] >= pts[k - 1] ? "#3de7ff" : "#ff5d6c";
-      eqCtx.lineWidth = 2.3;
-      eqCtx.lineJoin = "round";
+      eqCtx.strokeStyle = pts[k] >= pts[k - 1] ? "#5eead4" : "#fb7185";
+      eqCtx.lineWidth = 2.1;
       eqCtx.stroke();
     }
     eqCtx.beginPath();
-    eqCtx.arc(X(pts.length - 1), Y(pts[pts.length - 1]), 4.5, 0, Math.PI * 2);
-    eqCtx.fillStyle = "#e8f4ff";
+    eqCtx.arc(X(pts.length - 1), Y(pts[pts.length - 1]), 4, 0, Math.PI * 2);
+    eqCtx.fillStyle = "#eef3f7";
     eqCtx.fill();
   }
 
@@ -555,54 +697,97 @@
     var w = ddCanvas.width, h = ddCanvas.height;
     ddCtx.clearRect(0, 0, w, h);
     var pts = [];
-    for (var i = 0; i <= upto; i++) pts.push(ddAt(i));
+    for (var i = 0; i <= upto; i++) pts.push(at(ddPath, i) || 0);
     if (pts.length < 2) return;
     var maxD = Math.max(1, Math.max.apply(null, pts));
     function X(i) { return (i / Math.max(1, frames - 1)) * (w - 28) + 14; }
-    function Y(v) { return 8 + (v / maxD) * (h - 20); }
+    function Y(v) { return 6 + (v / maxD) * (h - 16); }
     ddCtx.beginPath();
-    ddCtx.moveTo(X(0), 8);
+    ddCtx.moveTo(X(0), 6);
     for (var j = 0; j < pts.length; j++) ddCtx.lineTo(X(j), Y(pts[j]));
-    ddCtx.lineTo(X(pts.length - 1), 8);
+    ddCtx.lineTo(X(pts.length - 1), 6);
     ddCtx.closePath();
-    ddCtx.fillStyle = "rgba(255,93,108,0.22)";
+    ddCtx.fillStyle = "rgba(251,113,133,0.18)";
     ddCtx.fill();
     ddCtx.beginPath();
     for (var k = 0; k < pts.length; k++) {
       if (k === 0) ddCtx.moveTo(X(k), Y(pts[k]));
       else ddCtx.lineTo(X(k), Y(pts[k]));
     }
-    ddCtx.strokeStyle = "#ff5d6c";
-    ddCtx.lineWidth = 1.8;
+    ddCtx.strokeStyle = "#fb7185";
+    ddCtx.lineWidth = 1.5;
     ddCtx.stroke();
   }
 
+  function renderHud(i) {
+    var act = activeTrades(i);
+    var box = document.getElementById("activeBox");
+    if (!act.length) {
+      box.className = "active-empty";
+      box.textContent = "Flat - waiting for next limit fill...";
+    } else {
+      box.className = "active-lines";
+      var html = "";
+      for (var a = 0; a < Math.min(3, act.length); a++) {
+        var tr = act[a];
+        html += "<div><b>" + (tr[2] === 1 ? "LONG" : "SHORT") + "</b> qty <b>" + fmtQty(tr[7]) +
+          "</b> · entry <b>" + tr[3].toLocaleString() +
+          "</b> · TP <b>" + (tr[5] || "-") +
+          "</b> · SL <b>" + (tr[6] || "-") + "</b></div>";
+      }
+      box.innerHTML = html;
+    }
+
+    var recent = recentCloses(i, 8);
+    var tape = document.getElementById("tapeList");
+    if (!recent.length) {
+      tape.innerHTML = "<div class=\"tape-row\"><span>—</span><span></span><span>No closes yet</span><span></span></div>";
+      return;
+    }
+    var rows = "";
+    for (var r = 0; r < recent.length; r++) {
+      var tr = recent[r];
+      var sideCls = tr[2] === 1 ? "side-long" : "side-short";
+      var resCls = tr[8] === 1 ? "win" : (tr[8] === 2 ? "loss" : "");
+      var res = tr[8] === 1 ? "TP" : (tr[8] === 2 ? "SL" : "EXIT");
+      var pnlStr = (tr[9] >= 0 ? "+" : "") + fmtMoney(Math.abs(tr[9])).replace("$", "");
+      if (tr[9] < 0) pnlStr = "-" + fmtMoney(Math.abs(tr[9])).replace("$", "");
+      rows += "<div class=\"tape-row\"><span class=\"" + sideCls + "\">" + (tr[2] === 1 ? "LONG" : "SHORT") +
+        "</span><span class=\"" + resCls + "\">" + res +
+        "</span><span>qty " + fmtQty(tr[7]) + " @ " + tr[4].toLocaleString() +
+        "</span><span class=\"" + resCls + "\">" + pnlStr + "</span></div>";
+    }
+    tape.innerHTML = rows;
+  }
+
   function render(i) {
-    var t = i / Math.max(1, frames - 1);
-    var eq = equityAt(i);
+    var eq = at(equity, i);
     var pct = ((eq / startEquity) - 1) * 100;
-    var closed = tradesAt(t);
-    var w = winsAt(t);
-    var l = lossesAt(t);
-    var decisiveSoFar = (w + l) > 0 ? (100 * w / (w + l)) : 0;
-    var pathDd = ddAt(i);
-    var pathDdMax = 0;
-    for (var d = 0; d <= i; d++) pathDdMax = Math.max(pathDdMax, ddAt(d));
+    var wins = cumWins[i] || 0;
+    var losses = cumLosses[i] || 0;
+    var closed = cumClosed[i] || 0;
+    var wr = (wins + losses) > 0 ? (100 * wins / (wins + losses)) : 0;
+    var pathDd = at(ddPath, i) || 0;
+    var qty = lastQty(i);
 
     document.getElementById("btEquity").textContent = fmtMoney(eq);
+    document.getElementById("eqNow").textContent = fmtMoney(eq);
     document.getElementById("btPct").textContent = fmtPct(pct, 1);
-    document.getElementById("btPathDd").textContent = fmtPctAbs(pathDd, 2);
-    document.getElementById("btPathDdMax").textContent = fmtPctAbs(pathDdMax, 2);
+    document.getElementById("btQty").textContent = qty == null ? "-" : fmtQty(qty);
+    document.getElementById("btWR").textContent = fmtPctAbs(wr, 2);
+    document.getElementById("btWins").textContent = String(wins);
+    document.getElementById("btLosses").textContent = String(losses);
     document.getElementById("btTrades").textContent = String(closed);
-    document.getElementById("btWR").textContent = fmtPctAbs(decisiveSoFar, 2);
-    document.getElementById("btWL").textContent = w + " / " + l;
-    document.getElementById("btHosts").textContent = String(Math.floor(t * hosts));
+    document.getElementById("btPathDd").textContent = fmtPctAbs(pathDd, 2);
     document.getElementById("btDate").textContent = dates[i] || "";
+    document.getElementById("btcNow").textContent = "$" + Math.round(at(btc, i)).toLocaleString("en-US");
     document.getElementById("btStatus").textContent =
-      i >= frames - 1 ? "Complete · log equity + DD strip" : (playing ? "Playing slow · watch dips" : "Paused");
+      i >= frames - 1 ? "Complete · non-host tape" : (playing ? "Stepping · watch fills + size" : "Paused");
 
+    drawBtc(i);
     drawEquity(i);
     drawDd(i);
+    renderHud(i);
   }
 
   function stopTimer() {
@@ -624,11 +809,17 @@
     }, FRAME_MS);
   }
 
-  document.getElementById("btPlay").addEventListener("click", function () {
+  function play() {
     if (playing) return;
     if (frame >= frames - 1) frame = 0;
     playing = true;
     startTimer();
+  }
+
+  document.getElementById("btPlay").addEventListener("click", play);
+  document.getElementById("heroPlay").addEventListener("click", function () {
+    document.getElementById("path").scrollIntoView({ behavior: "smooth" });
+    play();
   });
   document.getElementById("btPause").addEventListener("click", function () {
     playing = false;
