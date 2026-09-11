@@ -306,29 +306,29 @@
   <div class="wrap">
     <nav class="nav">
       <div class="brand">Axe Edge <span>/</span> Capital</div>
-      <div class="nav-meta">Verified path · host flats off tape</div>
+      <div class="nav-meta">Verified BTC path · 2022 to now</div>
     </nav>
   </div>
 
   <header class="hero">
     <div class="wrap hero-inner">
-      <p class="eyebrow">Capital brief · BTCUSDT · 2022 to now</p>
-      <h1>$30,000 became<br /><em>$845.7 million</em></h1>
+      <p class="eyebrow">Private capital brief · Bitcoin · 2022 to 2026</p>
+      <h1>Turned $30k into<br /><em>$845.7 million</em></h1>
       <p class="lede">
-        Same rules, full cycle, no capacity marketing. Watch BTC print, limits fill,
-        TP and SL fire, and order size scale as equity compounds - the way the backtester runs it.
+        A verified BTC trading system - limit entries, hard take-profits and stops -
+        compounding for four and a half years on real market data. Press play and watch the path build.
       </p>
       <ul class="hooks">
-        <li><strong>Real structure:</strong> limit entries with hard TP / SL - not a smoothed equity fairy tale.</li>
-        <li><strong>Decisive quality:</strong> wins vs losses only. Host placeholders never touch the win rate.</li>
-        <li><strong>Size follows equity:</strong> as profit stacks, position qty steps up - you see it on the tape.</li>
-        <li><strong>Full cycle proof:</strong> 2022 structure through 2026 compounding, with drawdowns intact.</li>
+        <li><strong>$30,000 start. $845.7M finish.</strong> Same rules the whole way - no storybook curve.</li>
+        <li><strong>You see every fill.</strong> BTC price, limit entry, TP, SL, and growing ticket size as profits stack.</li>
+        <li><strong>98.4% decisive win rate</strong> on real wins vs losses. Noise closes are stripped from the tape.</li>
+        <li><strong>Drawdowns included.</strong> Max profit drawdown 20.2% - the path is not airbrushed.</li>
       </ul>
       <div class="actions">
-        <button class="btn btn-fill" type="button" id="heroPlay">Run the tape</button>
-        <a class="btn btn-ghost" href="#mechanics">How trades print</a>
+        <button class="btn btn-fill" type="button" id="heroPlay">Watch the path</button>
+        <a class="btn btn-ghost" href="#path">Jump to charts</a>
       </div>
-      <p class="hero-note">Start $30,000 · Final $845,703,073 · 7,169 non-host closes · Decisive WR 98.40% · Max DD(Profit) 20.22%</p>
+      <p class="hero-note">2022-01-01 to 2026-09-09 · $30,000 to $845,703,073 · 7,169 trades · 98.40% WR · 20.22% max DD</p>
     </div>
   </header>
 
@@ -336,12 +336,12 @@
     <div class="wrap">
       <div class="stage-top">
         <div>
-          <p class="kicker">Backtester-style replay</p>
-          <div class="mega">BTC tape <span>+</span> equity</div>
+          <p class="kicker">Live path replay</p>
+          <div class="mega">Price, trades <span>+</span> equity</div>
         </div>
         <div class="stage-meta">
           <div id="btDate">2022-01-01</div>
-          <div id="btStatus">Ready · slow step like the engine</div>
+          <div id="btStatus">Ready - press Play</div>
         </div>
       </div>
 
@@ -398,24 +398,24 @@
 
   <section id="mechanics">
     <div class="wrap">
-      <p class="kicker">What you are watching</p>
-      <h2>How the money is actually made</h2>
+      <p class="kicker">Under the hood</p>
+      <h2>Not a line. Actual trades.</h2>
       <p class="lead">
-        The top chart is BTC price. Markers show limit entry, take-profit, and stop-loss on real closes.
-        Host flats are stripped - they never inflate or deflate the live win rate.
+        Top chart is Bitcoin. Each mark is a real limit fill with take-profit and stop.
+        Bottom chart is account equity. As the account grows, order size grows with it.
       </p>
       <div class="points">
         <article class="point">
-          <h3>Limit in</h3>
-          <p>Entries wait for price. No market-chase fantasy. You see the fill level on the BTC path as equity builds.</p>
+          <h3>Limit entries</h3>
+          <p>Price comes to us. You watch the fill print on BTC, then equity move after the exit.</p>
         </article>
         <article class="point">
-          <h3>Hard exits</h3>
-          <p>TP and SL are fixed structure per trade. Wins and losses are counted only when those exits decide - not placeholders.</p>
+          <h3>TP and SL</h3>
+          <p>Every trade has a planned take-profit and stop. Wins and losses are decided by those levels - nothing soft-sold.</p>
         </article>
         <article class="point">
-          <h3>Size scales</h3>
-          <p>As balance compounds, qty steps higher. Late-cycle tickets dwarf early ones - that is the $845M math, visible on the tape.</p>
+          <h3>Compounding size</h3>
+          <p>Early tickets are small. Late tickets are large. That is how $30k becomes nine figures - visible on the tape.</p>
         </article>
       </div>
     </div>
@@ -545,13 +545,13 @@
   var timer = null;
   var FRAME_MS = 195;
 
-  function at(arr, i) { return arr[Math.max(0, Math.min(arr.length - 1, i))]; }
+  function sample(arr, i) { return arr[Math.max(0, Math.min(arr.length - 1, i))]; }
 
   // Pre-index open trades per frame (many closes are same-bar fills).
   var activeByFrame = new Array(frames);
   for (var ai = 0; ai < frames; ai++) activeByFrame[ai] = [];
-  for (var at = 0; at < trades.length; at++) {
-    var atr = trades[at];
+  for (var ti = 0; ti < trades.length; ti++) {
+    var atr = trades[ti];
     var a0 = Math.max(0, Math.min(frames - 1, atr[0]));
     var a1 = Math.max(a0, Math.min(frames - 1, atr[1]));
     for (var af = a0; af <= a1; af++) activeByFrame[af].push(atr);
@@ -582,7 +582,7 @@
     var w = btcCanvas.width, h = btcCanvas.height;
     btcCtx.clearRect(0, 0, w, h);
     var pts = [];
-    for (var i = 0; i <= upto; i++) pts.push(at(btc, i));
+    for (var i = 0; i <= upto; i++) pts.push(sample(btc, i));
     if (pts.length < 2) return;
     var minP = Math.min.apply(null, pts);
     var maxP = Math.max.apply(null, pts);
@@ -656,7 +656,7 @@
     var w = eqCanvas.width, h = eqCanvas.height;
     eqCtx.clearRect(0, 0, w, h);
     var pts = [];
-    for (var i = 0; i <= upto; i++) pts.push(at(equity, i));
+    for (var i = 0; i <= upto; i++) pts.push(sample(equity, i));
     if (pts.length < 2) return;
     var logs = pts.map(function (v) { return Math.log10(Math.max(v, 1)); });
     var minL = Math.min.apply(null, logs);
@@ -697,7 +697,7 @@
     var w = ddCanvas.width, h = ddCanvas.height;
     ddCtx.clearRect(0, 0, w, h);
     var pts = [];
-    for (var i = 0; i <= upto; i++) pts.push(at(ddPath, i) || 0);
+    for (var i = 0; i <= upto; i++) pts.push(sample(ddPath, i) || 0);
     if (pts.length < 2) return;
     var maxD = Math.max(1, Math.max.apply(null, pts));
     function X(i) { return (i / Math.max(1, frames - 1)) * (w - 28) + 14; }
@@ -761,13 +761,13 @@
   }
 
   function render(i) {
-    var eq = at(equity, i);
+    var eq = sample(equity, i);
     var pct = ((eq / startEquity) - 1) * 100;
     var wins = cumWins[i] || 0;
     var losses = cumLosses[i] || 0;
     var closed = cumClosed[i] || 0;
     var wr = (wins + losses) > 0 ? (100 * wins / (wins + losses)) : 0;
-    var pathDd = at(ddPath, i) || 0;
+    var pathDd = sample(ddPath, i) || 0;
     var qty = lastQty(i);
 
     document.getElementById("btEquity").textContent = fmtMoney(eq);
@@ -780,9 +780,9 @@
     document.getElementById("btTrades").textContent = String(closed);
     document.getElementById("btPathDd").textContent = fmtPctAbs(pathDd, 2);
     document.getElementById("btDate").textContent = dates[i] || "";
-    document.getElementById("btcNow").textContent = "$" + Math.round(at(btc, i)).toLocaleString("en-US");
+    document.getElementById("btcNow").textContent = "$" + Math.round(sample(btc, i)).toLocaleString("en-US");
     document.getElementById("btStatus").textContent =
-      i >= frames - 1 ? "Complete · non-host tape" : (playing ? "Stepping · watch fills + size" : "Paused");
+      i >= frames - 1 ? "Complete" : (playing ? "Running" : "Paused");
 
     drawBtc(i);
     drawEquity(i);
@@ -834,6 +834,8 @@
   });
 
   render(0);
+  // Auto-start so the path runs without hunting for Play
+  setTimeout(function () { play(); }, 600);
 })();
 </script>
 
