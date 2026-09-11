@@ -414,7 +414,7 @@
     var best = null;
     for (var e = 0; e < eventFrames.length; e++) {
       var ev = eventFrames[e];
-      if (Math.abs(ev.frame - i) <= 1) return ev;
+      if (Math.abs(ev.frame - i) <= 2) return ev;
       if (ev.frame <= i) best = ev;
     }
     return null;
@@ -633,14 +633,7 @@
       document.getElementById("eventTitle").textContent = ev.label;
       document.getElementById("eventSub").textContent = ev.d;
     } else {
-      var cur = currentEvent(i);
-      if (cur) {
-        banner.className = "event-banner on";
-        document.getElementById("eventTitle").textContent = cur.label;
-        document.getElementById("eventSub").textContent = "from " + cur.d;
-      } else {
-        banner.className = "event-banner";
-      }
+      banner.className = "event-banner";
     }
   }
 
