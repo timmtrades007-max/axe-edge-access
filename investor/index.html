@@ -56,6 +56,7 @@
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.55rem;
       margin: 0.85rem 0 0.2rem;
     }
+    @media (max-width: 900px) { .method { grid-template-columns: 1fr 1fr; } }
     .method article {
       border: 1px solid var(--line); background: rgba(14,22,30,0.55);
       padding: 0.75rem 0.8rem;
@@ -220,7 +221,8 @@
         <li><strong>Limit entries only.</strong> Price comes to the order. No market-chase fills.</li>
         <li><strong>Hard TP and SL on every trade.</strong> Exits are planned structure, not discretionary.</li>
         <li><strong>Size follows equity.</strong> As the account compounds, ticket size steps up with it.</li>
-        <li><strong>Full-cycle evidence.</strong> 2022 through 2026 on real market data, drawdowns included.</li>
+        <li><strong>Isolated-style risk per ticket.</strong> Each position is bracketed; the book is not left open-ended.</li>
+        <li><strong>Full-cycle evidence.</strong> 2022 through 2026 on real market data, including drawdowns and major BTC events.</li>
       </ul>
       <div class="actions">
         <button class="btn btn-fill" type="button" id="heroPlay">Watch the process</button>
@@ -304,15 +306,27 @@
       <div class="method">
         <article>
           <h3>1. Signal → limit</h3>
-          <p>When the system arms a trade, it places a limit entry. We wait for price. If it does not fill, there is no chase.</p>
+          <p>When the system arms a trade, it places a limit entry. We wait for price. If it does not fill, there is no chase and no market order panic.</p>
         </article>
         <article>
           <h3>2. Bracket the risk</h3>
-          <p>Each fill carries a take-profit and a stop. Wins and losses are decided by those levels. That is what the live WR counts.</p>
+          <p>Each fill carries a take-profit and a stop. Wins and losses are decided by those levels - that is what the live win rate counts.</p>
         </article>
         <article>
-          <h3>3. Compound the book</h3>
+          <h3>3. Manage the tape</h3>
+          <p>Open risk is visible on the chart as entry / TP / SL while a trade is live. Host placeholder closes are excluded from the quality readout.</p>
+        </article>
+        <article>
+          <h3>4. Compound the book</h3>
           <p>As equity builds, order size increases. Early tickets stay small; later tickets are larger. The equity panel is that compounding in motion.</p>
+        </article>
+        <article>
+          <h3>5. What you are watching</h3>
+          <p>The 15m chart is a sped-up tape of the verified path - candles print and scroll the way a live chart does on fast-forward, with major BTC events marked.</p>
+        </article>
+        <article>
+          <h3>6. Diligence frame</h3>
+          <p>Metrics below are from the same engine run as the replay. Use them as context for process quality, not as a forecast.</p>
         </article>
       </div>
     </div>
@@ -367,7 +381,7 @@
     </div>
   </footer>
 
-<script src="equity_path.js"></script>
+<script src="equity_path.js?v=1789124458"></script>
 <script>
 (function () {
   var P = window.AXE_EDGE_INVESTOR_PATH || {};
@@ -445,10 +459,10 @@
   var btcCtx = btcCanvas.getContext("2d");
   var eqCtx = eqCanvas.getContext("2d");
 
-  var playing = false, idx = 0, formStep = 0, timer = null, holdLeft = 0;
-  // Fast-forward feel: quick growth then next candle scrolls in
-  var GROW_MS = 28;
-  var HOLD_MS = 120;
+  var playing = false, idx = 0, formStep = 0, timer = null;
+  // True fast-forward: candles print quickly and the window scrolls (like FF on a live chart)
+  var TICK_MS = 36;
+  var FORM_EVERY = 2; // show 2 growth steps then lock candle and advance
 
   function eventNear(i) {
     for (var e = 0; e < events.length; e++) {
@@ -493,18 +507,26 @@
     return candles;
   }
 
+  function minMax(arr, pick) {
+    var lo = Infinity, hi = -Infinity;
+    for (var i = 0; i < arr.length; i++) {
+      var v = pick(arr[i]);
+      if (v < lo) lo = v;
+      if (v > hi) hi = v;
+    }
+    return { lo: lo, hi: hi };
+  }
+
   function drawBtc(endIdx, step) {
     var w = btcCanvas.width, h = btcCanvas.height;
     btcCtx.clearRect(0, 0, w, h);
     var candles = windowCandles(endIdx, step);
     var n = candles.length;
-    if (n < 2) return;
+    if (n < 1) return;
 
-    var minP = Infinity, maxP = -Infinity;
-    for (var i = 0; i < n; i++) {
-      minP = Math.min(minP, candles[i].l);
-      maxP = Math.max(maxP, candles[i].h);
-    }
+    var mm = minMax(candles, function (cd) { return cd.l; });
+    var mx = minMax(candles, function (cd) { return cd.h; });
+    var minP = mm.lo, maxP = mx.hi;
     var act = activeTrades(endIdx);
     for (var a = 0; a < act.length; a++) {
       var tr = act[a];
@@ -514,10 +536,11 @@
     }
     var pad = (maxP - minP) * 0.08 || maxP * 0.01;
     minP -= pad; maxP += pad;
+    if (!(maxP > minP)) { maxP = minP + 1; }
 
     var left = 8, right = 62, top = 28, bottom = 26;
     var plotW = w - left - right, plotH = h - top - bottom;
-    function X(i) { return left + ((i + 0.5) / n) * plotW; }
+    function X(i) { return left + ((i + 0.5) / Math.max(1, n)) * plotW; }
     function Y(v) { return top + (1 - (v - minP) / (maxP - minP)) * plotH; }
 
     btcCtx.strokeStyle = "rgba(140,170,190,0.08)";
@@ -544,14 +567,14 @@
     var ticks = [0, Math.floor((n - 1) / 2), n - 1];
     var seen = {};
     for (var t = 0; t < ticks.length; t++) {
-      var ci = ticks[t];
+      var ci = Math.max(0, Math.min(n - 1, ticks[t]));
       var lab = (candles[ci].d || "").slice(2, 10);
       if (!lab || seen[lab]) continue;
       seen[lab] = 1;
       btcCtx.fillText(lab, X(ci) - 24, h - 8);
     }
 
-    var candleW = Math.max(2.0, (plotW / n) * 0.62);
+    var candleW = Math.max(2.0, (plotW / Math.max(1, n)) * 0.62);
     for (var i = 0; i < n; i++) {
       var cd = candles[i];
       var up = cd.c >= cd.o;
@@ -592,43 +615,38 @@
       levelLine(focus[5], "rgba(102,187,106,0.95)", "TP");
       levelLine(focus[6], "rgba(239,83,80,0.95)", "SL");
     }
-
-    var recent = recentCloses(endIdx, 6);
-    for (var r = 0; r < recent.length; r++) {
-      var tr2 = recent[r];
-      if (tr2[1] < endIdx - 2) continue;
-      var hitPx = tr2[8] === 1 && tr2[5] ? tr2[5] : (tr2[8] === 2 && tr2[6] ? tr2[6] : tr2[4]);
-      var hx = X(n - 1), hy = Y(hitPx);
-      btcCtx.beginPath();
-      btcCtx.arc(hx, hy, 3.5, 0, Math.PI * 2);
-      btcCtx.fillStyle = tr2[8] === 1 ? "#66bb6a" : "#ef5350";
-      btcCtx.fill();
-    }
   }
 
   function drawEquity(endIdx) {
     var w = eqCanvas.width, h = eqCanvas.height;
     eqCtx.clearRect(0, 0, w, h);
-    // draw equity along tape progress (not sparse frames)
+    // downsample for speed (FF should stay smooth)
+    var maxPts = 180;
+    var step = Math.max(1, Math.floor((endIdx + 1) / maxPts));
     var pts = [];
-    for (var i = 0; i <= endIdx; i++) pts.push(sample(tapeEq, i));
+    var idxs = [];
+    for (var i = 0; i <= endIdx; i += step) { pts.push(sample(tapeEq, i)); idxs.push(i); }
+    if (idxs[idxs.length - 1] !== endIdx) { pts.push(sample(tapeEq, endIdx)); idxs.push(endIdx); }
     if (pts.length < 2) return;
-    var logs = pts.map(function (v) { return Math.log10(Math.max(v, 1)); });
-    var minL = Math.min.apply(null, logs), maxL = Math.max.apply(null, logs);
+    var minL = Infinity, maxL = -Infinity;
+    for (var j = 0; j < pts.length; j++) {
+      var lv = Math.log10(Math.max(pts[j], 1));
+      if (lv < minL) minL = lv;
+      if (lv > maxL) maxL = lv;
+    }
     if (maxL - minL < 0.05) { maxL += 0.05; minL -= 0.02; }
     var pad = (maxL - minL) * 0.08; minL -= pad; maxL += pad;
-    function X(i) { return (i / Math.max(1, N - 1)) * (w - 18) + 9; }
+    function X(k) { return (idxs[k] / Math.max(1, N - 1)) * (w - 18) + 9; }
     function Y(v) {
       var lv = Math.log10(Math.max(v, 1));
       return h - 14 - ((lv - minL) / (maxL - minL)) * (h - 24);
     }
     eqCtx.fillStyle = "#8a9aab";
     eqCtx.font = "10px JetBrains Mono, monospace";
-    var marks = [0, Math.floor(endIdx / 2), endIdx];
-    for (var m = 0; m < marks.length; m++) {
-      var lab = (tD[marks[m]] || "").slice(2, 10);
-      if (lab) eqCtx.fillText(lab, X(marks[m]) - 16, h - 2);
-    }
+    var lab0 = (tD[0] || "").slice(2, 10);
+    var lab1 = (tD[endIdx] || "").slice(2, 10);
+    if (lab0) eqCtx.fillText(lab0, 8, h - 2);
+    if (lab1) eqCtx.fillText(lab1, w - 70, h - 2);
     for (var k = 1; k < pts.length; k++) {
       eqCtx.beginPath();
       eqCtx.moveTo(X(k - 1), Y(pts[k - 1]));
@@ -636,14 +654,6 @@
       eqCtx.strokeStyle = pts[k] >= pts[k - 1] ? "#5eead4" : "#ef5350";
       eqCtx.lineWidth = 1.6;
       eqCtx.stroke();
-    }
-    for (var e = 0; e < events.length; e++) {
-      var ev = events[e];
-      if (ev.i > endIdx) continue;
-      eqCtx.beginPath();
-      eqCtx.arc(X(ev.i), Y(sample(tapeEq, ev.i)), 3, 0, Math.PI * 2);
-      eqCtx.fillStyle = "#ffd54f";
-      eqCtx.fill();
     }
   }
 
@@ -675,53 +685,48 @@
   }
 
   function render(i, step) {
-    if (step == null) step = formStep;
-    var eq = sample(tapeEq, i);
-    var pct = ((eq / startEquity) - 1) * 100;
-    var wins = cumW[i] || 0, losses = cumL[i] || 0;
-    var wr = (wins + losses) > 0 ? (100 * wins / (wins + losses)) : 0;
-    var qty = lastQty(i);
-    var live = formOHLC(i, step);
-    document.getElementById("btEquity").textContent = fmtMoney(eq);
-    document.getElementById("eqNow").textContent = fmtMoney(eq);
-    document.getElementById("btPct").textContent = fmtPct(pct, 0);
-    document.getElementById("btQty").textContent = qty == null ? "-" : fmtQty(qty);
-    document.getElementById("btWR").textContent = fmtPctAbs(wr, 1);
-    document.getElementById("btWins").textContent = String(wins);
-    document.getElementById("btLosses").textContent = String(losses);
-    document.getElementById("btTrades").textContent = String(cumC[i] || 0);
-    // path DD approx from equity curve sample index
-    var eqIdx = Math.min(eqDates.length - 1, Math.floor((i / Math.max(1, N - 1)) * (eqDates.length - 1)));
-    document.getElementById("btPathDd").textContent = fmtPctAbs(sample(ddPath, eqIdx) || 0, 1);
-    document.getElementById("btDate").textContent = (tD[i] || "").slice(0, 10);
-    document.getElementById("btcNow").textContent = fmtPx(live.c || tC[i]);
-    document.getElementById("btStatus").textContent =
-      i >= N - 1 && step >= FORM_N - 1 ? "Complete" : (playing ? "Fast-forward" : "Paused");
-    drawBtc(i, step);
-    drawEquity(i);
-    renderHud(i);
+    try {
+      if (step == null) step = formStep;
+      var eq = sample(tapeEq, i);
+      var pct = ((eq / startEquity) - 1) * 100;
+      var wins = cumW[i] || 0, losses = cumL[i] || 0;
+      var wr = (wins + losses) > 0 ? (100 * wins / (wins + losses)) : 0;
+      var qty = lastQty(i);
+      var live = formOHLC(i, step);
+      document.getElementById("btEquity").textContent = fmtMoney(eq);
+      document.getElementById("eqNow").textContent = fmtMoney(eq);
+      document.getElementById("btPct").textContent = fmtPct(pct, 0);
+      document.getElementById("btQty").textContent = qty == null ? "-" : fmtQty(qty);
+      document.getElementById("btWR").textContent = fmtPctAbs(wr, 1);
+      document.getElementById("btWins").textContent = String(wins);
+      document.getElementById("btLosses").textContent = String(losses);
+      document.getElementById("btTrades").textContent = String(cumC[i] || 0);
+      var eqIdx = Math.min(eqDates.length - 1, Math.floor((i / Math.max(1, N - 1)) * Math.max(0, eqDates.length - 1)));
+      document.getElementById("btPathDd").textContent = fmtPctAbs(sample(ddPath, eqIdx) || 0, 1);
+      document.getElementById("btDate").textContent = (tD[i] || "").slice(0, 10);
+      document.getElementById("btcNow").textContent = fmtPx(live.c || tC[i] || 0);
+      document.getElementById("btStatus").textContent =
+        i >= N - 1 ? "Complete" : (playing ? "Fast-forward" : "Paused");
+      drawBtc(i, step);
+      drawEquity(i);
+      renderHud(i);
+    } catch (err) {
+      document.getElementById("btStatus").textContent = "Error - tap Play";
+      console && console.error && console.error(err);
+    }
   }
 
   function stopTimer() {
-    if (timer) { clearTimeout(timer); clearInterval(timer); timer = null; }
-  }
-  function schedule(ms) {
-    stopTimer();
-    timer = setTimeout(tick, ms);
+    if (timer) { clearInterval(timer); clearTimeout(timer); timer = null; }
   }
   function tick() {
     if (!playing) return;
-    if (holdLeft > 0) {
-      holdLeft -= 1;
-      render(idx, formStep);
-      schedule(HOLD_MS);
-      return;
-    }
-    // Grow live candle, then scroll to next — like FF on a live chart
-    if (formStep < FORM_N - 1) {
+    // brief grow, then advance candle (scroll tape)
+    if (formStep < FORM_EVERY - 1) {
       formStep += 1;
-      render(idx, formStep);
-      schedule(GROW_MS);
+      // map early steps onto form snapshots
+      var mapped = Math.round((formStep / Math.max(1, FORM_EVERY - 1)) * (FORM_N - 1));
+      render(idx, mapped);
       return;
     }
     if (idx >= N - 1) {
@@ -732,17 +737,16 @@
     }
     idx += 1;
     formStep = 0;
+    // linger a beat on major events only
     render(idx, 0);
-    if (eventNear(idx)) holdLeft = 2;
-    else if ((closesAt[idx] || []).length) holdLeft = 1;
-    else holdLeft = 0;
-    schedule(holdLeft > 0 ? HOLD_MS : GROW_MS);
   }
   function play() {
     if (playing) return;
-    if (idx >= N - 1 && formStep >= FORM_N - 1) { idx = 0; formStep = 0; }
+    if (idx >= N - 1) { idx = 0; formStep = 0; }
     playing = true;
-    schedule(GROW_MS);
+    stopTimer();
+    timer = setInterval(tick, TICK_MS);
+    render(idx, formStep);
   }
 
   document.getElementById("btPlay").addEventListener("click", play);
@@ -754,11 +758,16 @@
     playing = false; stopTimer(); render(idx, formStep);
   });
   document.getElementById("btReset").addEventListener("click", function () {
-    playing = false; stopTimer(); idx = 0; formStep = 0; holdLeft = 0; render(0, 0);
+    playing = false; stopTimer(); idx = 0; formStep = 0; render(0, 0);
   });
 
-  render(0, 0);
-  setTimeout(function () { play(); }, 600);
+  // Guard: if payload missing, show status instead of silent fail
+  if (!tC.length) {
+    document.getElementById("btStatus").textContent = "Data missing - refresh";
+  } else {
+    render(0, 0);
+    setTimeout(function () { play(); }, 400);
+  }
 })();
 </script>
 
