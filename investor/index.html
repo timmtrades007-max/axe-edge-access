@@ -139,6 +139,12 @@
 
     .access-note a { color: var(--accent2); text-decoration: underline; text-underline-offset: 2px; }
     .access-note .code { font-family: "JetBrains Mono", monospace; color: var(--accent); font-weight: 600; }
+
+    .full-shell { height: clamp(260px, 42vh, 420px); position: relative; }
+    .full-shell canvas { width: 100%; height: 100%; display: block; }
+    .full-note { color: var(--muted); font-size: 0.78rem; margin-top: 0.45rem; font-weight: 300; }
+    .legend .tw i { background: #66bb6a; }
+    .legend .tl i { background: #ef5350; }
     footer { border-top: 1px solid var(--line); padding: 1.2rem 0 2rem; position: relative; z-index: 1; }
     footer .risk { color: var(--muted); font-size: 0.66rem; max-width: 56rem; font-weight: 300; }
     @media (max-width: 700px) {
@@ -300,6 +306,37 @@
     </div>
   </section>
 
+
+  <section class="below" id="fullmap">
+    <div class="wrap">
+      <p class="kicker">Full period</p>
+      <h2>2022 → 2026 price map</h2>
+      <p class="lead">
+        The whole window on one chart: how BTCUSDT moved, and every taped trade entry marked on the climb.
+        Green dots = decisive TP. Red dots = decisive SL.
+      </p>
+      <div class="chart-panel">
+        <div class="chart-head">
+          <div>
+            <div class="label">BTCUSDT · full path</div>
+            <div class="legend">
+              <span class="tr"><i></i>Price</span>
+              <span class="tw"><i></i>TP hit</span>
+              <span class="tl"><i></i>SL hit</span>
+              <span class="ev"><i></i>Event</span>
+            </div>
+          </div>
+          <div class="price-block">
+            <div class="label">End price</div>
+            <div class="price" id="fullEndPx">-</div>
+          </div>
+        </div>
+        <div class="full-shell"><canvas id="fullCanvas" width="1600" height="640"></canvas></div>
+      </div>
+      <p class="full-note">Markers are entry fills from the verified tape (hosts excluded). This is the same run as the replay above.</p>
+    </div>
+  </section>
+
   <section class="below" id="method">
     <div class="wrap">
       <p class="kicker">How we trade</p>
@@ -425,8 +462,8 @@
     </div>
   </footer>
 
-<script src="equity_path.js?v=1789127094"></script>
-<script src="player.js?v=1789127094"></script>
+<script src="equity_path.js?v=1789127341"></script>
+<script src="player.js?v=1789127341"></script>
 
 
   <div class="share-bar" aria-label="Share this page">

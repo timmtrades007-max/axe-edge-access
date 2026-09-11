@@ -44,12 +44,15 @@
 
     var btcCanvas = $("btcCanvas");
     var eqCanvas = $("eqCanvas");
+    var fullCanvas = $("fullCanvas");
     if (!btcCanvas || !eqCanvas) {
       if (status) status.textContent = "Canvas missing";
       return;
     }
     var btcCtx = btcCanvas.getContext("2d");
     var eqCtx = eqCanvas.getContext("2d");
+    var fullCtx = fullCanvas ? fullCanvas.getContext("2d") : null;
+    var didScrollFull = false;
 
     var closesAt = new Array(N);
     for (var i = 0; i < N; i++) closesAt[i] = [];
@@ -357,6 +360,107 @@
       }
     }
 
+
+    function drawFullMap() {
+      if (!fullCtx || !fullCanvas) return;
+      var W = fullCanvas.width, H = fullCanvas.height;
+      fullCtx.clearRect(0, 0, W, H);
+      var left = 14, right = 70, top = 18, bottom = 36;
+      var plotW = W - left - right, plotH = H - top - bottom;
+      var minP = Infinity, maxP = -Infinity;
+      for (var i = 0; i < N; i++) {
+        if (c[i] < minP) minP = c[i];
+        if (c[i] > maxP) maxP = c[i];
+      }
+      var pad = (maxP - minP) * 0.08 || 1;
+      minP -= pad; maxP += pad;
+      function X(i) { return left + (i / Math.max(1, N - 1)) * plotW; }
+      function Y(v) { return top + (1 - (v - minP) / (maxP - minP)) * plotH; }
+
+      // soft grid
+      fullCtx.strokeStyle = "rgba(140,170,190,0.12)";
+      fullCtx.lineWidth = 1;
+      for (var g = 0; g < 4; g++) {
+        var gy = top + (plotH * g) / 3;
+        fullCtx.beginPath();
+        fullCtx.moveTo(left, gy);
+        fullCtx.lineTo(W - right, gy);
+        fullCtx.stroke();
+      }
+
+      // event lines
+      for (var e = 0; e < events.length; e++) {
+        var ev = events[e];
+        var ex = X(Math.max(0, Math.min(N - 1, ev.i)));
+        fullCtx.setLineDash([4, 4]);
+        fullCtx.strokeStyle = "rgba(255,213,79,0.55)";
+        fullCtx.beginPath();
+        fullCtx.moveTo(ex, top);
+        fullCtx.lineTo(ex, top + plotH);
+        fullCtx.stroke();
+        fullCtx.setLineDash([]);
+        fullCtx.fillStyle = "#ffd54f";
+        fullCtx.font = "9px monospace";
+        fullCtx.save();
+        fullCtx.translate(ex + 3, top + 12 + (e % 3) * 12);
+        fullCtx.fillText(ev.label, 0, 0);
+        fullCtx.restore();
+      }
+
+      // price path (close line + light fill)
+      fullCtx.beginPath();
+      for (var i = 0; i < N; i++) {
+        var xx = X(i), yy = Y(c[i]);
+        if (i === 0) fullCtx.moveTo(xx, yy);
+        else fullCtx.lineTo(xx, yy);
+      }
+      fullCtx.strokeStyle = "rgba(125,211,252,0.95)";
+      fullCtx.lineWidth = 2;
+      fullCtx.stroke();
+      fullCtx.lineTo(X(N - 1), top + plotH);
+      fullCtx.lineTo(X(0), top + plotH);
+      fullCtx.closePath();
+      fullCtx.fillStyle = "rgba(125,211,252,0.08)";
+      fullCtx.fill();
+
+      // trade entries
+      for (var t = 0; t < trades.length; t++) {
+        var tr = trades[t];
+        var ti = Math.max(0, Math.min(N - 1, tr[0]));
+        var winHit = tr[8] === 1;
+        var lossHit = tr[8] === 2;
+        fullCtx.beginPath();
+        fullCtx.arc(X(ti), Y(tr[3] || c[ti]), winHit || lossHit ? 3.2 : 2.4, 0, Math.PI * 2);
+        fullCtx.fillStyle = winHit ? "#66bb6a" : (lossHit ? "#ef5350" : "#5eead4");
+        fullCtx.fill();
+      }
+
+      // axis labels
+      fullCtx.fillStyle = "#8a9aab";
+      fullCtx.font = "11px monospace";
+      fullCtx.fillText((d[0] || "").slice(0, 10), left, H - 10);
+      fullCtx.fillText((d[N - 1] || "").slice(0, 10), W - right - 78, H - 10);
+      fullCtx.fillText(fmtPx(maxP), W - right + 4, top + 10);
+      fullCtx.fillText(fmtPx(minP), W - right + 4, top + plotH);
+      fullCtx.fillStyle = "#7dd3fc";
+      fullCtx.font = "bold 12px monospace";
+      fullCtx.fillText(fmtPx(c[N - 1]), W - right + 4, Y(c[N - 1]) + 4);
+
+      // year ticks
+      var lastY = "";
+      for (var i = 0; i < N; i++) {
+        var yy = (d[i] || "").slice(0, 4);
+        if (yy && yy !== lastY) {
+          lastY = yy;
+          fullCtx.fillStyle = "rgba(238,243,247,0.55)";
+          fullCtx.font = "10px monospace";
+          fullCtx.fillText(yy, X(i) + 2, H - 22);
+        }
+      }
+
+      if ($("fullEndPx")) $("fullEndPx").textContent = fmtPx(c[N - 1]);
+    }
+
     function drawEquity(endIdx) {
       var W = eqCanvas.width, H = eqCanvas.height;
       eqCtx.clearRect(0, 0, W, H);
@@ -441,7 +545,18 @@
     }
     function tick() {
       if (!playing) return;
-      if (idx >= N - 1) { playing = false; stop(); render(idx); return; }
+      if (idx >= N - 1) {
+        playing = false;
+        stop();
+        render(idx);
+        drawFullMap();
+        if (!didScrollFull) {
+          didScrollFull = true;
+          var fm = $("fullmap");
+          if (fm && fm.scrollIntoView) setTimeout(function () { fm.scrollIntoView({ behavior: "smooth", block: "start" }); }, 400);
+        }
+        return;
+      }
       idx += 1;
       render(idx);
       if (playing) schedule();
@@ -463,6 +578,7 @@
       play();
     };
 
+    drawFullMap();
     render(0);
     setTimeout(play, 300);
   }
