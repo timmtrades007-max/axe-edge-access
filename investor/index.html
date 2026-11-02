@@ -2,475 +2,519 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Candle fade v22 | how the backtest works</title>
-  <meta name="description" content="How the live candle-fade v22 book is backtested on Bybit one-minute bars, and what each year did from a fresh $20,000." />
-  <meta property="og:title" content="Candle fade v22 | how the backtest works" />
-  <meta property="og:description" content="The live 39-slice fade, the fill rules, and the fresh-year results. The full-window dollars are in-sample." />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Axe Edge | Capital Brief</title>
+  <meta name="description" content="Axe Edge capital brief: rules-based BTCUSDT execution with verified historical path." />
+  <meta property="og:title" content="Axe Edge | Capital Brief" />
+  <meta property="og:description" content="Rules-based BTCUSDT process: limit entries, hard TP/SL, compounding size. Capital brief." />
   <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --paper: #f6f3ec;
-      --ink: #1c1a16;
-      --muted: #5e584e;
-      --line: #d9d2c5;
-      --rule: #1c1a16;
+      --bg: #0a0e12;
+      --ink: #eef3f7;
+      --muted: #8a9aab;
+      --line: rgba(140,170,190,0.14);
+      --panel: rgba(14,22,30,0.94);
+      --accent: #5eead4;
+      --accent2: #7dd3fc;
+      --up: #26a69a;
+      --down: #ef5350;
+      --ok: #26a69a;
+      --bad: #ef5350;
+      --event: #ffd54f;
     }
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
-      font-size: 1.05rem;
-      line-height: 1.55;
+      font-family: "DM Sans", system-ui, sans-serif;
+      background: var(--bg); color: var(--ink); line-height: 1.45; overflow-x: hidden;
     }
-    .page {
-      width: min(920px, calc(100% - 2rem));
-      margin: 0 auto;
-      padding: 2.2rem 0 4rem;
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 50% 35% at 10% 0%, rgba(94,234,212,0.1), transparent 55%),
+        linear-gradient(180deg, #0c1218, #0a0e12 60%);
     }
-    header { border-bottom: 1px solid var(--rule); padding-bottom: 1.2rem; margin-bottom: 1.4rem; }
-    .kicker {
-      font-family: Consolas, "Courier New", monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.04em;
-      color: var(--muted);
-      margin: 0 0 0.6rem;
+    .wrap { width: min(1100px, calc(100% - 1.25rem)); margin: 0 auto; position: relative; z-index: 1; }
+    .nav { display: flex; justify-content: space-between; align-items: center; padding: 0.7rem 0 0.35rem; }
+    .brand { font-family: "Syne", sans-serif; font-weight: 700; letter-spacing: 0.12em; font-size: 0.78rem; text-transform: uppercase; }
+    .brand span { color: var(--accent); }
+    .nav-meta { font-family: "JetBrains Mono", monospace; font-size: 0.62rem; color: var(--muted); }
+    .hero { padding: 0.55rem 0 0.7rem; }
+    .eyebrow { font-family: "JetBrains Mono", monospace; color: var(--accent); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.3rem; }
+    h1 { font-family: "Syne", sans-serif; font-weight: 700; font-size: clamp(1.45rem, 4.6vw, 2.25rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+    h1 em { font-style: normal; color: var(--accent); }
+    .lede { color: var(--muted); font-weight: 300; font-size: 0.9rem; max-width: 34rem; margin-bottom: 0.55rem; }
+    .hooks { display: grid; gap: 0.35rem; margin: 0.55rem 0 0.7rem; list-style: none; }
+    .hooks li { font-size: 0.86rem; padding-left: 0.9rem; position: relative; color: var(--ink); }
+    .hooks li::before { content: ""; position: absolute; left: 0; top: 0.5em; width: 0.38rem; height: 0.38rem; background: var(--accent); }
+    .hooks strong { color: var(--accent2); font-weight: 600; }
+    .method {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.55rem;
+      margin: 0.85rem 0 0.2rem;
     }
-    h1 {
-      font-weight: 500;
-      font-size: clamp(1.8rem, 4vw, 2.5rem);
-      line-height: 1.15;
-      margin: 0 0 0.8rem;
+    @media (max-width: 900px) { .method { grid-template-columns: 1fr 1fr; } }
+    .method article {
+      border: 1px solid var(--line); background: rgba(14,22,30,0.55);
+      padding: 0.75rem 0.8rem;
     }
-    h2 {
-      font-weight: 500;
-      font-size: 1.35rem;
-      margin: 2.2rem 0 0.6rem;
+    .method h3 { font-family: "Syne", sans-serif; font-size: 0.92rem; margin-bottom: 0.3rem; }
+    .method p { color: var(--muted); font-size: 0.8rem; font-weight: 300; line-height: 1.4; }
+    .hero-note {
+      display: block; margin-top: 0.55rem; color: var(--muted);
+      font-size: 0.66rem; font-family: "JetBrains Mono", monospace;
     }
-    p { margin: 0.7rem 0; }
-    .muted { color: var(--muted); }
-    a { color: inherit; }
-    ol.rules { padding-left: 1.2rem; }
-    ol.rules li { margin: 0.7rem 0; }
-    ol.rules li strong { font-weight: 600; }
-    .sheet {
-      overflow-x: auto;
-      margin: 1rem 0 0.4rem;
-      border-top: 1px solid var(--rule);
+    .actions { display: flex; gap: 0.45rem; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid transparent; padding: 0.55rem 0.85rem;
+      font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+      font-family: "JetBrains Mono", monospace; font-weight: 500;
+      cursor: pointer; background: transparent; color: var(--ink); text-decoration: none;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-family: Consolas, "Courier New", monospace;
-      font-size: 0.78rem;
-      line-height: 1.35;
+    .btn-fill { background: var(--accent); color: #04201a; }
+    .btn-ghost { border-color: var(--line); }
+    #path.stage {
+      border-top: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(94,234,212,0.035), transparent 40%);
+      padding: 0.45rem 0 0.75rem;
     }
-    th, td {
-      text-align: left;
-      padding: 0.42rem 0.55rem;
-      border-bottom: 1px solid var(--line);
-      white-space: nowrap;
-      vertical-align: top;
+    .phone-screen { display: flex; flex-direction: column; gap: 0.38rem; }
+    .stage-top { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; }
+    .mega { font-family: "Syne", sans-serif; font-size: clamp(1.05rem, 3.8vw, 1.5rem); font-weight: 700; }
+    .mega span { color: var(--accent); }
+    .stage-meta { text-align: right; font-family: "JetBrains Mono", monospace; color: var(--muted); font-size: 0.66rem; }
+    .stage-meta #btDate { color: var(--ink); font-weight: 600; font-size: 0.78rem; }
+    .chart-panel { border: 1px solid var(--line); background: var(--panel); padding: 0.45rem 0.5rem 0.5rem; }
+    .chart-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.2rem; }
+    .chart-head .label { font-family: "JetBrains Mono", monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .chart-head .price-block { text-align: right; }
+    .chart-head .price-block .label { margin-bottom: 0.1rem; }
+    .chart-head .price { font-family: "Syne", sans-serif; font-weight: 700; font-size: clamp(1.15rem, 4.5vw, 1.55rem); line-height: 1.1; }
+    .legend { display: flex; flex-wrap: wrap; gap: 0.45rem; font-family: "JetBrains Mono", monospace; font-size: 0.56rem; color: var(--muted); margin-top: 0.12rem; }
+    .legend i { display: inline-block; width: 0.5rem; height: 0.5rem; margin-right: 0.18rem; vertical-align: -1px; }
+    .legend .up i { background: var(--up); }
+    .legend .dn i { background: var(--down); }
+    .legend .en i { background: var(--accent); }
+    .legend .tp i { background: #66bb6a; }
+    .legend .sl i { background: #ef5350; }
+    .legend .ev i { background: var(--event); }
+    .legend .tr i { background: #7dd3fc; }
+    .btc-shell { height: clamp(280px, 48vh, 440px); position: relative; }
+    .eq-shell { height: clamp(78px, 12vh, 120px); position: relative; }
+    canvas { width: 100%; height: 100%; display: block; }
+    .event-banner {
+      display: none; align-items: center; gap: 0.45rem;
+      border: 1px solid rgba(255,213,79,0.45);
+      background: rgba(255,213,79,0.12);
+      color: var(--event);
+      font-family: "JetBrains Mono", monospace; font-size: 0.72rem;
+      padding: 0.45rem 0.55rem; font-weight: 600;
     }
-    th { font-weight: 600; }
-    td.num, th.num { text-align: right; }
-    .market td {
-      font-family: Georgia, "Iowan Old Style", Palatino, serif;
-      font-size: 0.95rem;
-      padding-top: 0.85rem;
-      border-bottom-color: var(--rule);
+    .event-banner.on { display: flex; }
+    .event-banner span { color: var(--muted); font-weight: 400; }
+    .hit-line { font-family: "JetBrains Mono", monospace; font-size: 0.66rem; color: var(--muted); min-height: 1.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .hit-line b { color: var(--ink); font-weight: 500; }
+    .hit-line .win { color: var(--up); }
+    .hit-line .loss { color: var(--down); }
+    .live-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.32rem; }
+    .metric { border: 1px solid var(--line); background: rgba(8,14,20,0.7); padding: 0.38rem 0.42rem; }
+    .metric b { display: block; font-family: "JetBrains Mono", monospace; font-size: 0.82rem; font-weight: 600; }
+    .metric span { color: var(--muted); font-size: 0.52rem; letter-spacing: 0.06em; text-transform: uppercase; font-family: "JetBrains Mono", monospace; }
+    .metric.hot b { color: var(--accent); }
+    .controls { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; }
+
+    .scrub {
+      margin: 0.55rem 0 0.15rem;
+      display: grid;
+      gap: 0.28rem;
     }
-    .note {
-      font-family: Consolas, "Courier New", monospace;
-      font-size: 0.78rem;
-      color: var(--muted);
-      line-height: 1.45;
+    .scrub-row {
+      display: flex; align-items: center; gap: 0.55rem;
     }
-    .example {
-      border-left: 2px solid var(--rule);
-      padding: 0.2rem 0 0.2rem 1rem;
-      margin: 1rem 0;
+    .scrub input[type="range"] {
+      -webkit-appearance: none; appearance: none;
+      flex: 1; height: 6px; border-radius: 999px;
+      background: linear-gradient(90deg, rgba(94,234,212,0.55), rgba(125,211,252,0.35));
+      outline: none; cursor: pointer;
     }
-    .example dt {
-      font-family: Consolas, "Courier New", monospace;
-      font-size: 0.72rem;
-      color: var(--muted);
-      margin-top: 0.55rem;
+    .scrub input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: #5eead4; border: 2px solid #04201a;
+      box-shadow: 0 0 0 3px rgba(94,234,212,0.25);
+      cursor: grab;
     }
-    .example dd { margin: 0.1rem 0 0; }
-    footer {
-      margin-top: 2.4rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--rule);
-      color: var(--muted);
-      font-size: 0.92rem;
+    .scrub input[type="range"]::-moz-range-thumb {
+      width: 16px; height: 16px; border-radius: 50%;
+      background: #5eead4; border: 2px solid #04201a;
+      cursor: grab;
     }
+    .scrub-meta {
+      display: flex; justify-content: space-between; gap: 0.5rem;
+      font-family: "JetBrains Mono", monospace; font-size: 0.58rem; color: var(--muted);
+    }
+    .scrub-meta b { color: var(--ink); font-weight: 500; }
+    .speed { font-family: "JetBrains Mono", monospace; font-size: 0.58rem; color: var(--muted); }
+    .below { padding: 1.5rem 0 2rem; }
+    .kicker { font-family: "JetBrains Mono", monospace; color: var(--accent); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.4rem; }
+    h2 { font-family: "Syne", sans-serif; font-weight: 700; font-size: clamp(1.15rem, 3vw, 1.6rem); margin-bottom: 0.45rem; }
+    .lead { color: var(--muted); font-weight: 300; font-size: 0.88rem; margin-bottom: 0.85rem; max-width: 40rem; }
+    .meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.7rem; }
+    .meta-card { border-top: 1px solid var(--accent); padding-top: 0.55rem; }
+    .meta-card h3 { font-family: "Syne", sans-serif; font-size: 0.86rem; color: var(--accent2); margin-bottom: 0.35rem; }
+    .meta-card ul { list-style: none; display: grid; gap: 0.25rem; color: var(--muted); font-size: 0.8rem; }
+    .meta-card li strong { color: var(--ink); font-family: "JetBrains Mono", monospace; font-weight: 500; }
+
+    .access-note a { color: var(--accent2); text-decoration: underline; text-underline-offset: 2px; }
+    .access-note .code { font-family: "JetBrains Mono", monospace; color: var(--accent); font-weight: 600; }
+
+    .full-shell { height: clamp(260px, 42vh, 420px); position: relative; }
+    .full-shell canvas { width: 100%; height: 100%; display: block; }
+    .full-note { color: var(--muted); font-size: 0.78rem; margin-top: 0.45rem; font-weight: 300; }
+    .legend .tw i { background: #66bb6a; }
+    .legend .tl i { background: #ef5350; }
+    footer { border-top: 1px solid var(--line); padding: 1.2rem 0 2rem; position: relative; z-index: 1; }
+    footer .risk { color: var(--muted); font-size: 0.66rem; max-width: 56rem; font-weight: 300; }
+    @media (max-width: 700px) {
+      .wrap { width: calc(100% - 0.85rem); }
+      .hero { padding: 0.3rem 0 0.4rem; }
+      .lede { font-size: 0.8rem; }
+      #path.stage { min-height: calc(100svh - 7rem); min-height: calc(100dvh - 7rem); padding: 0.3rem 0 0.45rem; }
+      .btc-shell { height: clamp(250px, 48svh, 360px); }
+      .eq-shell { height: clamp(64px, 11svh, 96px); }
+      .method { grid-template-columns: 1fr; gap: 0.4rem; }
+      .method article { padding: 0.65rem 0.7rem; }
+      .speed { display: none; }
+      .mega { font-size: 0.95rem; }
+    }
+    @media (min-width: 701px) {
+      .hooks li { font-size: 0.9rem; }
+      .method { margin-top: 1rem; }
+    }
+    @media (max-width: 420px) { .live-grid { grid-template-columns: repeat(2, 1fr); } }
+  
+    .share-bar {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      align-items: stretch;
+    }
+    .share-bar button {
+      border: 1px solid rgba(180, 220, 200, 0.25);
+      background: rgba(10, 18, 16, 0.92);
+      color: #edf6f1;
+      padding: 0.65rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+    .share-bar button:hover { border-color: #3dff9a; }
+    .share-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 1rem;
+      transform: translateX(-50%) translateY(12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+      background: #13201a;
+      color: #edf6f1;
+      border: 1px solid rgba(61,255,154,0.35);
+      padding: 0.55rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      z-index: 60;
+    }
+    .share-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
   </style>
 </head>
 <body>
-  <main class="page">
-    <header>
-      <p class="kicker">Live book · version 22 · Bybit USDT perpetuals · 1-minute bars</p>
-      <h1>How we test the candle fade</h1>
-      <p>
-        This is the strategy that is live, written as the test we use to see whether it works.
-        Seven markets, 39 slices. A large up minute is faded short. A large down minute is faded long.
-        The order is a limit. The stop is on the order. Profit is added when the trade closes.
+  <div class="wrap">
+    <nav class="nav">
+      <div class="brand">Axe Edge <span>/</span> Capital</div>
+      <div class="nav-meta">15m BTC chart</div>
+    </nav>
+  </div>
+
+  <header class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Private capital brief · BTCUSDT</p>
+      <h1>Rules-based Bitcoin<br /><em>execution</em></h1>
+      <p class="lede">
+        Axe Edge runs a defined BTCUSDT process: limit entries, fixed take-profit and stop levels,
+        and position size that scales with account equity. The replay below is the verified historical path -
+        candles, fills, and equity - not a marketing curve.
       </p>
-      <p class="muted">
-        The test account starts at $20,000. That is not the live wallet.
-        Window: 1 Jan 2022 through 26 Oct 2026, 07:33 UTC.
+      <ul class="hooks">
+        <li><strong>Limit entries only.</strong> Price comes to the order. No market-chase fills.</li>
+        <li><strong>Hard TP and SL on every trade.</strong> Exits are planned structure, not discretionary.</li>
+        <li><strong>Size follows equity.</strong> As the account compounds, ticket size steps up with it.</li>
+        <li><strong>Isolated-style risk per ticket.</strong> Each position is bracketed; the book is not left open-ended.</li>
+        <li><strong>Full-cycle evidence.</strong> 2022 through 2026 on real market data, including drawdowns and major BTC events.</li>
+      </ul>
+      <div class="actions">
+        <button class="btn btn-fill" type="button" id="heroPlay">Watch the process</button>
+        <a class="btn btn-ghost" href="#method">How we trade</a>
+      </div>
+      <p class="hero-note">Verified window 2022-01-01 to 2026-09-09 · start $30,000 · path metrics in the readout below</p>
+    </div>
+  </header>
+
+  <section id="path" class="stage">
+    <div class="wrap phone-screen">
+      <div class="stage-top">
+        <div class="mega">Equity path <span>·</span> live replay</div>
+        <div class="stage-meta">
+          <div id="btDate">2022-01-01</div>
+          <div id="btStatus">Ready</div>
+        </div>
+      </div>
+
+      <div class="event-banner" id="eventBanner"><b id="eventTitle">EVENT</b><span id="eventSub"></span></div>
+
+      <div class="chart-panel">
+        <div class="chart-head">
+          <div>
+            <div class="label">15m chart</div>
+            <div class="legend">
+              <span class="up"><i></i>Up</span>
+              <span class="dn"><i></i>Down</span>
+              <span class="en"><i></i>Entry</span>
+              <span class="tp"><i></i>TP</span>
+              <span class="sl"><i></i>SL</span>
+              <span class="ev"><i></i>Event</span>
+              <span class="tr"><i></i>SMA9</span>
+            </div>
+          </div>
+          <div class="price-block">
+            <div class="label">BTC price</div>
+            <div class="price" id="btcNow">-</div>
+          </div>
+        </div>
+        <div class="btc-shell"><canvas id="btcCanvas" width="1400" height="720"></canvas></div>
+      </div>
+
+      <div class="chart-panel">
+        <div class="chart-head">
+          <div class="label">Equity</div>
+          <div class="price" id="eqNow" style="font-size:1rem">$30,000</div>
+        </div>
+        <div class="eq-shell"><canvas id="eqCanvas" width="1200" height="280"></canvas></div>
+      </div>
+
+      <div class="hit-line" id="activeBox">Waiting for next fill...</div>
+
+      <div class="live-grid">
+        <div class="metric hot"><b id="btEquity">$30,000</b><span>Equity</span></div>
+        <div class="metric hot"><b id="btWR">-</b><span>Win %</span></div>
+        <div class="metric"><b id="btQty">-</b><span>Qty</span></div>
+        <div class="metric"><b id="btPct">+0%</b><span>Growth</span></div>
+      </div>
+      <div style="display:none">
+        <b id="btWins">0</b><b id="btLosses">0</b><b id="btTrades">0</b><b id="btPathDd">0%</b>
+        <div id="tapeList"></div>
+      </div>
+
+
+      <div class="scrub" id="scrubWrap">
+        <div class="scrub-row">
+          <input type="range" id="btScrub" min="0" max="1000" value="0" step="1" aria-label="Timeline" />
+        </div>
+        <div class="scrub-meta">
+          <span>Start <b id="scrubStart">2022-01-01</b></span>
+          <span>Now <b id="scrubNow">2022-01-01</b></span>
+          <span>End <b id="scrubEnd">-</b></span>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="btn btn-fill" type="button" id="btPlay">Play</button>
+        <button class="btn btn-ghost" type="button" id="btPause">Pause</button>
+        <button class="btn btn-ghost" type="button" id="btReset">Reset</button>
+        <span class="speed">wide path view · slows on fills / events</span>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="below" id="fullmap">
+    <div class="wrap">
+      <p class="kicker">Full period</p>
+      <h2>2022 → 2026 price map</h2>
+      <p class="lead">
+        The whole window on one chart: how BTCUSDT moved, and every taped trade entry marked on the climb.
+        Every non-host tape entry is marked. Green = TP. Red = SL.
       </p>
-    </header>
-
-    <h2>Each year, started again from $20,000</h2>
-    <p>
-      A fresh year puts the cash back to $20,000 on 1 January and walks that year alone.
-      A year cannot look rich because a previous year compounded it.
-      The slices were scored on this same 2022-2026 window, so these rows are not a holdout.
-      They answer a narrower question: under these rules, did that calendar year pay?
-    </p>
-    <div class="sheet">
-      <table>
-        <thead>
-          <tr>
-            <th>Year</th>
-            <th class="num">End</th>
-            <th class="num">Low</th>
-            <th class="num">Opened</th>
-            <th class="num">Wins</th>
-            <th class="num">Above ladder</th>
-            <th class="num">Liquidated</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>2022</td>
-            <td class="num">$2,818,569.72</td>
-            <td class="num">$15,345.15</td>
-            <td class="num">2,636</td>
-            <td class="num">2,244</td>
-            <td class="num">8</td>
-            <td class="num">0</td>
-          </tr>
-          <tr>
-            <td>2023</td>
-            <td class="num">$385,721.85</td>
-            <td class="num">$18,771.47</td>
-            <td class="num">1,175</td>
-            <td class="num">991</td>
-            <td class="num">0</td>
-            <td class="num">0</td>
-          </tr>
-          <tr>
-            <td>2024</td>
-            <td class="num">$755,797.77</td>
-            <td class="num">$17,602.89</td>
-            <td class="num">2,205</td>
-            <td class="num">1,889</td>
-            <td class="num">0</td>
-            <td class="num">0</td>
-          </tr>
-          <tr>
-            <td>2025</td>
-            <td class="num">$376,234.64</td>
-            <td class="num">$15,979.03</td>
-            <td class="num">1,697</td>
-            <td class="num">1,444</td>
-            <td class="num">0</td>
-            <td class="num">0</td>
-          </tr>
-          <tr>
-            <td>2026 through 26 Oct</td>
-            <td class="num">$19,188,121.25</td>
-            <td class="num">$20,000.00</td>
-            <td class="num">872</td>
-            <td class="num">775</td>
-            <td class="num">98</td>
-            <td class="num">0</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="chart-panel">
+        <div class="chart-head">
+          <div>
+            <div class="label">BTCUSDT · full path</div>
+            <div class="legend">
+              <span class="tr"><i></i>Price</span>
+              <span class="tw"><i></i>TP hit</span>
+              <span class="tl"><i></i>SL hit</span>
+              <span class="ev"><i></i>Event</span>
+            </div>
+          </div>
+          <div class="price-block">
+            <div class="label">End price</div>
+            <div class="price" id="fullEndPx">-</div>
+          </div>
+        </div>
+        <div class="full-shell"><canvas id="fullCanvas" width="1600" height="640"></canvas></div>
+      </div>
+      <p class="full-note">All verified tape entries are plotted on this map (hosts excluded). Same run as the replay above.</p>
     </div>
-    <p class="note">
-      Slide the tables sideways on a phone.
-      "Above ladder" is an order that never opened. Its notional sat above the top of today's Bybit maintenance ladder.
-      Wins are closes with a positive result after fees. A target is often 0.5 to 2 bodies and the stop is 6, 8, or 12, so the win count is the easy half of the trade.
-    </p>
+  </section>
 
-    <h2>The same rules, one account, the whole window</h2>
-    <p>
-      Left to compound from $20,000 on 1 Jan 2022, the book ends at $475,380,533.56.
-      The low is $15,345.15, which is 23.27% under the start. Liquidations: 0.
-      The engine found 10,116 fills. One open trade per coin left 8,698.
-      Of those, 6,156 opened, 2,525 were refused above the maintenance ladder, and 17 did not open.
-      Wins 5,267. Closed as target 5,183, on the position clock 528, at the stop 445.
-    </p>
-    <p>
-      That full-window dollar figure is in-sample. The 39 slices were chosen by scoring this same history.
-      It is a description of the fit, not a forecast, and it is not the live wallet.
-    </p>
-
-    <h2>The same $20,000, copied across 37,000 wallets</h2>
-    <p>
-      The ladder is a dollar cap on one wallet. The $20,000 account above grows into that cap, and 2,525 orders never open.
-      Splitting that same $20,000 into 37,000 wallets gives each one $0.5405405405 and its own ladder.
-      Every wallet is handed the same signal and the same fill. The total is one backtest copied 37,000 times.
-      It is not 37,000 separate trades in the market, and it is not 37,000 deposits of $20,000.
-    </p>
-    <p>
-      Left to compound, the copy ends at $2,815,003,324,762.11.
-      Each wallet ends at $76,081,170.94. The pool's low stays $20,000.
-      Opened 7,809. Wins 6,685. One Ether trade, slice eth-50-55, is booked as a liquidation on 19 Aug 2026.
-      That liquidation does not take the pool under the start. Another 256 orders are still above the small wallet's own ladder by the time it has grown.
-    </p>
-    <p>
-      A fresh January at $0.54 does not produce this. Most orders are under the $5 minimum until a wallet has already grown, so the later years barely trade.
-    </p>
-    <div class="sheet">
-      <table>
-        <thead>
-          <tr>
-            <th>Fresh year, 37,000 wallets</th>
-            <th class="num">Pool end</th>
-            <th class="num">Pool low</th>
-            <th class="num">Opened on one wallet</th>
-            <th class="num">Liquidated</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>2022</td>
-            <td class="num">$1,861,125.52</td>
-            <td class="num">$20,000.00</td>
-            <td class="num">2,020</td>
-            <td class="num">0</td>
-          </tr>
-          <tr>
-            <td>2023</td>
-            <td class="num">$157,624.53</td>
-            <td class="num">$20,000.00</td>
-            <td class="num">255</td>
-            <td class="num">0</td>
-          </tr>
-          <tr>
-            <td>2024</td>
-            <td class="num">$16,701.21</td>
-            <td class="num">$16,701.21</td>
-            <td class="num">3</td>
-            <td class="num">0</td>
-          </tr>
-          <tr>
-            <td>2025</td>
-            <td class="num">$15,049.75</td>
-            <td class="num">$15,049.75</td>
-            <td class="num">1</td>
-            <td class="num">0</td>
-          </tr>
-          <tr>
-            <td>2026 through 26 Oct</td>
-            <td class="num">$15,486.61</td>
-            <td class="num">$15,486.61</td>
-            <td class="num">8</td>
-            <td class="num">0</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="note">
-      The $2.815 trillion figure is the continuous copy from 1 Jan 2022, after 2022's gains have stayed in the wallets.
-      It is in-sample, the same window the slices were scored on. The older $10.17 trillion print was a different book.
-    </p>
-
-    <h2>The order of the test</h2>
-    <ol class="rules">
-      <li>
-        <strong>The bar has to close.</strong>
-        The signal is that minute's open-to-close body, as a fraction of the close,
-        and its volume divided by the average volume of the previous ten minutes.
-        The signal minute is not inside that average.
-      </li>
-      <li>
-        <strong>The body and the volume have to sit in a slice.</strong>
-        The 39 slices are listed below. No volume figure means that slice does not use a volume test.
-        An up bar fades short. A down bar fades long.
-      </li>
-      <li>
-        <strong>The entry is a limit, past the close, in bodies of that candle.</strong>
-        On Bitcoin, Ether, BNB, Solana, and XRP the limit is rested 0.50 bodies back toward the close,
-        and never inside 0.05 bodies of the close. If that rest would reach the target, it is not used.
-        The stop and the target stay measured from the unrested price.
-        Six slices use a nearer target when the fade is short. That column is "Short target".
-      </li>
-      <li>
-        <strong>The fill is a later bar.</strong>
-        If price does not trade the limit before the entry hold runs out, there is no trade and no chase.
-        The fill bar can stop the trade. It cannot pay the target.
-        A gap through the stop is booked at that bar's open.
-        If a later bar touches the stop and the target, the stop is the exit.
-      </li>
-      <li>
-        <strong>Then the position clock.</strong>
-        Where the table says a number, that is how long the filled trade may run, in minutes.
-        "Entry hold" means the filled trade uses the same clock as the entry.
-        "Off" means the trade waits for the target or the stop.
-        A clock exit is marked at that bar's close.
-      </li>
-      <li>
-        <strong>One open trade per coin.</strong>
-        A new signal on a coin that is already in a trade is skipped.
-      </li>
-      <li>
-        <strong>Size, then the liquidation cut.</strong>
-        Notional starts from the wallet, the stop distance, the body, and a weight:
-        Bitcoin 2, Ether 1, BNB 0.5, Solana 0.5, XRP 0.5, Sui 1, gold 1.25.
-        Bitcoin is capped at 1,500 coins. Leverage is 20. Cross margin, so the whole balance is the margin.
-        Maintenance is notional times the tier rate, minus the deduction. An empty deduction is 0.
-        If maintenance of the coins already open plus this order is at least the balance, the order does not open.
-        Otherwise size is cut until the liquidation price sits past the stop, and until a stop on every open coin would still leave the wallet above maintenance.
-        If it cannot be cut that far, or the cut is under $5, the order is not sent.
-        A wick through the stop is the stop. If the path's worst move reaches the liquidation distance first, the loss is booked as a liquidation.
-      </li>
-      <li>
-        <strong>Fees and when profit counts.</strong>
-        A target pays 4 bps. A stop, a clock exit, or a gap pays 7.5 bps.
-        The result is added to the balance when the trade closes, not when it opens.
-      </li>
-    </ol>
-    <p class="muted">
-      The live process also moves 3% of a green week's Unified gain into Funding at Monday 00:00 SAST.
-      This walk does not. Every close stays in the futures balance.
-      A research cancel that pulls an unfilled entry when the body is reclaimed is not in the live book and is not in this walk.
-    </p>
-
-    <h2>One signal, followed through</h2>
-    <p>
-      First Bitcoin fill in the window. Slice btc-30-35. The minute closed 15:38 UTC on 1 Jan 2022.
-    </p>
-    <dl class="example">
-      <dt>Closed minute</dt>
-      <dd>Open 47,271.00, close 47,428.50. Body 157.50, which is 0.332% of the close. That sits in 0.30% to 0.35%. Volume on this slice has to be 2.40 to 2.90 times the prior ten minutes. This bar passed.</dd>
-      <dt>Side</dt>
-      <dd>The close is above the open, so the fade is short. Entry 2 bodies, target 0.5, stop 12. The entry hold is 1,440 minutes, and this slice has no separate position clock.</dd>
-      <dt>Prices</dt>
-      <dd>Unrested entry 47,743.50. The 0.50-body rest is skipped here because the target is only 0.5 bodies and the rest would eat it. Target 47,664.75. Stop 49,633.50.</dd>
-      <dt>Fill</dt>
-      <dd>A later bar traded the limit and filled at 47,743.50. The fill bar did not gap through it.</dd>
-      <dt>Exit</dt>
-      <dd>A later bar paid the target. Recorded result 19.04 bps after the 4 bp target fee. The resting target was about 16.5 bps from the fill, so that bar opened through the target and the exit is the open, which is the rule.</dd>
-    </dl>
-
-    <h2>Where the opens came from</h2>
-    <div class="sheet">
-      <table>
-        <thead>
-          <tr>
-            <th>Market</th>
-            <th class="num">Opened</th>
-            <th class="num">Wins</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Bitcoin</td><td class="num">727</td><td class="num">666</td></tr>
-          <tr><td>Ether</td><td class="num">1,038</td><td class="num">847</td></tr>
-          <tr><td>BNB</td><td class="num">202</td><td class="num">182</td></tr>
-          <tr><td>Solana</td><td class="num">2,255</td><td class="num">1,904</td></tr>
-          <tr><td>XRP</td><td class="num">1,730</td><td class="num">1,508</td></tr>
-          <tr><td>Sui</td><td class="num">49</td><td class="num">39</td></tr>
-          <tr><td>Gold (PAXG)</td><td class="num">155</td><td class="num">121</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="note">Sui's minute file starts later than the others, so it is absent from the early window. These counts are the compounded walk, not the fresh years added together.</p>
-
-    <h2>The 39 slices</h2>
-    <p>
-      Body is the open-to-close range as a percent of the close. Volume is this minute divided by the previous ten.
-      Entry, target, and stop are in bodies of that candle. Clocks are in minutes.
-    </p>
-    <div class="sheet">
-      <table>
-        <thead>
-          <tr>
-            <th>Slice</th>
-            <th>Body %</th>
-            <th>Volume</th>
-            <th class="num">Entry</th>
-            <th class="num">Target</th>
-            <th class="num">Short target</th>
-            <th class="num">Stop</th>
-            <th class="num">Entry hold</th>
-            <th>Position clock</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="market"><td colspan="9">Bitcoin</td></tr>
-          <tr><td>btc-35-40</td><td>0.35-0.40</td><td>2.05-2.55</td><td class="num">0.5</td><td class="num">2</td><td class="num">-</td><td class="num">6</td><td class="num">1440</td><td>2880</td></tr>
-          <tr><td>btc-40-45</td><td>0.40-0.45</td><td>1.10-1.60</td><td class="num">2</td><td class="num">2</td><td class="num">-</td><td class="num">12</td><td class="num">240</td><td>off</td></tr>
-          <tr><td>btc-45-50</td><td>0.45-0.50</td><td>2.50-3.00</td><td class="num">0.5</td><td class="num">2</td><td class="num">-</td><td class="num">8</td><td class="num">1440</td><td>240</td></tr>
-          <tr><td>btc-30-35</td><td>0.30-0.35</td><td>2.40-2.90</td><td class="num">2</td><td class="num">0.5</td><td class="num">-</td><td class="num">12</td><td class="num">1440</td><td>entry hold</td></tr>
-          <tr class="market"><td colspan="9">Ether</td></tr>
-          <tr><td>eth-35-40</td><td>0.35-0.40</td><td>1.60-2.10</td><td class="num">2</td><td class="num">2</td><td class="num">-</td><td class="num">6</td><td class="num">480</td><td>entry hold</td></tr>
-          <tr><td>eth-50-55</td><td>0.50-0.55</td><td>1.40-1.90</td><td class="num">1.5</td><td class="num">2</td><td class="num">-</td><td class="num">6</td><td class="num">1440</td><td>entry hold</td></tr>
-          <tr><td>eth-45-50</td><td>0.45-0.50</td><td>2.45-2.95</td><td class="num">2</td><td class="num">1.5</td><td class="num">-</td><td class="num">12</td><td class="num">1440</td><td>entry hold</td></tr>
-          <tr><td>eth-65-70</td><td>0.65-0.70</td><td>1.15-1.65</td><td class="num">0.5</td><td class="num">1.5</td><td class="num">-</td><td class="num">8</td><td class="num">1440</td><td>entry hold</td></tr>
-          <tr><td>eth-40-45</td><td>0.40-0.45</td><td>1.15-1.65</td><td class="num">2</td><td class="num">2</td><td class="num">-</td><td class="num">12</td><td class="num">60</td><td>entry hold</td></tr>
-          <tr class="market"><td colspan="9">BNB</td></tr>
-          <tr><td>bnb-45-50</td><td>0.45-0.50</td><td>2.45-2.95</td><td class="num">1.5</td><td class="num">1.5</td><td class="num">1.25</td><td class="num">6</td><td class="num">1440</td><td>entry hold</td></tr>
-          <tr><td>bnb-35-40</td><td>0.35-0.40</td><td>1.70-2.20</td><td class="num">2.5</td><td class="num">2</td><td class="num">-</td><td class="num">12</td><td class="num">1440</td><td>entry hold</td></tr>
-          <tr><td>bnb-40-45</td><td>0.40-0.45</td><td>2.35-2.85</td><td class="num">0.5</td><td class="num">1</td><td class="num">0.75</td><td class="num">6</td><td class="num">1440</td><td>entry hold</td></tr>
-          <tr class="market"><td colspan="9">Solana</td></tr>
-          <tr><td>sol-70-75</td><td>0.70-0.75</td><td>&gt;=2.50</td><td class="num">1.5</td><td class="num">2</td><td class="num">-</td><td class="num">6</td><td class="num">1440</td><td>2880</td></tr>
-          <tr><td>sol-50-55</td><td>0.50-0.55</td><td>2.10-2.60</td><td class="num">1.5</td><td class="num">2</td><td class="num">-</td><td class="num">8</td><td class="num">240</td><td>entry hold</td></tr>
-          <tr><td>sol-40-45</td><td>0.40-0.45</td><td>2.35-2.85</td><td class="num">2.5</td><td class="num">1.5</td><td class="num">1.25</td><td class="num">6</td><td class="num">60</td><td>240</td></tr>
-          <tr><td>sol-45-50</td><td>0.45-0.50</td><td>1.05-1.55</td><td class="num">0.5</td><td class="num">1.5</td><td class="num">-</td><td class="num">12</td><td class="num">240</td><td>120</td></tr>
-          <tr><td>sol-55-60</td><td>0.55-0.60</td><td>2.30-2.80</td><td class="num">0.5</td><td class="num">1</td><td class="num">-</td><td class="num">8</td><td class="num">60</td><td>1440</td></tr>
-          <tr><td>sol-85-90</td><td>0.85-0.90</td><td>&gt;=1.50</td><td class="num">2</td><td class="num">1.5</td><td class="num">-</td><td class="num">8</td><td class="num">240</td><td>entry hold</td></tr>
-          <tr class="market"><td colspan="9">XRP</td></tr>
-          <tr><td>xrp-40-45</td><td>0.40-0.45</td><td>1.50-2.00</td><td class="num">2</td><td class="num">2</td><td class="num">-</td><td class="num">8</td><td class="num">1440</td><td>entry hold</td></tr>
-          <tr><td>xrp-45-50</td><td>0.45-0.50</td><td>1.55-2.05</td><td class="num">1.5</td><td class="num">2</td><td class="num">1.5</td><td class="num">8</td><td class="num">1440</td><td>240</td></tr>
-          <tr><td>xrp-35-40</td><td>0.35-0.40</td><td>1.05-1.55</td><td class="num">2</td><td class="num">1.5</td><td class="num">1.25</td><td class="num">8</td><td class="num">1440</td><td>entry hold</td></tr>
-          <tr><td>xrp-55-60</td><td>0.55-0.60</td><td>1.95-2.45</td><td class="num">2</td><td class="num">2</td><td class="num">-</td><td class="num">8</td><td class="num">60</td><td>2880</td></tr>
-          <tr><td>xrp-60-65</td><td>0.60-0.65</td><td>2.50-3.00</td><td class="num">0.5</td><td class="num">2</td><td class="num">-</td><td class="num">8</td><td class="num">60</td><td>entry hold</td></tr>
-          <tr><td>xrp-100-105</td><td>1.00-1.05</td><td>&gt;=1.50</td><td class="num">1.5</td><td class="num">1</td><td class="num">-</td><td class="num">8</td><td class="num">1440</td><td>off</td></tr>
-          <tr><td>xrp-75-80</td><td>0.75-0.80</td><td>2.20-2.70</td><td class="num">0.5</td><td class="num">1</td><td class="num">-</td><td class="num">8</td><td class="num">1440</td><td>entry hold</td></tr>
-          <tr class="market"><td colspan="9">Sui</td></tr>
-          <tr><td>sui-85-90</td><td>0.85-0.90</td><td>&gt;=2.50</td><td class="num">2</td><td class="num">2</td><td class="num">-</td><td class="num">8</td><td class="num">1440</td><td>off</td></tr>
-          <tr><td>sui-60-65</td><td>0.60-0.65</td><td>1.65-2.15</td><td class="num">2</td><td class="num">2</td><td class="num">-</td><td class="num">6</td><td class="num">1440</td><td>entry hold</td></tr>
-          <tr><td>sui-50-55</td><td>0.50-0.55</td><td>1.50-2.00</td><td class="num">2.5</td><td class="num">1</td><td class="num">-</td><td class="num">6</td><td class="num">60</td><td>entry hold</td></tr>
-          <tr><td>sui-70-75</td><td>0.70-0.75</td><td>1.35-1.85</td><td class="num">2.5</td><td class="num">1.5</td><td class="num">-</td><td class="num">6</td><td class="num">240</td><td>entry hold</td></tr>
-          <tr><td>sui-55-60</td><td>0.55-0.60</td><td>2.00-2.50</td><td class="num">2.5</td><td class="num">1</td><td class="num">-</td><td class="num">6</td><td class="num">240</td><td>entry hold</td></tr>
-          <tr><td>sui-130-135</td><td>1.30-1.35</td><td>&gt;=2.50</td><td class="num">0.5</td><td class="num">1.5</td><td class="num">1.25</td><td class="num">8</td><td class="num">240</td><td>entry hold</td></tr>
-          <tr><td>sui-90-95</td><td>0.90-0.95</td><td>1.00-1.50</td><td class="num">0.5</td><td class="num">1.5</td><td class="num">-</td><td class="num">6</td><td class="num">60</td><td>480</td></tr>
-          <tr><td>sui-75-80</td><td>0.75-0.80</td><td>1.40-1.90</td><td class="num">2.5</td><td class="num">2</td><td class="num">-</td><td class="num">8</td><td class="num">60</td><td>240</td></tr>
-          <tr><td>sui-100-105</td><td>1.00-1.05</td><td>none</td><td class="num">0.5</td><td class="num">0.5</td><td class="num">-</td><td class="num">8</td><td class="num">240</td><td>entry hold</td></tr>
-          <tr><td>sui-110-115</td><td>1.10-1.15</td><td>none</td><td class="num">1.5</td><td class="num">0.5</td><td class="num">-</td><td class="num">6</td><td class="num">60</td><td>entry hold</td></tr>
-          <tr class="market"><td colspan="9">Gold (PAXG)</td></tr>
-          <tr><td>paxg-35-40</td><td>0.35-0.40</td><td>&gt;=1.50</td><td class="num">0.5</td><td class="num">2</td><td class="num">-</td><td class="num">6</td><td class="num">120</td><td>entry hold</td></tr>
-          <tr><td>paxg-40-45</td><td>0.40-0.45</td><td>none</td><td class="num">1.5</td><td class="num">2</td><td class="num">-</td><td class="num">6</td><td class="num">240</td><td>entry hold</td></tr>
-          <tr><td>paxg-30-35</td><td>0.30-0.35</td><td>&gt;=1.50</td><td class="num">1</td><td class="num">1</td><td class="num">-</td><td class="num">6</td><td class="num">240</td><td>entry hold</td></tr>
-          <tr><td>paxg-45-50</td><td>0.45-0.50</td><td>&gt;=1.50</td><td class="num">1.5</td><td class="num">1</td><td class="num">-</td><td class="num">6</td><td class="num">480</td><td>1440</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h2>What this page is not</h2>
-    <p>
-      It is not a seat, a copy-trading link, or a fund. It is the worksheet for one book:
-      does the rule still pay when the fill cannot use the signal bar, the target cannot pay on the fill bar,
-      the stop wins a tie, liquidation is on, and the account is restarted each year?
-    </p>
-
-    <footer>
-      <p>
-        Leveraged perpetual trading can wipe an account. The path is a historical backtest on Bybit one-minute data
-        through 26 Oct 2026, 07:33 UTC. The maintenance ladder is today's Bybit ladder, applied across the whole window.
-        The full-window result is in-sample. Nothing here is a promise of future results, and nothing here is the live wallet.
+  <section class="below" id="method">
+    <div class="wrap">
+      <p class="kicker">How we trade</p>
+      <h2>The operating model</h2>
+      <p class="lead">
+        This is mechanical BTCUSDT trading on Bybit-style perpetual structure.
+        The chart is there so you can see entries and exits resolve in market time - not to sell a headline number.
       </p>
-    </footer>
-  </main>
+      <div class="method">
+        <article>
+          <h3>1. Signal → limit</h3>
+          <p>When the system arms a trade, it places a limit entry. We wait for price. If it does not fill, there is no chase and no market order panic.</p>
+        </article>
+        <article>
+          <h3>2. Bracket the risk</h3>
+          <p>Each fill carries a take-profit and a stop. Wins and losses are decided by those levels - that is what the live win rate counts.</p>
+        </article>
+        <article>
+          <h3>3. Manage the tape</h3>
+          <p>Open risk is visible on the chart as entry / TP / SL while a trade is live. Host placeholder closes are excluded from the quality readout.</p>
+        </article>
+        <article>
+          <h3>4. Compound the book</h3>
+          <p>As equity builds, order size increases. Early tickets stay small; later tickets are larger. The equity panel is that compounding in motion.</p>
+        </article>
+        <article>
+          <h3>5. What you are watching</h3>
+          <p>The 15m chart is a sped-up tape of the verified path - candles print and scroll the way a live chart does on fast-forward, with major BTC events marked.</p>
+        </article>
+        <article>
+          <h3>6. Diligence frame</h3>
+          <p>Metrics below are from the same engine run as the replay. Use them as context for process quality, not as a forecast.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="below" id="access">
+    <div class="wrap">
+      <p class="kicker">Access model</p>
+      <h2>Bybit Copy Trading + whitelisted seats</h2>
+      <p class="lead access-note">
+        Live capital follows through <strong>Bybit Copy Trading</strong>, not by handing API keys to a third party.
+        Seats are <strong>whitelist-only</strong> - approval before follow.
+      </p>
+      <div class="method">
+        <article>
+          <h3>1. Master account</h3>
+          <p>Axe Edge runs on a dedicated Bybit Copy Trading Master subaccount. The engine places the same rules-based BTCUSDT limit / TP / SL flow on that Master.</p>
+        </article>
+        <article>
+          <h3>2. Followers copy</h3>
+          <p>Approved seats follow the Master on Bybit. Fills and exits mirror from the Master book under Bybit Copy Trading rules - capital stays in the follower account.</p>
+        </article>
+        <article>
+          <h3>3. Whitelist gate</h3>
+          <p>There is no open public book. Seats are whitelisted after diligence / intro. Unapproved accounts are not invited to follow.</p>
+        </article>
+        <article>
+          <h3>4. Bybit signup (required)</h3>
+          <p class="access-note">Open or bind Bybit with referral code <span class="code">QJ5NOR</span> before onboarding.<br />
+          <a href="https://www.bybit.com/invite?ref=QJ5NOR&amp;medium=referral&amp;utm_campaign=evergreen&amp;share_to=link" target="_blank" rel="noopener noreferrer">bybit.com/invite?ref=QJ5NOR</a></p>
+        </article>
+        <article>
+          <h3>5. After whitelist</h3>
+          <p>Once approved, you receive the Copy Master follow instructions. Referral signup and Copy follow are separate steps - both are required for a clean seat.</p>
+        </article>
+        <article>
+          <h3>6. What this is not</h3>
+          <p>Not a pooled fund and not discretionary chat signals. It is Master execution + Bybit Copy Trading for whitelisted followers.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="below" id="metrics">
+    <div class="wrap">
+      <p class="kicker">Verified readout</p>
+      <h2>Historical path metrics</h2>
+      <p class="lead">Reference figures for the path shown above. Context for diligence - not a promise of future results.</p>
+      <div class="meta-grid">
+        <article class="meta-card">
+          <h3>Result</h3>
+          <ul>
+            <li>Final: <strong id="mFinal">$845.7M</strong></li>
+            <li>Multiple: <strong id="mMult">-</strong></li>
+            <li>On tape: <strong id="mTape">-</strong></li>
+            <li>Hosts excluded: <strong id="mHostsEx">-</strong></li>
+          </ul>
+        </article>
+        <article class="meta-card">
+          <h3>Quality</h3>
+          <ul>
+            <li>Decisive WR: <strong id="mWR">-</strong></li>
+            <li>Wins / Losses: <strong id="mWL">-</strong></li>
+            <li>Max DD (Profit): <strong id="mDdProfit">-</strong></li>
+            <li>Period: <strong>2022-01-01 → 2026-09-09</strong></li>
+          </ul>
+        </article>
+        <article class="meta-card">
+          <h3>Provenance</h3>
+          <ul>
+            <li>Engine: <strong id="mEng">-</strong></li>
+            <li>Hash: <strong id="mHash">-</strong></li>
+            <li>Meta: <strong id="mMeta">-</strong></li>
+            <li>Currency: <strong>USD</strong></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="brand" style="margin-bottom:0.7rem">Axe Edge <span>/</span> Capital</div>
+      <p class="risk">
+        Risk disclosure: Leveraged crypto trading can result in substantial or total loss of capital.
+        Path shown is a historical backtest on actual BTCUSDT data (meta 20260909_200417_046558).
+        Chart candles are 15-minute OHLC aggregated from the run bar series. Event markers are major market context, not trade signals.
+        Not live investor performance, not audited fund returns, not a promise of future results.
+      </p>
+    </div>
+  </footer>
+
+<script src="equity_path.js?v=1789127692"></script>
+<script src="player.js?v=1789127692"></script>
+
+
+  <div class="share-bar" aria-label="Share this page">
+    <button type="button" id="shareCopyLink">Copy link</button>
+    <button type="button" id="shareWhatsApp">Share on WhatsApp</button>
+  </div>
+  <div class="share-toast" id="shareToast" aria-live="polite"></div>
+  <script src="share-site.js"></script>
+
 </body>
 </html>
