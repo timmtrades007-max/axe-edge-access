@@ -143,8 +143,7 @@
       ctx.clearRect(0, 0, w, h);
       var focus = marks ? focusOf(trades, i) : null;
       var a = Math.max(0, i - win + 1);
-      if (focus) a = Math.max(0, Math.max(focus[1] - 2, i - 14));
-      var rg = rangeOf(series, a, i, focus ? [focus] : null);
+      var rg = rangeOf(series, a, i, null);
       if (!rg) {
         ctx.fillStyle = "rgba(138,154,171,0.7)";
         ctx.font = "12px JetBrains Mono, monospace";
@@ -333,7 +332,7 @@
       var series = B.px[active];
       var si = names.indexOf(active);
       var mine = bySym[si] || [];
-      var last = drawCandles($("btcCanvas"), series, idx, 36, mine, true);
+      var last = drawCandles($("btcCanvas"), series, idx, 720, mine, true);
       var live = null;
       var closed = null;
       for (var q = 0; q < mine.length; q++) {
@@ -361,7 +360,7 @@
       for (var b = 0; b < buttons.length; b++) {
         var name = buttons[b].dataset.name;
         buttons[b].className = "mkt" + (name === active ? " on" : "");
-        drawCandles(buttons[b].querySelector("canvas"), B.px[name], idx, 48, bySym[b], false);
+        drawCandles(buttons[b].querySelector("canvas"), B.px[name], idx, idx + 1, bySym[b], false);
       }
       $("eqNow").textContent = fmtFull(eq[idx]);
       $("btEquity").textContent = fmtShort(eq[idx]);
@@ -382,36 +381,47 @@
       $("btStatus").textContent = idx >= N - 1 ? "End of path" : (playing ? "Running" : "Ready");
     }
 
+    var lastTs = 0;
+    var acc = 0;
+    var dayMs = 1000 / 72;
+
     function stop() {
       playing = false;
-      if (timer) clearTimeout(timer);
+      if (timer) cancelAnimationFrame(timer);
       timer = null;
+      lastTs = 0;
+      acc = 0;
     }
 
-    function step() {
+    function frame(ts) {
       if (!playing) return;
+      if (!lastTs) lastTs = ts;
+      var dt = ts - lastTs;
+      if (dt > 48) dt = 48;
+      lastTs = ts;
+      acc += dt;
+      var moved = false;
+      while (acc >= dayMs && idx < N - 1) {
+        acc -= dayMs;
+        idx += 1;
+        moved = true;
+      }
+      if (moved) paint();
       if (idx >= N - 1) {
         stop();
         paint();
         return;
       }
-      idx += 1;
-      paint();
-      var delay = 32;
-      if (days[idx].slice(5) === "01-01") delay = 700;
-      else {
-        var book = bySym[names.indexOf(active)] || [];
-        for (var z = 0; z < book.length; z++) {
-          if (book[z][1] === idx || book[z][2] === idx) { delay = 280; break; }
-        }
-      }
-      timer = setTimeout(step, delay);
+      timer = requestAnimationFrame(frame);
     }
 
     function play() {
       if (idx >= N - 1) idx = 0;
       playing = true;
-      step();
+      lastTs = 0;
+      acc = 0;
+      paint();
+      timer = requestAnimationFrame(frame);
     }
 
     $("btPlay").addEventListener("click", play);
