@@ -69,6 +69,7 @@
     $("mMult").textContent = fmtMult(end, start);
     $("mTaken").textContent = (B.taken || 0).toLocaleString("en-US");
     $("mWins").textContent = (B.wins || 0).toLocaleString("en-US");
+    $("mWinPct").textContent = B.taken ? (100 * B.wins / B.taken).toFixed(2) + "%" : "-";
     $("scrubStart").textContent = days[0];
     $("scrubEnd").textContent = days[N - 1];
     $("btScrub").max = String(N - 1);
