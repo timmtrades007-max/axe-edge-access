@@ -84,7 +84,7 @@
       b.type = "button";
       b.className = "mkt" + (name === active ? " on" : "");
       b.dataset.name = name;
-      b.innerHTML = '<span class="mkt-name"></span><canvas></canvas>';
+      b.innerHTML = '<span class="mkt-name"></span><span class="mkt-line px"><em>price:</em> <b>-</b></span><span class="mkt-line eq"><em>equity:</em> <b>-</b></span><canvas></canvas>';
       b.querySelector(".mkt-name").textContent = name;
       b.addEventListener("click", function () {
         active = name;
@@ -355,13 +355,17 @@
       }
       $("chartLabel").textContent = active;
       $("btcNow").textContent = last ? fmtPx(last[3]) : "-";
+      $("eqUnder").textContent = fmtFull(eq[idx]);
       drawEquity($("eqCanvas"), idx, false);
       drawEquity($("fullCanvas"), idx, false);
+      var bookEq = fmtShort(eq[idx]);
       var buttons = strip.querySelectorAll(".mkt");
       for (var b = 0; b < buttons.length; b++) {
         var name = buttons[b].dataset.name;
         buttons[b].className = "mkt" + (name === active ? " on" : "");
-        drawCandles(buttons[b].querySelector("canvas"), B.px[name], idx, idx + 1, bySym[b], false);
+        var bar = drawCandles(buttons[b].querySelector("canvas"), B.px[name], idx, idx + 1, bySym[b], false);
+        buttons[b].querySelector(".px b").textContent = bar ? fmtPx(bar[3]) : "-";
+        buttons[b].querySelector(".eq b").textContent = bookEq;
       }
       $("eqNow").textContent = fmtFull(eq[idx]);
       $("btEquity").textContent = fmtShort(eq[idx]);

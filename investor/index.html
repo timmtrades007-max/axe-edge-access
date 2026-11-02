@@ -95,7 +95,14 @@
     }
     .mkt.on { border-color: rgba(94,234,212,0.7); }
     .mkt-name { display: block; font-family: "JetBrains Mono", monospace; font-size: 0.52rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
-    .mkt canvas { height: 46px; }
+    .mkt-line { display: block; font-family: "JetBrains Mono", monospace; font-size: 0.58rem; color: var(--ink); line-height: 1.3; white-space: nowrap; overflow: hidden; }
+    .mkt-line em { font-style: normal; color: var(--muted); }
+    .mkt-line.eq b { color: var(--accent); }
+    .mkt canvas { height: 46px; margin-top: 0.15rem; }
+    .quote { text-align: right; display: grid; gap: 0.12rem; }
+    .quote-row { font-family: "JetBrains Mono", monospace; font-size: 0.68rem; color: var(--muted); }
+    .quote-row b { color: var(--ink); font-family: "Syne", sans-serif; font-weight: 700; font-size: clamp(1.05rem, 3.2vw, 1.35rem); margin-left: 0.35rem; }
+    .quote-row.eq b { color: var(--accent); }
     .event-banner {
       display: none; align-items: center; gap: 0.45rem;
       border: 1px solid rgba(255,213,79,0.45);
@@ -197,7 +204,10 @@
       <div class="chart-panel">
         <div class="chart-head">
           <div class="label" id="chartLabel">Bitcoin</div>
-          <div class="price" id="btcNow">-</div>
+          <div class="quote">
+            <div class="quote-row">price: <b id="btcNow">-</b></div>
+            <div class="quote-row eq">equity: <b id="eqUnder">$20,000.00</b></div>
+          </div>
         </div>
         <div class="btc-shell"><canvas id="btcCanvas"></canvas></div>
         <div class="legend">
@@ -288,6 +298,6 @@
     </div>
   </footer>
   <script src="path.js?v=8"></script>
-  <script src="replay.js?v=9"></script>
+  <script src="replay.js?v=10"></script>
 </body>
 </html>
