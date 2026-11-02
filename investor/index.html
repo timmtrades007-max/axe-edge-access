@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Axe Edge | Capital Brief</title>
-  <meta name="description" content="Axe Edge capital brief: rules-based BTCUSDT execution with verified historical path." />
-  <meta property="og:title" content="Axe Edge | Capital Brief" />
-  <meta property="og:description" content="Rules-based BTCUSDT process: limit entries, hard TP/SL, compounding size. Capital brief." />
+  <title>Axe Edge | Path</title>
+  <meta name="description" content="Axe Edge path replay. Watch the book run from 2022 through 2026." />
+  <meta property="og:title" content="Axe Edge | Path" />
+  <meta property="og:description" content="Watch the book run. Equity path from 2022 through 2026." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,8 +22,6 @@
       --accent2: #7dd3fc;
       --up: #26a69a;
       --down: #ef5350;
-      --ok: #26a69a;
-      --bad: #ef5350;
       --event: #ffd54f;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,7 +33,8 @@
     body::before {
       content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 50% 35% at 10% 0%, rgba(94,234,212,0.1), transparent 55%),
+        radial-gradient(ellipse 50% 35% at 10% 0%, rgba(94,234,212,0.12), transparent 55%),
+        radial-gradient(ellipse 40% 30% at 90% 10%, rgba(125,211,252,0.08), transparent 50%),
         linear-gradient(180deg, #0c1218, #0a0e12 60%);
     }
     .wrap { width: min(1100px, calc(100% - 1.25rem)); margin: 0 auto; position: relative; z-index: 1; }
@@ -45,28 +44,17 @@
     .nav-meta { font-family: "JetBrains Mono", monospace; font-size: 0.62rem; color: var(--muted); }
     .hero { padding: 0.55rem 0 0.7rem; }
     .eyebrow { font-family: "JetBrains Mono", monospace; color: var(--accent); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.3rem; }
-    h1 { font-family: "Syne", sans-serif; font-weight: 700; font-size: clamp(1.45rem, 4.6vw, 2.25rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+    h1 { font-family: "Syne", sans-serif; font-weight: 700; font-size: clamp(1.45rem, 4.6vw, 2.25rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 0.35rem; }
     h1 em { font-style: normal; color: var(--accent); }
-    .lede { color: var(--muted); font-weight: 300; font-size: 0.9rem; max-width: 34rem; margin-bottom: 0.55rem; }
-    .hooks { display: grid; gap: 0.35rem; margin: 0.55rem 0 0.7rem; list-style: none; }
-    .hooks li { font-size: 0.86rem; padding-left: 0.9rem; position: relative; color: var(--ink); }
-    .hooks li::before { content: ""; position: absolute; left: 0; top: 0.5em; width: 0.38rem; height: 0.38rem; background: var(--accent); }
-    .hooks strong { color: var(--accent2); font-weight: 600; }
-    .method {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.55rem;
-      margin: 0.85rem 0 0.2rem;
+    .figure {
+      font-family: "Syne", sans-serif; font-weight: 700;
+      font-size: clamp(1.35rem, 4.4vw, 2.55rem);
+      letter-spacing: -0.03em; line-height: 1.05;
+      color: var(--accent);
+      margin: 0.15rem 0 0.45rem;
+      font-variant-numeric: tabular-nums;
     }
-    @media (max-width: 900px) { .method { grid-template-columns: 1fr 1fr; } }
-    .method article {
-      border: 1px solid var(--line); background: rgba(14,22,30,0.55);
-      padding: 0.75rem 0.8rem;
-    }
-    .method h3 { font-family: "Syne", sans-serif; font-size: 0.92rem; margin-bottom: 0.3rem; }
-    .method p { color: var(--muted); font-size: 0.8rem; font-weight: 300; line-height: 1.4; }
-    .hero-note {
-      display: block; margin-top: 0.55rem; color: var(--muted);
-      font-size: 0.66rem; font-family: "JetBrains Mono", monospace;
-    }
+    .lede { color: var(--muted); font-weight: 300; font-size: 0.9rem; max-width: 34rem; margin-bottom: 0.7rem; }
     .actions { display: flex; gap: 0.45rem; }
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
@@ -77,6 +65,7 @@
     }
     .btn-fill { background: var(--accent); color: #04201a; }
     .btn-ghost { border-color: var(--line); }
+    .hero-note { display: block; margin-top: 0.55rem; color: var(--muted); font-size: 0.66rem; font-family: "JetBrains Mono", monospace; }
     #path.stage {
       border-top: 1px solid var(--line);
       background: linear-gradient(180deg, rgba(94,234,212,0.035), transparent 40%);
@@ -91,21 +80,19 @@
     .chart-panel { border: 1px solid var(--line); background: var(--panel); padding: 0.45rem 0.5rem 0.5rem; }
     .chart-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.2rem; }
     .chart-head .label { font-family: "JetBrains Mono", monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-    .chart-head .price-block { text-align: right; }
-    .chart-head .price-block .label { margin-bottom: 0.1rem; }
-    .chart-head .price { font-family: "Syne", sans-serif; font-weight: 700; font-size: clamp(1.15rem, 4.5vw, 1.55rem); line-height: 1.1; }
-    .legend { display: flex; flex-wrap: wrap; gap: 0.45rem; font-family: "JetBrains Mono", monospace; font-size: 0.56rem; color: var(--muted); margin-top: 0.12rem; }
-    .legend i { display: inline-block; width: 0.5rem; height: 0.5rem; margin-right: 0.18rem; vertical-align: -1px; }
-    .legend .up i { background: var(--up); }
-    .legend .dn i { background: var(--down); }
-    .legend .en i { background: var(--accent); }
-    .legend .tp i { background: #66bb6a; }
-    .legend .sl i { background: #ef5350; }
-    .legend .ev i { background: var(--event); }
-    .legend .tr i { background: #7dd3fc; }
+    .chart-head .price { font-family: "Syne", sans-serif; font-weight: 700; font-size: clamp(1.15rem, 4.5vw, 1.55rem); line-height: 1.1; text-align: right; }
     .btc-shell { height: clamp(280px, 48vh, 440px); position: relative; }
     .eq-shell { height: clamp(78px, 12vh, 120px); position: relative; }
+    .full-shell { height: clamp(180px, 28vh, 280px); position: relative; }
     canvas { width: 100%; height: 100%; display: block; }
+    .markets { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.32rem; }
+    .mkt {
+      border: 1px solid var(--line); background: rgba(8,14,20,0.7);
+      padding: 0.28rem 0.32rem 0.2rem; cursor: pointer; color: var(--ink); text-align: left;
+    }
+    .mkt.on { border-color: rgba(94,234,212,0.7); }
+    .mkt-name { display: block; font-family: "JetBrains Mono", monospace; font-size: 0.52rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+    .mkt canvas { height: 46px; }
     .event-banner {
       display: none; align-items: center; gap: 0.45rem;
       border: 1px solid rgba(255,213,79,0.45);
@@ -116,25 +103,13 @@
     }
     .event-banner.on { display: flex; }
     .event-banner span { color: var(--muted); font-weight: 400; }
-    .hit-line { font-family: "JetBrains Mono", monospace; font-size: 0.66rem; color: var(--muted); min-height: 1.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .hit-line b { color: var(--ink); font-weight: 500; }
-    .hit-line .win { color: var(--up); }
-    .hit-line .loss { color: var(--down); }
-    .live-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.32rem; }
+    .live-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.32rem; }
     .metric { border: 1px solid var(--line); background: rgba(8,14,20,0.7); padding: 0.38rem 0.42rem; }
     .metric b { display: block; font-family: "JetBrains Mono", monospace; font-size: 0.82rem; font-weight: 600; }
     .metric span { color: var(--muted); font-size: 0.52rem; letter-spacing: 0.06em; text-transform: uppercase; font-family: "JetBrains Mono", monospace; }
     .metric.hot b { color: var(--accent); }
-    .controls { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; }
-
-    .scrub {
-      margin: 0.55rem 0 0.15rem;
-      display: grid;
-      gap: 0.28rem;
-    }
-    .scrub-row {
-      display: flex; align-items: center; gap: 0.55rem;
-    }
+    .scrub { margin: 0.15rem 0 0; display: grid; gap: 0.28rem; }
+    .scrub-row { display: flex; align-items: center; gap: 0.55rem; }
     .scrub input[type="range"] {
       -webkit-appearance: none; appearance: none;
       flex: 1; height: 6px; border-radius: 999px;
@@ -146,191 +121,110 @@
       width: 16px; height: 16px; border-radius: 50%;
       background: #5eead4; border: 2px solid #04201a;
       box-shadow: 0 0 0 3px rgba(94,234,212,0.25);
-      cursor: grab;
     }
-    .scrub input[type="range"]::-moz-range-thumb {
-      width: 16px; height: 16px; border-radius: 50%;
-      background: #5eead4; border: 2px solid #04201a;
-      cursor: grab;
-    }
-    .scrub-meta {
-      display: flex; justify-content: space-between; gap: 0.5rem;
-      font-family: "JetBrains Mono", monospace; font-size: 0.58rem; color: var(--muted);
-    }
+    .scrub-meta { display: flex; justify-content: space-between; gap: 0.5rem; font-family: "JetBrains Mono", monospace; font-size: 0.58rem; color: var(--muted); }
     .scrub-meta b { color: var(--ink); font-weight: 500; }
-    .speed { font-family: "JetBrains Mono", monospace; font-size: 0.58rem; color: var(--muted); }
-    .below { padding: 1.5rem 0 2rem; }
+    .controls { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; }
+    .below { padding: 1.5rem 0 1rem; }
     .kicker { font-family: "JetBrains Mono", monospace; color: var(--accent); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.4rem; }
     h2 { font-family: "Syne", sans-serif; font-weight: 700; font-size: clamp(1.15rem, 3vw, 1.6rem); margin-bottom: 0.45rem; }
-    .lead { color: var(--muted); font-weight: 300; font-size: 0.88rem; margin-bottom: 0.85rem; max-width: 40rem; }
     .meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.7rem; }
     .meta-card { border-top: 1px solid var(--accent); padding-top: 0.55rem; }
     .meta-card h3 { font-family: "Syne", sans-serif; font-size: 0.86rem; color: var(--accent2); margin-bottom: 0.35rem; }
     .meta-card ul { list-style: none; display: grid; gap: 0.25rem; color: var(--muted); font-size: 0.8rem; }
     .meta-card li strong { color: var(--ink); font-family: "JetBrains Mono", monospace; font-weight: 500; }
-
-    .access-note a { color: var(--accent2); text-decoration: underline; text-underline-offset: 2px; }
-    .access-note .code { font-family: "JetBrains Mono", monospace; color: var(--accent); font-weight: 600; }
-
-    .full-shell { height: clamp(260px, 42vh, 420px); position: relative; }
-    .full-shell canvas { width: 100%; height: 100%; display: block; }
-    .full-note { color: var(--muted); font-size: 0.78rem; margin-top: 0.45rem; font-weight: 300; }
-    .legend .tw i { background: #66bb6a; }
-    .legend .tl i { background: #ef5350; }
     footer { border-top: 1px solid var(--line); padding: 1.2rem 0 2rem; position: relative; z-index: 1; }
     footer .risk { color: var(--muted); font-size: 0.66rem; max-width: 56rem; font-weight: 300; }
-    @media (max-width: 700px) {
-      .wrap { width: calc(100% - 0.85rem); }
-      .hero { padding: 0.3rem 0 0.4rem; }
-      .lede { font-size: 0.8rem; }
-      #path.stage { min-height: calc(100svh - 7rem); min-height: calc(100dvh - 7rem); padding: 0.3rem 0 0.45rem; }
-      .btc-shell { height: clamp(250px, 48svh, 360px); }
-      .eq-shell { height: clamp(64px, 11svh, 96px); }
-      .method { grid-template-columns: 1fr; gap: 0.4rem; }
-      .method article { padding: 0.65rem 0.7rem; }
-      .speed { display: none; }
-      .mega { font-size: 0.95rem; }
-    }
-    @media (min-width: 701px) {
-      .hooks li { font-size: 0.9rem; }
-      .method { margin-top: 1rem; }
-    }
-    @media (max-width: 420px) { .live-grid { grid-template-columns: repeat(2, 1fr); } }
-  
     .share-bar {
-      position: fixed;
-      right: 1rem;
-      bottom: 1rem;
-      z-index: 50;
-      display: flex;
-      flex-direction: column;
-      gap: 0.45rem;
-      align-items: stretch;
+      display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.9rem;
     }
     .share-bar button {
       border: 1px solid rgba(180, 220, 200, 0.25);
       background: rgba(10, 18, 16, 0.92);
       color: #edf6f1;
-      padding: 0.65rem 0.9rem;
-      border-radius: 999px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      cursor: pointer;
+      padding: 0.65rem 0.9rem; border-radius: 999px;
+      font-size: 0.82rem; font-weight: 700; cursor: pointer;
       backdrop-filter: blur(8px);
     }
-    .share-bar button:hover { border-color: #3dff9a; }
     .share-toast {
-      position: fixed;
-      left: 50%;
-      bottom: 1rem;
+      position: fixed; left: 50%; bottom: 1rem;
       transform: translateX(-50%) translateY(12px);
-      opacity: 0;
-      pointer-events: none;
+      opacity: 0; pointer-events: none;
       transition: opacity 0.2s, transform 0.2s;
-      background: #13201a;
-      color: #edf6f1;
+      background: #13201a; color: #edf6f1;
       border: 1px solid rgba(61,255,154,0.35);
-      padding: 0.55rem 0.85rem;
-      border-radius: 999px;
-      font-size: 0.82rem;
-      z-index: 60;
+      padding: 0.55rem 0.85rem; border-radius: 999px;
+      font-size: 0.82rem; z-index: 60;
     }
-    .share-toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
+    .share-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    @media (max-width: 800px) {
+      .markets { grid-template-columns: repeat(4, 1fr); }
+      .meta-grid { grid-template-columns: 1fr; }
     }
-
+    @media (max-width: 520px) {
+      .live-grid { grid-template-columns: 1fr; }
+      .markets { grid-template-columns: repeat(2, 1fr); }
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
     <nav class="nav">
       <div class="brand">Axe Edge <span>/</span> Capital</div>
-      <div class="nav-meta">15m BTC chart</div>
+      <div class="nav-meta">2022 → 2026</div>
     </nav>
   </div>
 
   <header class="hero">
     <div class="wrap">
-      <p class="eyebrow">Private capital brief · BTCUSDT</p>
-      <h1>Rules-based Bitcoin<br /><em>execution</em></h1>
-      <p class="lede">
-        Axe Edge runs a defined BTCUSDT process: limit entries, fixed take-profit and stop levels,
-        and position size that scales with account equity. The replay below is the verified historical path -
-        candles, fills, and equity - not a marketing curve.
-      </p>
-      <ul class="hooks">
-        <li><strong>Limit entries only.</strong> Price comes to the order. No market-chase fills.</li>
-        <li><strong>Hard TP and SL on every trade.</strong> Exits are planned structure, not discretionary.</li>
-        <li><strong>Size follows equity.</strong> As the account compounds, ticket size steps up with it.</li>
-        <li><strong>Isolated-style risk per ticket.</strong> Each position is bracketed; the book is not left open-ended.</li>
-        <li><strong>Full-cycle evidence.</strong> 2022 through 2026 on real market data, including drawdowns and major BTC events.</li>
-      </ul>
+      <p class="eyebrow">Path replay · seven markets</p>
+      <h1>Watch the book<br /><em>compound</em></h1>
+      <p class="figure" id="heroEnd">$2,815,003,324,762.11</p>
+      <p class="lede">Press play. The markets run, and the equity climbs the whole path to that figure.</p>
       <div class="actions">
-        <button class="btn btn-fill" type="button" id="heroPlay">Watch the process</button>
-        <a class="btn btn-ghost" href="#method">How we trade</a>
+        <button class="btn btn-fill" type="button" id="heroPlay">Watch the path</button>
       </div>
-      <p class="hero-note">Verified window 2022-01-01 to 2026-09-09 · start $30,000 · path metrics in the readout below</p>
+      <p class="hero-note">1 Jan 2022 through 26 Oct 2026 · starts at $20,000</p>
     </div>
   </header>
 
   <section id="path" class="stage">
     <div class="wrap phone-screen">
       <div class="stage-top">
-        <div class="mega">Equity path <span>·</span> live replay</div>
+        <div class="mega">Equity path <span>·</span> replay</div>
         <div class="stage-meta">
           <div id="btDate">2022-01-01</div>
           <div id="btStatus">Ready</div>
         </div>
       </div>
 
-      <div class="event-banner" id="eventBanner"><b id="eventTitle">EVENT</b><span id="eventSub"></span></div>
+      <div class="event-banner" id="eventBanner"><b id="eventTitle">2023</b><span id="eventSub"></span></div>
 
       <div class="chart-panel">
         <div class="chart-head">
-          <div>
-            <div class="label">15m chart</div>
-            <div class="legend">
-              <span class="up"><i></i>Up</span>
-              <span class="dn"><i></i>Down</span>
-              <span class="en"><i></i>Entry</span>
-              <span class="tp"><i></i>TP</span>
-              <span class="sl"><i></i>SL</span>
-              <span class="ev"><i></i>Event</span>
-              <span class="tr"><i></i>SMA9</span>
-            </div>
-          </div>
-          <div class="price-block">
-            <div class="label">BTC price</div>
-            <div class="price" id="btcNow">-</div>
-          </div>
+          <div class="label" id="chartLabel">Bitcoin</div>
+          <div class="price" id="btcNow">-</div>
         </div>
-        <div class="btc-shell"><canvas id="btcCanvas" width="1400" height="720"></canvas></div>
+        <div class="btc-shell"><canvas id="btcCanvas"></canvas></div>
       </div>
+
+      <div class="markets" id="marketStrip"></div>
 
       <div class="chart-panel">
         <div class="chart-head">
           <div class="label">Equity</div>
-          <div class="price" id="eqNow" style="font-size:1rem">$30,000</div>
+          <div class="price" id="eqNow" style="font-size:1rem">$20,000.00</div>
         </div>
-        <div class="eq-shell"><canvas id="eqCanvas" width="1200" height="280"></canvas></div>
+        <div class="eq-shell"><canvas id="eqCanvas"></canvas></div>
       </div>
-
-      <div class="hit-line" id="activeBox">Waiting for next fill...</div>
 
       <div class="live-grid">
-        <div class="metric hot"><b id="btEquity">$30,000</b><span>Equity</span></div>
-        <div class="metric hot"><b id="btWR">-</b><span>Win %</span></div>
-        <div class="metric"><b id="btQty">-</b><span>Qty</span></div>
-        <div class="metric"><b id="btPct">+0%</b><span>Growth</span></div>
-      </div>
-      <div style="display:none">
-        <b id="btWins">0</b><b id="btLosses">0</b><b id="btTrades">0</b><b id="btPathDd">0%</b>
-        <div id="tapeList"></div>
+        <div class="metric hot"><b id="btEquity">$20,000</b><span>Equity</span></div>
+        <div class="metric hot"><b id="btMult">1x</b><span>Multiple</span></div>
+        <div class="metric"><b id="btDateLive">2022</b><span>Window</span></div>
       </div>
 
-
-      <div class="scrub" id="scrubWrap">
+      <div class="scrub">
         <div class="scrub-row">
           <input type="range" id="btScrub" min="0" max="1000" value="0" step="1" aria-label="Timeline" />
         </div>
@@ -344,149 +238,40 @@
         <button class="btn btn-fill" type="button" id="btPlay">Play</button>
         <button class="btn btn-ghost" type="button" id="btPause">Pause</button>
         <button class="btn btn-ghost" type="button" id="btReset">Reset</button>
-        <span class="speed">wide path view · slows on fills / events</span>
       </div>
     </div>
   </section>
 
-
-  <section class="below" id="fullmap">
+  <section class="below">
     <div class="wrap">
-      <p class="kicker">Full period</p>
-      <h2>2022 → 2026 price map</h2>
-      <p class="lead">
-        The whole window on one chart: how BTCUSDT moved, and every taped trade entry marked on the climb.
-        Every non-host tape entry is marked. Green = TP. Red = SL.
-      </p>
+      <p class="kicker">Full path</p>
+      <h2>How the equity gets there</h2>
       <div class="chart-panel">
-        <div class="chart-head">
-          <div>
-            <div class="label">BTCUSDT · full path</div>
-            <div class="legend">
-              <span class="tr"><i></i>Price</span>
-              <span class="tw"><i></i>TP hit</span>
-              <span class="tl"><i></i>SL hit</span>
-              <span class="ev"><i></i>Event</span>
-            </div>
-          </div>
-          <div class="price-block">
-            <div class="label">End price</div>
-            <div class="price" id="fullEndPx">-</div>
-          </div>
-        </div>
-        <div class="full-shell"><canvas id="fullCanvas" width="1600" height="640"></canvas></div>
+        <div class="full-shell"><canvas id="fullCanvas"></canvas></div>
       </div>
-      <p class="full-note">All verified tape entries are plotted on this map (hosts excluded). Same run as the replay above.</p>
-    </div>
-  </section>
-
-  <section class="below" id="method">
-    <div class="wrap">
-      <p class="kicker">How we trade</p>
-      <h2>The operating model</h2>
-      <p class="lead">
-        This is mechanical BTCUSDT trading on Bybit-style perpetual structure.
-        The chart is there so you can see entries and exits resolve in market time - not to sell a headline number.
-      </p>
-      <div class="method">
-        <article>
-          <h3>1. Signal → limit</h3>
-          <p>When the system arms a trade, it places a limit entry. We wait for price. If it does not fill, there is no chase and no market order panic.</p>
-        </article>
-        <article>
-          <h3>2. Bracket the risk</h3>
-          <p>Each fill carries a take-profit and a stop. Wins and losses are decided by those levels - that is what the live win rate counts.</p>
-        </article>
-        <article>
-          <h3>3. Manage the tape</h3>
-          <p>Open risk is visible on the chart as entry / TP / SL while a trade is live. Host placeholder closes are excluded from the quality readout.</p>
-        </article>
-        <article>
-          <h3>4. Compound the book</h3>
-          <p>As equity builds, order size increases. Early tickets stay small; later tickets are larger. The equity panel is that compounding in motion.</p>
-        </article>
-        <article>
-          <h3>5. What you are watching</h3>
-          <p>The 15m chart is a sped-up tape of the verified path - candles print and scroll the way a live chart does on fast-forward, with major BTC events marked.</p>
-        </article>
-        <article>
-          <h3>6. Diligence frame</h3>
-          <p>Metrics below are from the same engine run as the replay. Use them as context for process quality, not as a forecast.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-
-  <section class="below" id="access">
-    <div class="wrap">
-      <p class="kicker">Access model</p>
-      <h2>Bybit Copy Trading + whitelisted seats</h2>
-      <p class="lead access-note">
-        Live capital follows through <strong>Bybit Copy Trading</strong>, not by handing API keys to a third party.
-        Seats are <strong>whitelist-only</strong> - approval before follow.
-      </p>
-      <div class="method">
-        <article>
-          <h3>1. Master account</h3>
-          <p>Axe Edge runs on a dedicated Bybit Copy Trading Master subaccount. The engine places the same rules-based BTCUSDT limit / TP / SL flow on that Master.</p>
-        </article>
-        <article>
-          <h3>2. Followers copy</h3>
-          <p>Approved seats follow the Master on Bybit. Fills and exits mirror from the Master book under Bybit Copy Trading rules - capital stays in the follower account.</p>
-        </article>
-        <article>
-          <h3>3. Whitelist gate</h3>
-          <p>There is no open public book. Seats are whitelisted after diligence / intro. Unapproved accounts are not invited to follow.</p>
-        </article>
-        <article>
-          <h3>4. Bybit signup (required)</h3>
-          <p class="access-note">Open or bind Bybit with referral code <span class="code">QJ5NOR</span> before onboarding.<br />
-          <a href="https://www.bybit.com/invite?ref=QJ5NOR&amp;medium=referral&amp;utm_campaign=evergreen&amp;share_to=link" target="_blank" rel="noopener noreferrer">bybit.com/invite?ref=QJ5NOR</a></p>
-        </article>
-        <article>
-          <h3>5. After whitelist</h3>
-          <p>Once approved, you receive the Copy Master follow instructions. Referral signup and Copy follow are separate steps - both are required for a clean seat.</p>
-        </article>
-        <article>
-          <h3>6. What this is not</h3>
-          <p>Not a pooled fund and not discretionary chat signals. It is Master execution + Bybit Copy Trading for whitelisted followers.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="below" id="metrics">
-    <div class="wrap">
-      <p class="kicker">Verified readout</p>
-      <h2>Historical path metrics</h2>
-      <p class="lead">Reference figures for the path shown above. Context for diligence - not a promise of future results.</p>
-      <div class="meta-grid">
+      <div class="meta-grid" style="margin-top:1rem">
         <article class="meta-card">
           <h3>Result</h3>
           <ul>
-            <li>Final: <strong id="mFinal">$845.7M</strong></li>
+            <li>Final: <strong id="mFinal">$2,815,003,324,762.11</strong></li>
             <li>Multiple: <strong id="mMult">-</strong></li>
-            <li>On tape: <strong id="mTape">-</strong></li>
-            <li>Hosts excluded: <strong id="mHostsEx">-</strong></li>
+            <li>Start: <strong>$20,000</strong></li>
           </ul>
         </article>
         <article class="meta-card">
-          <h3>Quality</h3>
+          <h3>Book</h3>
           <ul>
-            <li>Decisive WR: <strong id="mWR">-</strong></li>
-            <li>Wins / Losses: <strong id="mWL">-</strong></li>
-            <li>Max DD (Profit): <strong id="mDdProfit">-</strong></li>
-            <li>Period: <strong>2022-01-01 → 2026-09-09</strong></li>
+            <li>Opened: <strong id="mTaken">-</strong></li>
+            <li>Wins: <strong id="mWins">-</strong></li>
+            <li>Markets: <strong>7</strong></li>
           </ul>
         </article>
         <article class="meta-card">
-          <h3>Provenance</h3>
+          <h3>Window</h3>
           <ul>
-            <li>Engine: <strong id="mEng">-</strong></li>
-            <li>Hash: <strong id="mHash">-</strong></li>
-            <li>Meta: <strong id="mMeta">-</strong></li>
-            <li>Currency: <strong>USD</strong></li>
+            <li>From: <strong>2022-01-01</strong></li>
+            <li>Through: <strong>2026-10-26</strong></li>
+            <li>Bars: <strong>Daily</strong></li>
           </ul>
         </article>
       </div>
@@ -497,24 +282,18 @@
     <div class="wrap">
       <div class="brand" style="margin-bottom:0.7rem">Axe Edge <span>/</span> Capital</div>
       <p class="risk">
-        Risk disclosure: Leveraged crypto trading can result in substantial or total loss of capital.
-        Path shown is a historical backtest on actual BTCUSDT data (meta 20260909_200417_046558).
-        Chart candles are 15-minute OHLC aggregated from the run bar series. Event markers are major market context, not trade signals.
-        Not live investor performance, not audited fund returns, not a promise of future results.
+        Leveraged trading can wipe an account. The path is a historical backtest from 1 Jan 2022 through 26 Oct 2026.
+        Not live performance, and not a promise of future results.
       </p>
+      <div class="share-bar" aria-label="Share this page">
+        <button type="button" id="shareCopyLink">Copy link</button>
+        <button type="button" id="shareWhatsApp">Share on WhatsApp</button>
+      </div>
     </div>
   </footer>
-
-<script src="equity_path.js?v=1789127692"></script>
-<script src="player.js?v=1789127692"></script>
-
-
-  <div class="share-bar" aria-label="Share this page">
-    <button type="button" id="shareCopyLink">Copy link</button>
-    <button type="button" id="shareWhatsApp">Share on WhatsApp</button>
-  </div>
   <div class="share-toast" id="shareToast" aria-live="polite"></div>
-  <script src="share-site.js"></script>
-
+  <script src="path.js?v=2"></script>
+  <script src="replay.js?v=2"></script>
+  <script src="share-site.js?v=2"></script>
 </body>
 </html>

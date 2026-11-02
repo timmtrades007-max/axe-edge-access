@@ -53,8 +53,7 @@
     var waBtn = document.getElementById("shareWhatsApp");
     if (waBtn) {
       waBtn.addEventListener("click", function () {
-        var text =
-          "Axe Edge Access - verified backtest proof + live equity replay: " + pageUrl();
+        var text = "Axe Edge path replay: " + pageUrl();
         window.open(
           "https://wa.me/?text=" + encodeURIComponent(text),
           "_blank",
