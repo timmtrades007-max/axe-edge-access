@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Axe Edge | Path</title>
-  <meta name="description" content="Axe Edge path replay. Watch the book run from 2022 through 2026." />
-  <meta property="og:title" content="Axe Edge | Path" />
-  <meta property="og:description" content="Watch the book run. Equity path from 2022 through 2026." />
+  <title>Path</title>
+  <meta name="description" content="A large minute fades. Watch the book run from 2022 through 2026." />
+  <meta property="og:title" content="Path" />
+  <meta property="og:description" content="A large minute fades. Each fill has a target and a stop." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -39,8 +39,7 @@
     }
     .wrap { width: min(1100px, calc(100% - 1.25rem)); margin: 0 auto; position: relative; z-index: 1; }
     .nav { display: flex; justify-content: space-between; align-items: center; padding: 0.7rem 0 0.35rem; }
-    .brand { font-family: "Syne", sans-serif; font-weight: 700; letter-spacing: 0.12em; font-size: 0.78rem; text-transform: uppercase; }
-    .brand span { color: var(--accent); }
+    .brand { font-family: "Syne", sans-serif; font-weight: 700; letter-spacing: 0.14em; font-size: 0.78rem; text-transform: uppercase; }
     .nav-meta { font-family: "JetBrains Mono", monospace; font-size: 0.62rem; color: var(--muted); }
     .hero { padding: 0.55rem 0 0.7rem; }
     .eyebrow { font-family: "JetBrains Mono", monospace; color: var(--accent); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.3rem; }
@@ -77,7 +76,11 @@
     .mega span { color: var(--accent); }
     .stage-meta { text-align: right; font-family: "JetBrains Mono", monospace; color: var(--muted); font-size: 0.66rem; }
     .stage-meta #btDate { color: var(--ink); font-weight: 600; font-size: 0.78rem; }
-    .chart-panel { border: 1px solid var(--line); background: var(--panel); padding: 0.45rem 0.5rem 0.5rem; }
+    .chart-panel {
+      border: 1px solid var(--line); background: var(--panel);
+      padding: 0.55rem 0.6rem 0.6rem;
+      box-shadow: inset 0 0 0 1px rgba(94,234,212,0.04), 0 18px 40px rgba(0,0,0,0.25);
+    }
     .chart-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.2rem; }
     .chart-head .label { font-family: "JetBrains Mono", monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
     .chart-head .price { font-family: "Syne", sans-serif; font-weight: 700; font-size: clamp(1.15rem, 4.5vw, 1.55rem); line-height: 1.1; text-align: right; }
@@ -135,28 +138,19 @@
     .meta-card li strong { color: var(--ink); font-family: "JetBrains Mono", monospace; font-weight: 500; }
     footer { border-top: 1px solid var(--line); padding: 1.2rem 0 2rem; position: relative; z-index: 1; }
     footer .risk { color: var(--muted); font-size: 0.66rem; max-width: 56rem; font-weight: 300; }
-    .share-bar {
-      display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.9rem;
+    .legend { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 0.35rem; font-family: "JetBrains Mono", monospace; font-size: 0.58rem; color: var(--muted); letter-spacing: 0.04em; }
+    .legend i { display: inline-block; width: 0.55rem; height: 0.55rem; margin-right: 0.28rem; vertical-align: -1px; }
+    .legend .en i { background: #7dd3fc; border-radius: 50%; }
+    .legend .tp i { background: #66bb6a; }
+    .legend .sl i { background: #ef5350; }
+    .hit-line {
+      font-family: "JetBrains Mono", monospace; font-size: 0.72rem; color: var(--muted);
+      min-height: 1.2rem; border: 1px solid var(--line); background: rgba(8,14,20,0.55);
+      padding: 0.42rem 0.6rem; letter-spacing: 0.02em;
     }
-    .share-bar button {
-      border: 1px solid rgba(180, 220, 200, 0.25);
-      background: rgba(10, 18, 16, 0.92);
-      color: #edf6f1;
-      padding: 0.65rem 0.9rem; border-radius: 999px;
-      font-size: 0.82rem; font-weight: 700; cursor: pointer;
-      backdrop-filter: blur(8px);
-    }
-    .share-toast {
-      position: fixed; left: 50%; bottom: 1rem;
-      transform: translateX(-50%) translateY(12px);
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.2s, transform 0.2s;
-      background: #13201a; color: #edf6f1;
-      border: 1px solid rgba(61,255,154,0.35);
-      padding: 0.55rem 0.85rem; border-radius: 999px;
-      font-size: 0.82rem; z-index: 60;
-    }
-    .share-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .hit-line b { color: var(--ink); font-weight: 500; }
+    .hit-line .win { color: #66bb6a; }
+    .hit-line .loss { color: #ef5350; }
     @media (max-width: 800px) {
       .markets { grid-template-columns: repeat(4, 1fr); }
       .meta-grid { grid-template-columns: 1fr; }
@@ -170,7 +164,7 @@
 <body>
   <div class="wrap">
     <nav class="nav">
-      <div class="brand">Axe Edge <span>/</span> Capital</div>
+      <div class="brand">Path</div>
       <div class="nav-meta">2022 → 2026</div>
     </nav>
   </div>
@@ -180,7 +174,7 @@
       <p class="eyebrow">Path replay · seven markets</p>
       <h1>Watch the book<br /><em>compound</em></h1>
       <p class="figure" id="heroEnd">$2,815,003,324,762.11</p>
-      <p class="lede">Press play. The markets run, and the equity climbs the whole path to that figure.</p>
+      <p class="lede">A large minute fades. The order is a limit, so price has to come to it. Each fill has a target and a stop. Profit is added when the trade closes. Press play and the marks show up where the trades were taken.</p>
       <div class="actions">
         <button class="btn btn-fill" type="button" id="heroPlay">Watch the path</button>
       </div>
@@ -206,7 +200,13 @@
           <div class="price" id="btcNow">-</div>
         </div>
         <div class="btc-shell"><canvas id="btcCanvas"></canvas></div>
+        <div class="legend">
+          <span class="en"><i></i>Entry</span>
+          <span class="tp"><i></i>Target</span>
+          <span class="sl"><i></i>Stop</span>
+        </div>
       </div>
+      <div class="hit-line" id="hitLine">Waiting for the next fill</div>
 
       <div class="markets" id="marketStrip"></div>
 
@@ -280,20 +280,13 @@
 
   <footer>
     <div class="wrap">
-      <div class="brand" style="margin-bottom:0.7rem">Axe Edge <span>/</span> Capital</div>
       <p class="risk">
-        Leveraged trading can wipe an account. The path is a historical backtest from 1 Jan 2022 through 26 Oct 2026.
-        Not live performance, and not a promise of future results.
+        Leveraged trading can wipe an account. This is a historical backtest from 1 Jan 2022 through 26 Oct 2026.
+        Not a promise of future results.
       </p>
-      <div class="share-bar" aria-label="Share this page">
-        <button type="button" id="shareCopyLink">Copy link</button>
-        <button type="button" id="shareWhatsApp">Share on WhatsApp</button>
-      </div>
     </div>
   </footer>
-  <div class="share-toast" id="shareToast" aria-live="polite"></div>
-  <script src="path.js?v=2"></script>
-  <script src="replay.js?v=2"></script>
-  <script src="share-site.js?v=2"></script>
+  <script src="path.js?v=7"></script>
+  <script src="replay.js?v=7"></script>
 </body>
 </html>

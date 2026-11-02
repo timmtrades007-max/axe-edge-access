@@ -73,6 +73,10 @@
     $("scrubEnd").textContent = days[N - 1];
     $("btScrub").max = String(N - 1);
 
+    var bySym = names.map(function () { return []; });
+    (B.trades || []).forEach(function (tr) { bySym[tr[0]].push(tr); });
+    var kindWord = { t: "target", s: "stop", m: "time", g: "gap", l: "liquidated" };
+
     var strip = $("marketStrip");
     names.forEach(function (name) {
       var b = document.createElement("button");
@@ -88,40 +92,88 @@
       strip.appendChild(b);
     });
 
-    function rangeOf(series, a, b) {
+    function rangeOf(series, a, b, trades) {
       var hi = -Infinity;
       var lo = Infinity;
+      function eat(v) {
+        if (v > hi) hi = v;
+        if (v < lo) lo = v;
+      }
       for (var i = a; i <= b; i++) {
         var bar = series[i];
         if (!bar) continue;
-        if (bar[1] > hi) hi = bar[1];
-        if (bar[2] < lo) lo = bar[2];
+        eat(bar[1]);
+        eat(bar[2]);
+      }
+      if (trades) {
+        for (var t = 0; t < trades.length; t++) {
+          var tr = trades[t];
+          if (tr[1] > b || tr[2] < a) continue;
+          eat(tr[4]);
+          eat(tr[5]);
+          eat(tr[6]);
+        }
       }
       if (!isFinite(hi)) return null;
-      var pad = (hi - lo) * 0.1 || Math.abs(hi) * 0.02 || 1;
+      var pad = (hi - lo) * 0.08 || Math.abs(hi) * 0.02 || 1;
       return { lo: lo - pad, hi: hi + pad };
     }
 
-    function drawCandles(canvas, series, i, win) {
+    function yOf(price, rg, h) {
+      return h - ((price - rg.lo) / (rg.hi - rg.lo)) * (h - 18) - 8;
+    }
+
+    function focusOf(trades, i) {
+      if (!trades) return null;
+      var live = null;
+      var just = null;
+      for (var t = 0; t < trades.length; t++) {
+        var tr = trades[t];
+        if (tr[1] <= i && tr[2] >= i) live = tr;
+        if (tr[2] === i) just = tr;
+      }
+      return live || just;
+    }
+
+    function drawCandles(canvas, series, i, win, trades, marks) {
       var box = fit(canvas);
       var ctx = box.ctx;
       var w = box.w;
       var h = box.h;
       ctx.clearRect(0, 0, w, h);
+      var focus = marks ? focusOf(trades, i) : null;
       var a = Math.max(0, i - win + 1);
-      var rg = rangeOf(series, a, i);
-      if (!rg) return null;
+      if (focus) a = Math.max(0, Math.max(focus[1] - 2, i - 14));
+      var rg = rangeOf(series, a, i, focus ? [focus] : null);
+      if (!rg) {
+        ctx.fillStyle = "rgba(138,154,171,0.7)";
+        ctx.font = "12px JetBrains Mono, monospace";
+        ctx.fillText("No bars yet", 12, h / 2);
+        return null;
+      }
+      ctx.save();
+      ctx.strokeStyle = "rgba(140,170,190,0.09)";
+      ctx.lineWidth = 1;
+      for (var g = 1; g <= 3; g++) {
+        var gy = 8 + ((h - 26) * g) / 4;
+        ctx.beginPath();
+        ctx.moveTo(8, gy);
+        ctx.lineTo(w - 8, gy);
+        ctx.stroke();
+      }
+      ctx.restore();
       var n = i - a + 1;
       var cw = w / n;
-      var bodyW = Math.max(1.5, cw * 0.62);
+      var bodyW = Math.max(3, Math.min(14, cw * 0.55));
+      function xDay(k) { return (k - a + 0.5) * cw; }
       for (var k = a; k <= i; k++) {
         var bar = series[k];
         if (!bar) continue;
         var x = (k - a + 0.5) * cw;
-        var yH = h - ((bar[1] - rg.lo) / (rg.hi - rg.lo)) * (h - 8) - 4;
-        var yL = h - ((bar[2] - rg.lo) / (rg.hi - rg.lo)) * (h - 8) - 4;
-        var yO = h - ((bar[0] - rg.lo) / (rg.hi - rg.lo)) * (h - 8) - 4;
-        var yC = h - ((bar[3] - rg.lo) / (rg.hi - rg.lo)) * (h - 8) - 4;
+        var yH = yOf(bar[1], rg, h);
+        var yL = yOf(bar[2], rg, h);
+        var yO = yOf(bar[0], rg, h);
+        var yC = yOf(bar[3], rg, h);
         var up = bar[3] >= bar[0];
         ctx.strokeStyle = up ? "#26a69a" : "#ef5350";
         ctx.fillStyle = up ? "#26a69a" : "#ef5350";
@@ -132,6 +184,97 @@
         var top = Math.min(yO, yC);
         var bh = Math.max(1, Math.abs(yC - yO));
         ctx.fillRect(x - bodyW / 2, top, bodyW, bh);
+      }
+      function exitPxOf(tr) {
+        if (tr[7] === "t") return tr[5];
+        if (tr[7] === "m") return series[tr[2]] ? series[tr[2]][3] : tr[4];
+        return tr[6];
+      }
+      function exitCol(tr) {
+        if (tr[7] === "t") return "#66bb6a";
+        if (tr[7] === "m") return "#ffd54f";
+        return "#ef5350";
+      }
+      function chip(text, x, y, color) {
+        ctx.font = "10px JetBrains Mono, monospace";
+        var tw = ctx.measureText(text).width;
+        var bx = Math.max(6, Math.min(w - tw - 8, x));
+        var by = Math.max(12, Math.min(h - 6, y));
+        ctx.fillStyle = "rgba(8,14,20,0.88)";
+        ctx.fillRect(bx - 4, by - 10, tw + 8, 14);
+        ctx.fillStyle = color;
+        ctx.fillText(text, bx, by);
+      }
+      if (marks && trades) {
+        ctx.save();
+        ctx.lineWidth = 1;
+        for (var t = 0; t < trades.length; t++) {
+          var tr = trades[t];
+          if (tr[1] > i || tr[2] < a) continue;
+          var openNow = tr[1] <= i && tr[2] >= i;
+          if (tr[1] >= a && tr[1] <= i && tr[2] <= i && !openNow) {
+            ctx.strokeStyle = "rgba(125,211,252,0.28)";
+            ctx.beginPath();
+            ctx.moveTo(xDay(tr[1]), yOf(tr[4], rg, h));
+            ctx.lineTo(xDay(tr[2]), yOf(exitPxOf(tr), rg, h));
+            ctx.stroke();
+          }
+          if (tr[1] >= a && tr[1] <= i) {
+            var ex = xDay(tr[1]);
+            var ey = yOf(tr[4], rg, h);
+            ctx.fillStyle = "#7dd3fc";
+            ctx.beginPath();
+            ctx.arc(ex, ey, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = "#7dd3fc";
+            ctx.beginPath();
+            ctx.arc(ex, ey, 4.6, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+          if (tr[2] <= i && tr[2] >= a) {
+            ctx.fillStyle = exitCol(tr);
+            ctx.fillRect(xDay(tr[2]) - 3, yOf(exitPxOf(tr), rg, h) - 3, 6, 6);
+          }
+        }
+        if (focus && focus[1] <= i) {
+          var yTp = yOf(focus[5], rg, h);
+          var ySl = yOf(focus[6], rg, h);
+          var yTop = Math.min(yTp, ySl);
+          var yBot = Math.max(yTp, ySl);
+          ctx.fillStyle = "rgba(125,211,252,0.05)";
+          ctx.fillRect(0, yTop, w, yBot - yTop);
+          ctx.setLineDash([7, 5]);
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = "rgba(102,187,106,0.95)";
+          ctx.beginPath();
+          ctx.moveTo(0, yTp);
+          ctx.lineTo(w, yTp);
+          ctx.stroke();
+          ctx.strokeStyle = "rgba(239,83,80,0.95)";
+          ctx.beginPath();
+          ctx.moveTo(0, ySl);
+          ctx.lineTo(w, ySl);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          if (focus[1] >= a) {
+            ctx.strokeStyle = "rgba(125,211,252,0.7)";
+            ctx.lineWidth = 1.25;
+            ctx.beginPath();
+            ctx.moveTo(xDay(focus[1]), yTp);
+            ctx.lineTo(xDay(focus[1]), ySl);
+            ctx.stroke();
+          }
+          chip("TP " + fmtPx(focus[5]), w - 148, yTp - 8, "#66bb6a");
+          chip("SL " + fmtPx(focus[6]), w - 148, ySl + 12, "#ef5350");
+        }
+        ctx.restore();
+      } else if (trades) {
+        for (var d = 0; d < trades.length; d++) {
+          var dot = trades[d];
+          if (dot[1] < a || dot[1] > i) continue;
+          ctx.fillStyle = dot[2] <= i ? exitCol(dot) : "#7dd3fc";
+          ctx.fillRect(xDay(dot[1]) - 1.5, 4, 3, 3);
+        }
       }
       var last = null;
       for (var j = i; j >= 0; j--) if (series[j]) { last = series[j]; break; }
@@ -154,9 +297,11 @@
       ctx.beginPath();
       var started = false;
       var limit = full ? N - 1 : i;
+      var xLast = 4;
       for (var k = 0; k <= limit; k++) {
         var x = (k / (N - 1)) * (w - 8) + 4;
         var yy = y(eq[k]);
+        xLast = x;
         if (!started) { ctx.moveTo(x, yy); started = true; }
         else ctx.lineTo(x, yy);
       }
@@ -166,6 +311,13 @@
       ctx.shadowBlur = 8;
       ctx.stroke();
       ctx.shadowBlur = 0;
+      if (started) {
+        ctx.lineTo(xLast, h);
+        ctx.lineTo(4, h);
+        ctx.closePath();
+        ctx.fillStyle = "rgba(94,234,212,0.07)";
+        ctx.fill();
+      }
       if (!full && i < N - 1) {
         ctx.beginPath();
         var x0 = (i / (N - 1)) * (w - 8) + 4;
@@ -179,7 +331,28 @@
 
     function paint() {
       var series = B.px[active];
-      var last = drawCandles($("btcCanvas"), series, idx, 96);
+      var si = names.indexOf(active);
+      var mine = bySym[si] || [];
+      var last = drawCandles($("btcCanvas"), series, idx, 36, mine, true);
+      var live = null;
+      var closed = null;
+      for (var q = 0; q < mine.length; q++) {
+        var tr = mine[q];
+        if (tr[1] <= idx && tr[2] >= idx) live = tr;
+        if (tr[2] === idx) closed = tr;
+      }
+      var shown = live || closed;
+      var hit = $("hitLine");
+      if (hit) {
+        if (!shown) hit.innerHTML = "Waiting for the next fill";
+        else {
+          var word = shown[2] > idx ? "live" : (kindWord[shown[7]] || "close");
+          var tone = shown[2] > idx ? "" : (shown[7] === "t" ? "win" : (shown[7] === "m" ? "" : "loss"));
+          hit.innerHTML = active + " · " + (shown[3] ? "long" : "short")
+            + " · <b class=\"" + tone + "\">" + word + "</b>"
+            + " · TP " + fmtPx(shown[5]) + " · SL " + fmtPx(shown[6]);
+        }
+      }
       $("chartLabel").textContent = active;
       $("btcNow").textContent = last ? fmtPx(last[3]) : "-";
       drawEquity($("eqCanvas"), idx, false);
@@ -188,7 +361,7 @@
       for (var b = 0; b < buttons.length; b++) {
         var name = buttons[b].dataset.name;
         buttons[b].className = "mkt" + (name === active ? " on" : "");
-        drawCandles(buttons[b].querySelector("canvas"), B.px[name], idx, 48);
+        drawCandles(buttons[b].querySelector("canvas"), B.px[name], idx, 48, bySym[b], false);
       }
       $("eqNow").textContent = fmtFull(eq[idx]);
       $("btEquity").textContent = fmtShort(eq[idx]);
@@ -224,7 +397,14 @@
       }
       idx += 1;
       paint();
-      var delay = days[idx].slice(5) === "01-01" ? 700 : 26;
+      var delay = 32;
+      if (days[idx].slice(5) === "01-01") delay = 700;
+      else {
+        var book = bySym[names.indexOf(active)] || [];
+        for (var z = 0; z < book.length; z++) {
+          if (book[z][1] === idx || book[z][2] === idx) { delay = 280; break; }
+        }
+      }
       timer = setTimeout(step, delay);
     }
 
